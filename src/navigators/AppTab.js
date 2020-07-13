@@ -21,7 +21,7 @@ const AppTab = createBottomTabNavigator({
       items={[
          {type:'regular', text:'Inicio', icon:require('../assets/home.png'), route:'HomeStack'},
          {type:'big', text:'Ofertas', icon:require('../assets/off.png'), route:'OfertasStack'},
-         {type:'big', text:'Comprar', icon:require('../assets/buy.png'), route:'ShopStack'},
+         {type:'big', text:'Compras', icon:require('../assets/buy.png'), route:'ShopStack'},
          {type:'regular', text:'Perfil', icon:require('../assets/perfil.png'), route:'PerfilStack'}
       ]} />
     ),

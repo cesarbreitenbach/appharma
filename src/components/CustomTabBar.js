@@ -54,9 +54,12 @@ const CustomTabBar = props => {
                     </TabRegular>
                 }
                 {item.type == 'big' &&
+                <>
                     <TabBall underlayColor="#9d80ff" onPress={()=>go(item.route)}>
                         <TabBallImage source={item.icon} />
                     </TabBall>                    
+                    <Text>{item.text}</Text>
+                    </>
                 }
             </TabBarItem>
         );

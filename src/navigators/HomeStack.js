@@ -9,7 +9,7 @@ const HomeStack = createStackNavigator({
 }, {
       initialRouteName:'Inicio',
       defaultNavigationOptions:{
-         headerShown: false
+         headerShown: true
       },
 });
 
