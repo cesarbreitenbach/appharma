@@ -4,11 +4,6 @@ export const Conteiner = styled.KeyboardAvoidingView`
    flex:1; 
    justify-content:center;
    align-items:center;
-   margin-left:15px;
-   margin-right:15px;
-`;
-export const ScrollArea = styled.ScrollView`
-   width:100%;
-   height:100%;
-   padding:5px;
+   margin-left:30px;
+   margin-right:30px;
 `;

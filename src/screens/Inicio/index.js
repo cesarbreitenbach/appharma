@@ -1,89 +1,37 @@
-import React, { useState } from 'react';
-import {
-   GreetensArea, ImageArea,
-   ViewButtom,
-   Conteiner, BuyNowArea,
-   HeaderArea, FooterArea, Items, ButtomArea, FormArea,
-   BuyNowButtom, HeaderText, IconeArea, ScollArea, HeaderTextArea, LoginArea
-} from './styled'
-import { Text, StyleSheet} from 'react-native'
+import React from 'react';
+import { Conteiner, ScrollArea } from './styled'
+import Vitrine from '../../components/Inicio/Vitrine'
+import BuyNow from '../../components/Inicio/BuyNow'
+import LoginArea from '../../components/Inicio/LoginArea'
+import GreetensArea from '../../components/Inicio/GreetensArea'
+
 import { connect } from 'react-redux'
 
-import { BlurView } from 'expo-blur';
+
 
 const Page = (props) => {
-   const [cpfUser, setCpfUser] = useState('');
-   const [error, setError] = useState(false);
 
    return (
       <Conteiner>
-         <GreetensArea>
-            <Text style={{fontWeight:'bold'}}>Olá!</Text>
-            <Text style={{fontWeight:'bold'}}>Em que posso te ajudar?</Text>
-         </GreetensArea>
-         <ScollArea showsVerticalScrollIndicator={false}>
-            <BuyNowArea >
-               <HeaderArea>
-                  <IconeArea><Items width="30" height="30" source={require('../../assets/carrinho.png')} /></IconeArea>
-                  <HeaderTextArea>
-                     <HeaderText>Compre pelo aplicativo </HeaderText>
-                     <HeaderText size="14px">Receba em casa ou retire na loja! </HeaderText>
-                  </HeaderTextArea>
-               </HeaderArea>
-               <ImageArea source={require('../../assets/loja.jpg')} >
-                  <ButtomArea>
-                     <BuyNowButtom underlayColor="#52d191" onPress={() => props.navigation.navigate('ShopStack')}>
-                        <ViewButtom>
-                           <Items source={require('../../assets/ecommerce.png')} />
-                           <Text style={{ color: '#fff' }}>Ir às Compras</Text>
-                        </ViewButtom>
-                     </BuyNowButtom>
-
-                  </ButtomArea>
-               </ImageArea>
-               <FooterArea />
-            </BuyNowArea>
-
-            <LoginArea>
-               <HeaderArea>
-                  <IconeArea><Items width="30" height="30" source={require('../../assets/senha.png')} /></IconeArea>
-                  <HeaderTextArea>
-                     <HeaderText size="14px">Faça o login ou cadastre-se </HeaderText>
-                     <HeaderText size="12px">Tenha acesso a todos os nossos descontos </HeaderText>
-                  </HeaderTextArea>
-               </HeaderArea>
-
-               <FormArea>
-                  <ButtomArea>
-                     <BuyNowButtom underlayColor="#52d191" onPress={() => props.navigation.navigate('ShopStack')}>
-                        <ViewButtom>
-                           <Items source={require('../../assets/chave.png')} />
-                           <Text style={{ color: '#fff' }}>Cadastar ou Entrar</Text>
-                        </ViewButtom>
-                     </BuyNowButtom>
-
-                  </ButtomArea>
-               </FormArea>
-
-               <FooterArea />
-
-            </LoginArea>
-
-
-         </ScollArea>
+         <ScrollArea showsVerticalScrollIndicator={false}> 
+             <GreetensArea />
+            <Vitrine />
+            <BuyNow />
+            <LoginArea />
+         </ScrollArea> 
       </Conteiner>
    );
 }
 
 Page.navigationOptions = {
-   headerTitle:"APPharma",
+   headerTitle: "APPharma",
    headerShown: true,
-   headerTitleAlign:'center',
-   headerTintColor:"#fff",
+   headerTitleAlign: 'center',
+   headerTintColor: "#fff",
    headerStyle: {
       height: 50, // Specify the height of your custom header
-      backgroundColor:"#9d80ff",
-    }
+      backgroundColor: "#9d80ff",
+   }
 }
 
 const mapStateToProps = (state) => {
