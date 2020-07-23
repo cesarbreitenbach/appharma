@@ -12,8 +12,7 @@ padding:20px;
 const GreetensArea = (props) =>{
    return (
       <Conteiner>
-         <Text style={{ fontWeight: 'bold' }}>Olá!</Text>
-         <Text style={{ fontWeight: 'bold' }}>Em que posso te ajudar?</Text>
+         <Text style={{ fontWeight: 'bold' , textAlign:'center'}}>Olá, {props.name} em que posso te ajudar hoje?</Text>
       </Conteiner>
    )
 }

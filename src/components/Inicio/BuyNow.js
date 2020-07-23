@@ -24,7 +24,7 @@ padding:10px;
 export const IconeArea = styled.View`
 width:50px;
 border-top-left-radius: 35px;
-background-color:#9d80ff;
+background-color:#04c2b5;
 justify-content:center;
 align-items:center;
 margin-left:15px;
@@ -32,7 +32,7 @@ margin-left:15px;
 export const HeaderArea = styled.View`
    width:100%;
    height:65px;
-   background-color:#9d80ff;
+   background-color:#04c2b5;
    border-top-left-radius: 35px;
    flex-direction:row;
    
@@ -41,7 +41,7 @@ export const FooterArea = styled.View`
    width:100%; 
    height:15px;
    border-bottom-right-radius: 35px;
-   background-color:#9d80ff;
+   background-color:#04c2b5;
    `
 export const ButtomArea = styled.View`
 justify-content:center;
@@ -58,13 +58,13 @@ export const BuyNowItems = styled.View`
 export const BuyNowButtom = styled.TouchableHighlight`
    width:200px;
    height:50px;
-   background-color:#47ad7a;
+   background-color:#3f9168;
    justify-content:center;
    align-items:center;
    border-radius:15px;
 `;
 export const HeaderText = styled.Text`
-color:#eee;
+color:#fff;
 font-size:${props=>props.size || '17px'};;
 font-weight:bold;
 text-align:center;
@@ -84,7 +84,7 @@ const BuyNow = props => {
     return (
       <BuyNowArea >
                <HeaderArea>
-                  <IconeArea><Items width="30" height="30" source={require('../../assets/carrinho.png')} /></IconeArea>
+                  <IconeArea><Items width="30px" height="30px" source={require('../../assets/carrinho.png')} /></IconeArea>
                   <HeaderTextArea>
                      <HeaderText>Compre pelo aplicativo </HeaderText>
                      <HeaderText size="14px">Receba em casa ou retire na loja! </HeaderText>

@@ -1,9 +1,8 @@
 import React from 'react'
-
-import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { createAppContainer } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation-tabs'
+import { createAppContainer } from 'react-navigation'
 import CustomTabBar from '../components/CustomTabBar'
-const TabBarComponent = props => <CustomTabBar {...props} />;
+const TabBarComponent = props => <CustomTabBar {...props} />
 import HomeStack from './HomeStack'
 import ShopStack from './ShopStack'
 import PerfilStack from './PerfilStack'
@@ -19,10 +18,10 @@ const AppTab = createBottomTabNavigator({
    tabBarComponent: props => (
       <TabBarComponent {...props}
       items={[
-         {type:'regular', text:'Inicio', icon:require('../assets/home.png'), route:'HomeStack'},
-         {type:'big', text:'Ofertas', icon:require('../assets/off.png'), route:'OfertasStack'},
-         {type:'big', text:'Compras', icon:require('../assets/buy.png'), route:'ShopStack'},
-         {type:'regular', text:'Perfil', icon:require('../assets/perfil.png'), route:'PerfilStack'}
+         {type:'regular', text:'Inicio', icon:"home", route:'HomeStack'},
+         {type:'big', text:'Ofertas', icon:"local-offer", route:'OfertasStack'},
+         {type:'big', text:'Compras', icon:"shopping-cart", route:'ShopStack'},
+         {type:'regular', text:'Perfil', icon:"account-circle", route:'PerfilStack'}
       ]} />
     ),
 })

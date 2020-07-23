@@ -9,7 +9,7 @@ import AppTab from './navigators/AppTab';
 const App = () => {
   return (
      <>
-     <StatusBar barStyle="light-content" translucent backgroundColor="#9d80ff"/>
+     <StatusBar barStyle="light-content" translucent backgroundColor="#016e66"/>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <AppTab />
