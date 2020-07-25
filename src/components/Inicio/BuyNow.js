@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import Items from '../Items'
 import {Text} from 'react-native'
+import padrao from '../../config/padroes'
 
 export const BuyNowArea = styled.View`
    width:100%;
@@ -24,7 +25,7 @@ padding:10px;
 export const IconeArea = styled.View`
 width:50px;
 border-top-left-radius: 35px;
-background-color:#04c2b5;
+background-color:${padrao.corPrincipal || '#3f9168'};
 justify-content:center;
 align-items:center;
 margin-left:15px;
@@ -32,7 +33,7 @@ margin-left:15px;
 export const HeaderArea = styled.View`
    width:100%;
    height:65px;
-   background-color:#04c2b5;
+   background-color:${padrao.corPrincipal || '#3f9168'};
    border-top-left-radius: 35px;
    flex-direction:row;
    
@@ -41,7 +42,7 @@ export const FooterArea = styled.View`
    width:100%; 
    height:15px;
    border-bottom-right-radius: 35px;
-   background-color:#04c2b5;
+   background-color:${padrao.corPrincipal || '#3f9168'};
    `
 export const ButtomArea = styled.View`
 justify-content:center;

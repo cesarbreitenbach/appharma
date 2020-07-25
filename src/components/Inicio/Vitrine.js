@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Text } from 'react-native'
 import styled from 'styled-components/native'
 import ItemVitrine from '../../components/Inicio/ItemVitrine'
-import api from '../../helpers/api'
 import Items from '../Items'
+import padrao from '../../config/padroes'
+import {connect} from 'react-redux'
+
 
 
 const Conteiner = styled.View`
@@ -16,7 +18,7 @@ const Conteiner = styled.View`
     border-bottom-right-radius: 15px
 `;
 export const HeaderPromo = styled.View`
-   background-color:#04c2b5;
+   background-color:${padrao.corPrincipal || '#3f9168'};
    width:100%;
    height:50px;
    justify-content:center;
@@ -36,7 +38,7 @@ padding:10px;
 export const IconeArea = styled.View`
 width:50px;
 border-top-left-radius: 35px;
-background-color:#04c2b5;
+background-color:${padrao.corPrincipal || '#3f9168'};
 justify-content:center;
 align-items:center;
 margin-left:15px;
@@ -63,13 +65,6 @@ flex:1;
 
 const Vitrine = props => {
 
-   const [itemsVitrine, setItemsVitrine] = useState([])
-   const dataPesquisa = '2020-07-14T00:00:00-03:00'
-   useEffect(() => {
-      api.get(`promocoes?date=${dataPesquisa}`).then(r => {
-         setItemsVitrine(r.data)
-      })
-   }, [])
 
 
 
@@ -77,13 +72,13 @@ const Vitrine = props => {
       <>
          <HeaderPromo>
             <IconeArea><Items width="30px" height="30px" source={require('../../assets/offinicial.png')} /></IconeArea>
-            <Text style={{ fontSize: 16, color: '#db3737', fontWeight:'bold' }}>Top ofertas da semana</Text>
+            <Text style={{ fontSize: 18, color: '#fff', fontWeight:'bold' }}>Top ofertas da semana</Text>
          </HeaderPromo>
          <Conteiner>
 
             <ProductScroll horizontal={true}
                showsHorizontalScrollIndicator={false}
-               data={itemsVitrine}
+               data={props.promocoes}
                renderItem={({ item }) => <ItemVitrine data={item} />} 
                keyExtractor={(item) => item.id.toString()}>
 
@@ -95,4 +90,16 @@ const Vitrine = props => {
    )
 }
 
-export default Vitrine;
+const mapStateToProps = (state) => {
+   return {
+      promocoes: state.vitrineReducer.promocoes,
+   };
+};
+
+const mapDispatchToProps = (dispatch) => {
+   return {
+      setPromocoes: (promocoes) => dispatch({ type: 'SET_PROMOCOES', payload: { promocoes } })
+   }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Vitrine);

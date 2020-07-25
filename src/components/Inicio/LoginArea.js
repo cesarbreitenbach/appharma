@@ -2,6 +2,7 @@ import React from 'react'
 import { Text } from 'react-native'
 import styled from 'styled-components/native'
 import Items from '../Items'
+import padrao from '../../config/padroes'
 
 export const Conteiner = styled.View`
 width:100%;
@@ -19,7 +20,7 @@ border-bottom-right-radius: 35px
 export const HeaderArea = styled.View`
    width:100%;
    height:65px;
-   background-color:#04c2b5;
+   background-color:${padrao.corPrincipal || '#3f9168'};
    border-top-left-radius: 35px;
    flex-direction:row;
    
@@ -27,7 +28,7 @@ export const HeaderArea = styled.View`
 export const IconeArea = styled.View`
 width:50px;
 border-top-left-radius: 35px;
-background-color:#04c2b5;
+background-color:${padrao.corPrincipal || '#3f9168'};
 justify-content:center;
 align-items:center;
 margin-left:15px;
@@ -73,7 +74,7 @@ export const FooterArea = styled.View`
    width:100%; 
    height:15px;
    border-bottom-right-radius: 35px;
-   background-color:#04c2b5;
+   background-color:${padrao.corPrincipal || '#3f9168'};
    `;
 
 
@@ -95,7 +96,7 @@ const LoginArea = props => {
 
       <FormArea>
          <ButtomArea>
-            <Buttom underlayColor="#52d191" onPress={() => props.navigation.navigate('ShopStack')}>
+            <Buttom underlayColor="#52d191" onPress={() => props.navigation.navigate('Login')}>
                <ViewButtom>
                   <Items source={require('../../assets/chave.png')} />
                   <Text style={{ color: '#fff' }}>Cadastar ou Entrar</Text>

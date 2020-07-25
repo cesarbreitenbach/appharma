@@ -10,51 +10,53 @@ export const Conteiner = styled.KeyboardAvoidingView`
 
 export const LogoArea = styled.View`
    width:100%;
-   height:80px;
    justify-content:center;
    align-items:center;
-   margin-bottom:30px;
+   margin-bottom:20px;
 `;
 
 export const LogoText  = styled.Text`
-   font-size:${props => props.size || "14px"}
+   font-size:${props => props.size || "14px"};
+   margin-bottom:10px;
 `;
 
 export const FormText  = styled.Text`
+
+
    font-size:${props => props.size || "14px"}
   color:${props => props.color || "#000"}
 `;
 
 export const Logo = styled.Image`
-   width:80px;
-   height:80px;
+   width:70px;
+   height:70px;
 `
 
 export const FormArea = styled.View`
    width:100%;
-   height:200px;
    justify-content:center;
    align-items:center;
    background-color:#fff;
    padding:10px;
    border-radius:10px;
+   margin-bottom:20px;
   
 `;
 
 export const InputArea = styled.View`
    width:100%;
-   height:100px;
    background-color:transparent;
-   margin-bottom:10px;
-   margin-top:10px;
+   margin-bottom:5px;
+   margin-top:5px;
+   padding:7px;
 `;
 
 export const ItemInput = styled.TextInput`
    width:100%;
    height:40px;
    border:1px solid #000;
-   margin-top: 10px;
    border-radius:10px;
+   margin-top:5px;
 `;
 
 export const ButtomArea = styled.View`
@@ -80,5 +82,11 @@ export const MsgError = styled.Text`
    font-weight:bold,
    font-size:12px;
    color:#ff0000;
-   margin-top:5px;
+   margin-top:10px;
+   margin-bottom:10px;
 `;
+
+export const AreaInsdeInput = styled.View`
+   width:100%;
+   flex-direction:row;
+`

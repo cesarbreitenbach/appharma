@@ -3,16 +3,16 @@ import {StatusBar} from 'react-native'
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/es/integration/react';
 import {store, persistor} from './store';
-
-import AppTab from './navigators/AppTab';
+import  padrao  from './config/padroes'
+import MainStack from './navigators/MainStack';
 
 const App = () => {
   return (
      <>
-     <StatusBar barStyle="light-content" translucent backgroundColor="#016e66"/>
+     <StatusBar barStyle="light-content" translucent backgroundColor= {padrao.corPrincipal || "#016e66"}   />
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <AppTab />
+        <MainStack />
       </PersistGate>
     </Provider>
     </>

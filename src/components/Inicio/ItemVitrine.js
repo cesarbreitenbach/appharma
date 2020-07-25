@@ -1,7 +1,6 @@
 import React from 'react'
 import Item from '../../components/Items'
 import styled from 'styled-components/native';
-import { Text } from 'react-native'
 
 
 export const ProductArea = styled.TouchableHighlight`
@@ -31,6 +30,7 @@ export const FlexPromo = styled.View`
    flex:1;
    justify-content:center;
    align-items:center;
+   
 `
 
 
@@ -40,10 +40,10 @@ export const PromoPrice = styled.Text``;
 const ItemVitrine = (props) => {
 
    return (
-      <ProductArea underlayColor='#DDD' onPress={() => console.log("clicou na oferta")}>
+      <ProductArea underlayColor='#52d191' onPress={() => console.log("clicou na oferta")}>
          <>
           <FlexPromo>
-               {props.data.produto.image && <Item resizeMode='cover' width="125px" height="125px" source={{uri:props.data.produto.image.url}}  />}
+               {props.data.produto.image && <Item radius="60px" resizeMode='cover' width="125px" height="125px" source={{uri:props.data.produto.image.url}}  />}
                {!props.data.produto.image && <Item width="90px" height="90px" source={require('../../assets/nopicture.png')} />}  
           </FlexPromo>
               

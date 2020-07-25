@@ -6,9 +6,8 @@ import BuyNow from '../../components/Inicio/BuyNow'
 import LoginArea from '../../components/Inicio/LoginArea'
 import GreetensArea from '../../components/Inicio/GreetensArea'
 
+
 import { connect } from 'react-redux'
-
-
 
 const Page = (props) => {
 
@@ -18,9 +17,9 @@ const Page = (props) => {
 
             <ScrollArea showsVerticalScrollIndicator={false}>
                <GreetensArea />
-               <Vitrine />
-               <BuyNow />
-               <LoginArea />
+               <Vitrine navigation={props.navigation} />
+               <BuyNow navigation={props.navigation} />
+               <LoginArea navigation={props.navigation} />
             </ScrollArea>
 
          </ConteinerArea>
@@ -29,13 +28,13 @@ const Page = (props) => {
 }
 
 Page.navigationOptions = {
-   headerTitle: "APPharma",
+   headerTitle: "Sua Farmacia 24hrs",
    headerShown: true,
    headerTitleAlign: 'center',
    headerTintColor: "#fff",
    headerStyle: {
       height: 50, // Specify the height of your custom header
-      backgroundColor: "#016e66",
+      backgroundColor:  '#de3e3e'  ,
    }
 }
 

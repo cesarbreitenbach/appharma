@@ -1,13 +1,14 @@
 import React from 'react';
-import { SafeAreaView, Text } from 'react-native';
+import { Text } from 'react-native';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { connect } from 'react-redux'
+import padrao from '../config/padroes'
 
 
 const TabBarArea = styled.SafeAreaView`
     flex-direction:row;
-    background-color:#016e66;
+    background-color:${padrao.corPrincipal || '#3f9168'};
    
 `;
 const TabBarItem = styled.View`
@@ -27,7 +28,7 @@ const TabRegular = styled.TouchableHighlight`
 const TabBall = styled.TouchableHighlight`
     width:57px;
     height:57px;
-    background-color:#016e66;
+    background-color:${padrao.corPrincipal || '#3f9168'};
     border-radius:45px;
     margin-top:-30px;
     justify-content:center;
@@ -50,11 +51,11 @@ const CustomTabBar = props => {
       return (
          <TabBarItem key={item.route}>
             {item.type == 'regular' &&
-               <TabRegular underlayColor="#ddd" onPress={() => go(item.route, item.icon)}>
+               <TabRegular underlayColor="transparent" onPress={() => go(item.route, item.icon)}>
                   <>
                      <TabImage>
                         {props.activePage === item.icon ?
-                           <Icon name={item.icon} size={25} color="#18c9bc" /> :
+                           <Icon name={item.icon} size={25} color="#fff" /> :
                            <Icon name={item.icon} size={25} color="rgba(255, 255, 255, 0.6)" />}
                      </TabImage>
                         <Text>{item.text}</Text>
@@ -65,7 +66,7 @@ const CustomTabBar = props => {
                <>
                   <TabBall underlayColor="#ddd" onPress={() => go(item.route, item.icon)}>
                   {props.activePage === item.icon ?
-                           <Icon name={item.icon} size={33} color="#18c9bc" /> :
+                           <Icon name={item.icon} size={33} color="#fff" /> :
                            <Icon name={item.icon} size={33}  color="rgba(255, 255, 255, 0.6)" />}
                   </TabBall>
                   <Text>{item.text}</Text>
