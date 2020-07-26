@@ -1,3 +1,3 @@
 export default {
-   corPrincipal:"#de3e3e"
+   corPrincipal:"#ff0000"
 }

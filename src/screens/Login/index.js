@@ -56,7 +56,7 @@ const Login = (props) => {
 
          <FormArea>
             <InputArea>
-               <FormText >Insira o seu CPF para começar sua experiência em nosso APP: {cpfUser}</FormText>
+               <FormText >Insira o seu CPF para começar sua experiência em nossos serviços</FormText>
                <TextInputMask
                   style={{ width: 200, height: 40 }}
                   autoFocus={true}

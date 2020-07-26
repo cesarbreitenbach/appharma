@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
-import { AvatarArea, UserAvatar, Conteiner, WelcomeText, DescText} from './styled'
+import { AvatarArea, UserAvatar, Conteiner, WelcomeText, DescText, Buttom, ButtomArea, FormText } from './styled'
 import { connect } from 'react-redux'
 
 const Page = (props) => {
+
+   const  logout = async () => {
+      await props.setCpf('');
+      await props.setId('');
+      await props.setToken('');
+      await props.setNome('');
+      await props.setStatus(false);
+      props.navigation.navigate('Preload')
+   }
 
    return (
       <Conteiner>
@@ -11,6 +20,11 @@ const Page = (props) => {
             <UserAvatar source={require('../../assets/avatar2.png')} />
          </AvatarArea>
          <DescText>Nessa pagina o usuario terá acesso a todo seu perfil, sua carteira, endereços para entrega, historico de compras, avaliações, e mais...</DescText>
+         <ButtomArea>
+            <Buttom onPress={logout}>
+               <FormText color="#fff">Sair </FormText>
+            </Buttom>
+         </ButtomArea>
       </Conteiner>
    );
 }
@@ -21,13 +35,21 @@ Page.navigationOptions = {
 
 const mapStateToProps = (state) => {
    return {
-      cpf: state.userReducer.cpf
+      cpf: state.userReducer.cpf,
+      nome: state.userReducer.name,
+      id: state.userReducer.id,
+      token: state.authReducer.token,
+      status: state.authReducer.status
    }
 }
 
 const mapDispatchToProps = (dispatch) => {
    return {
-      setCpf: (cpf) => dispatch({ type: 'SET_CPF', payload: { cpf } })
+      setCpf: (cpf) => dispatch({ type: 'SET_CPF', payload: { cpf } }),
+      setNome: (name) => dispatch({ type: 'SET_NAME', payload: { name } }),
+      setToken: (token) => dispatch({ type: 'SET_TOKEN', payload: { token } }),
+      setStatus: (status) => dispatch({ type: 'SET_STATUS', payload: { status } }),
+      setId: (id) => dispatch({ type: 'SET_ID', payload: { id } }),
    }
 }
 

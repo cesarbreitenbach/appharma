@@ -48,3 +48,27 @@ export  const ConfigArea = styled.View`
    justify-content:center;
    align-items:center;
 `;
+
+export const ButtomArea = styled.View`
+justify-content:center;
+align-items:center;
+`;
+export const ViewButtom = styled.View`
+   flex-direction:row;
+   justify-content:center;
+   align-items:center;
+`;
+
+export const Buttom = styled.TouchableHighlight`
+   width:200px;
+   height:50px;
+   background-color:#3f9168;
+   justify-content:center;
+   align-items:center;
+   border-radius:15px;
+`;
+
+export const FormText  = styled.Text`
+   font-size:${props => props.size || "14px"}
+  color:${props => props.color || "#000"}
+`;

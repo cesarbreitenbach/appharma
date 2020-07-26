@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { Text } from 'react-native'
 import styled from 'styled-components/native'
 import ItemVitrine from '../../components/Inicio/ItemVitrine'
@@ -65,20 +65,24 @@ flex:1;
 
 const Vitrine = props => {
 
+   console.log(props.status)
+   let welcome = 'Top ofertas da semana';
 
-
+   if(props.status){
+      welcome = 'Ofertas especias para você';
+   }
 
    return (
       <>
          <HeaderPromo>
             <IconeArea><Items width="30px" height="30px" source={require('../../assets/offinicial.png')} /></IconeArea>
-            <Text style={{ fontSize: 18, color: '#fff', fontWeight:'bold' }}>Top ofertas da semana</Text>
+            <Text style={{ fontSize: 18, color: '#fff', fontWeight:'bold' }}>{welcome}</Text>
          </HeaderPromo>
          <Conteiner>
 
             <ProductScroll horizontal={true}
                showsHorizontalScrollIndicator={false}
-               data={props.promocoes}
+               data={props.promocoes}c
                renderItem={({ item }) => <ItemVitrine data={item} />} 
                keyExtractor={(item) => item.id.toString()}>
 
@@ -93,6 +97,7 @@ const Vitrine = props => {
 const mapStateToProps = (state) => {
    return {
       promocoes: state.vitrineReducer.promocoes,
+      status: state.authReducer.status
    };
 };
 

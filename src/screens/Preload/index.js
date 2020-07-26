@@ -11,10 +11,15 @@ const Preload = (props) => {
    setTimeout(() => {
       const dataPesquisa = '2020-07-14T00:00:00-03:00'
 
-      console.log(`este é o token: ${props.token}`)
+      console.log(`este é o token: ${props.token} usuario id: ${props.id}`)
 
       if (!props.token) {
          api.get(`promocoes?date=${dataPesquisa}`).then(r => {
+            props.setPromocoes(r.data)
+         })
+      }else{
+         api.get(`promocoes?date=${dataPesquisa}&id=${props.id}`).then(r => {
+            console.log(`Consultando promoções do cliente id: ${props.id}`)
             props.setPromocoes(r.data)
          })
       }
@@ -40,7 +45,8 @@ const Preload = (props) => {
 const mapStateToProps = (state) => {
    return {
       promocoes: state.vitrineReducer.promocoes,
-      token: state.authReducer.token
+      token: state.authReducer.token,
+      id:state.userReducer.id,
    };
 };
 

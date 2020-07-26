@@ -16,7 +16,7 @@ const Page = (props) => {
          <ConteinerArea>
 
             <ScrollArea showsVerticalScrollIndicator={false}>
-               <GreetensArea />
+               <GreetensArea nome={props.nome} />
                <Vitrine navigation={props.navigation} />
                <BuyNow navigation={props.navigation} />
                <LoginArea navigation={props.navigation} />
@@ -40,7 +40,8 @@ Page.navigationOptions = {
 
 const mapStateToProps = (state) => {
    return {
-      cpf: state.userReducer.cpf
+      cpf: state.userReducer.cpf,
+      nome: state.userReducer.name,
    }
 }
 
