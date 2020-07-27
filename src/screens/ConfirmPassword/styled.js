@@ -21,8 +21,6 @@ export const LogoText  = styled.Text`
 `;
 
 export const FormText  = styled.Text`
-
-
    font-size:${props => props.size || "14px"}
   color:${props => props.color || "#000"}
 `;
@@ -89,4 +87,10 @@ export const MsgError = styled.Text`
 export const AreaInsdeInput = styled.View`
    width:100%;
    flex-direction:row;
+`
+
+export const InternalButtom = styled.View`
+   flex-direction:row;
+   justify-content:center;
+   align-items:center;
 `

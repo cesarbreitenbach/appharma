@@ -7,8 +7,7 @@ export const Conteiner = styled.SafeAreaView`
 `;
 
 export const ConteinerArea = styled.View`
-   margin-left:15px;
-   margin-right:15px;
+
 `
 export const ScrollArea = styled.ScrollView`
    width:100%;

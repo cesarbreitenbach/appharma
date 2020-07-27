@@ -1,57 +1,65 @@
 import React from 'react'
 import Item from '../../components/Items'
 import styled from 'styled-components/native';
-
+import StrCaptalize from '../../helpers/StrCaptalize'
 
 export const ProductArea = styled.TouchableHighlight`
    height:100%;
-   width:150px;
+   width:125px;
    padding:5px;
    margin-left:5px;
    background-color:#fff;
    border-radius: 5px;
-   justify-content: center;
    align-items:center;
    border:#999 solid 1px;
 `;
-export const PromoTitle = styled.Text`
-   font-size:18px;
+export const BadgeText = styled.Text`
+   font-size:12px;
    font-weight: bold;
    text-align:center;
    margin-bottom:5px;
 `;
 export const ProductTitle = styled.Text`
-   font-size:16px;
-   font-weight: bold;
+   font-size:15px;
    text-align:center;
    margin-bottom:5px;
+   margin-top:5px;
+   font-family:'Ubuntu Medium';
 `;
-export const FlexPromo = styled.View`
-   flex:1;
-   justify-content:center;
-   align-items:center;
+export const BadgeArea = styled.View`
+   flex-direction:row;
    
 `
-
-
-export const OriginalPrice = styled.Text``;
-export const PromoPrice = styled.Text``;
+export const OriginalPrice = styled.Text`
+   font-size:12px;
+   text-align:center;
+   text-decoration: line-through;
+   margin-bottom:5px;
+   margin-top:5px;
+   color:#ff0000;
+   font-family:Roboto Medium;
+`;
+export const PromoPrice = styled.Text`
+font-size:15px;
+text-align:center;
+margin-bottom:5px;
+margin-top:5px;
+color:#282e29;
+font-family:Roboto Bold;
+`;
 
 const ItemVitrine = (props) => {
 
    return (
       <ProductArea underlayColor='#52d191' onPress={() => console.log("clicou na oferta")}>
          <>
-          <FlexPromo>
-               {props.data.produto.image && <Item radius="60px" resizeMode='cover' width="125px" height="125px" source={{uri:props.data.produto.image.url}}  />}
-               {!props.data.produto.image && <Item width="90px" height="90px" source={require('../../assets/nopicture.png')} />}  
-          </FlexPromo>
-              
-            <FlexPromo>
-               <ProductTitle >{props.data.produto.nome}</ProductTitle>
+               {props.data.produto.image && <Item style={{marginTop:5}} radius="60px" resizeMode='cover' width="95px" height="95px" source={{uri:props.data.produto.image.url}}  />}
+               {!props.data.produto.image && <Item style={{marginTop:5}} width="95px" height="95px" source={require('../../assets/nopicture.png')} />}  
+         
+               <ProductTitle >{StrCaptalize(props.data.produto.nome)}</ProductTitle>
                <OriginalPrice>de {props.data.produto.valor_venda}</OriginalPrice>
-               <PromoPrice>por {props.data.preco_promocao}</PromoPrice>
-            </FlexPromo>
+               <PromoPrice >por {props.data.preco_promocao}</PromoPrice>
+
          </>
       </ProductArea>
    )

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Conteiner, LogoArea, LogoText, Logo, FormArea, InputArea, FormText, ButtomArea, Buttom, MsgError } from './styled'
+import { Conteiner, LogoArea, LogoText, Logo, FormArea, InputArea, FormText, ButtomArea, Buttom, MsgError, InternalButtom } from './styled'
 import ValidateCpf from '../../helpers/CpfValidator'
 import { TextInputMask } from 'react-native-masked-text'
 import { connect } from 'react-redux'
 import api from '../../helpers/api'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 
 
@@ -11,7 +12,7 @@ const Login = (props) => {
 
    const [cpfUser, setCpfUser] = useState('');
    const [error, setError] = useState(false);
-   const start = () => {
+   const start =  () => {
       setError(false)
       // if (!ValidateCpf(cpfUser)){
       //    setError(true)
@@ -25,24 +26,31 @@ const Login = (props) => {
 
       api.get(`usuarios/${parsedCpf}`)
          .then((r) => {
-            console.log(`Id: ${r.data.user.id} Nome ${r.data.user.nome}`)
+            console.log(`Encontrei usuario Id: ${r.data.user.id} Nome ${r.data.user.nome}`)
 
             props.setName(r.data.user.nome)
             props.setId(r.data.user.id)
             props.setCpf(parsedCpf)
 
-         }).catch((e) => {
+         }).catch(async (e) => {
             console.log("Usuario não existe")
-            props.setName('')
-            props.setId('')
+            try{
+               const cliente = await api.get(`clientes/${parsedCpf}`);
+               
+               console.log(`Existe cliente sem usuario no app: ${cliente.data.cliente.nome}`)
+               props.setName(cliente.data.cliente.nome)
+
+            } catch (e){
+               console.log(e.response.data)
+               props.setName('')
+            }
+
             props.setCpf(parsedCpf)
+
          }).finally(() => {
-            console.log("finalmente... ")
+            console.log("Direcionando para ConfirmPassword ")
             props.navigation.navigate('ConfirmPassword');
          })
-
-
-
 
    }
 
@@ -56,7 +64,7 @@ const Login = (props) => {
 
          <FormArea>
             <InputArea>
-               <FormText >Insira o seu CPF para começar sua experiência em nossos serviços</FormText>
+               <FormText >Digite seu CPF para começar uma experiência incrivel com nossos serviços online</FormText>
                <TextInputMask
                   style={{ width: 200, height: 40 }}
                   autoFocus={true}
@@ -71,7 +79,10 @@ const Login = (props) => {
 
             <ButtomArea>
                <Buttom onPress={start}>
-                  <FormText color="#fff">Continuar </FormText>
+                  <InternalButtom>
+                     <Icon name="arrow-right-bold" size={25} color="#fff" style={{marginRight:5}} />
+                     <FormText size="15px" color="#fff">Continuar </FormText>
+                  </InternalButtom>
                </Buttom>
             </ButtomArea>
 

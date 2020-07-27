@@ -3,6 +3,8 @@ import styled from 'styled-components/native';
 import Items from '../Items'
 import {Text} from 'react-native'
 import padrao from '../../config/padroes'
+import Icon from 'react-native-vector-icons/MaterialIcons'
+import {connect} from 'react-redux'
 
 export const BuyNowArea = styled.View`
    width:100%;
@@ -67,7 +69,7 @@ export const BuyNowButtom = styled.TouchableHighlight`
 export const HeaderText = styled.Text`
 color:#fff;
 font-size:${props=>props.size || '17px'};;
-font-weight:bold;
+fontFamily:Ubuntu Bold Italic 
 text-align:center;
 `;
 export const ImageArea = styled.ImageBackground`
@@ -80,23 +82,28 @@ export const ViewButtom = styled.View`
    align-items:center;
 `;
 
-const BuyNow = props => {
+const BuyNow = (props) => {
+
+   const handleGoShop = (iconTab) =>{
+      props.setActivePage(iconTab)
+      props.navigation.navigate('ShopStack')
+   }
 
     return (
       <BuyNowArea >
                <HeaderArea>
-                  <IconeArea><Items width="30px" height="30px" source={require('../../assets/carrinho.png')} /></IconeArea>
+                  <IconeArea><Items width="30px" height="30px" source={require('../../assets/ecommerce.png')} /></IconeArea>
                   <HeaderTextArea>
-                     <HeaderText>Compre pelo aplicativo </HeaderText>
+                     <HeaderText >Compre pelo aplicativo </HeaderText>
                      <HeaderText size="14px">Receba em casa ou retire na loja! </HeaderText>
                   </HeaderTextArea>
                </HeaderArea>
                <ImageArea source={require('../../assets/loja.jpg')} >
                   <ButtomArea>
-                     <BuyNowButtom underlayColor="#52d191" onPress={() => props.navigation.navigate('ShopStack')}>
+                     <BuyNowButtom underlayColor="#52d191" onPress={() => handleGoShop('shopping-cart')}>
                         <ViewButtom>
-                           <Items source={require('../../assets/ecommerce.png')} />
-                           <Text style={{ color: '#fff' }}>Ir às Compras</Text>
+                           <Icon name='shopping-cart' size={25} color="#fff" style={{marginRight:5}}/>
+                           <Text style={{ fontFamily:'Roboto Bold', fontSize:15, color: '#fff' }}>Ir às Compras</Text>
                         </ViewButtom>
                      </BuyNowButtom>
 
@@ -107,4 +114,17 @@ const BuyNow = props => {
     )
 }
 
-export default BuyNow;
+
+const mapStateToProps = (state) => {
+   return {
+      activePage: state.tabReducer.activePage
+   }
+}
+
+const mapDispatchToProps = (dispatch) => {
+   return {
+      setActivePage: (activePage) => dispatch({ type: 'SET_ACTIVE', payload: { activePage } })
+   }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BuyNow);

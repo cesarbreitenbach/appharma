@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import { Dimensions } from 'react-native'
 import { Text } from 'react-native'
 import styled from 'styled-components/native'
 import ItemVitrine from '../../components/Inicio/ItemVitrine'
@@ -9,7 +10,7 @@ import {connect} from 'react-redux'
 
 
 const Conteiner = styled.View`
-    background-color:#fff;
+    background-color:#eee;
     width:100%;
     height:300px;
     margin-bottom:5px;
@@ -51,21 +52,24 @@ export const HeaderArea = styled.View`
    flex-direction:row;
    
 `;
-export const HeaderText = styled.Text`r
+export const HeaderText = styled.Text`
 color:#eee;
-font-size:${props => props.size || '17px'};;
+font-size:${props => props.size || '17px'};
 font-weight:bold;
 text-align:center;
 `;
 const ProductScroll = styled.FlatList`
-flex:1;
+   background-color:#eee;
+   opacity:0.8;
+   flex:1
 `;
 
 
 
 const Vitrine = props => {
 
-   console.log(props.status)
+   const tamanhoTotal = Dimensions.get('window').width;
+   const thirdW = tamanhoTotal / 3;
    let welcome = 'Top ofertas da semana';
 
    if(props.status){
@@ -76,16 +80,20 @@ const Vitrine = props => {
       <>
          <HeaderPromo>
             <IconeArea><Items width="30px" height="30px" source={require('../../assets/offinicial.png')} /></IconeArea>
-            <Text style={{ fontSize: 18, color: '#fff', fontWeight:'bold' }}>{welcome}</Text>
+            <Text style={{ fontSize: 18, color: '#fff', fontFamily:'Ubuntu Bold Italic' }}>{welcome}</Text>
          </HeaderPromo>
          <Conteiner>
 
             <ProductScroll horizontal={true}
                showsHorizontalScrollIndicator={false}
-               data={props.promocoes}c
+               data={props.promocoes}
                renderItem={({ item }) => <ItemVitrine data={item} />} 
-               keyExtractor={(item) => item.id.toString()}>
-
+               keyExtractor={(item) => item.id.toString()}
+               decelerationRate="fast"
+               maxToRenderPerBatch={20}
+               snapToInterval={130}
+               >
+                  
             </ProductScroll>
 
          </Conteiner>

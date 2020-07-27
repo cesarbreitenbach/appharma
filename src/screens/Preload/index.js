@@ -1,4 +1,4 @@
-import React  from 'react'
+import React, {useEffect}  from 'react'
 import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import api from '../../helpers/api'
@@ -6,31 +6,38 @@ import { Conteiner, Title, Logo } from './styled'
 
 
 const Preload = (props) => {
-
-
-   setTimeout(() => {
-      const dataPesquisa = '2020-07-14T00:00:00-03:00'
-
-      console.log(`este é o token: ${props.token} usuario id: ${props.id}`)
-
-      if (!props.token) {
-         api.get(`promocoes?date=${dataPesquisa}`).then(r => {
-            props.setPromocoes(r.data)
-         })
-      }else{
-         api.get(`promocoes?date=${dataPesquisa}&id=${props.id}`).then(r => {
-            console.log(`Consultando promoções do cliente id: ${props.id}`)
-            props.setPromocoes(r.data)
-         })
-      }
-
+   
+   const go = () =>{
       props.navigation.dispatch(StackActions.reset({
          index: 0,
          actions: [
             NavigationActions.navigate({ routeName: 'AppTab' }),
          ],
       }));
-   }, 2000)
+   }
+
+   useEffect(()=>{
+      setTimeout(() => {
+         const dataPesquisa = '2020-07-14T00:00:00-03:00'
+   
+         console.log(`este é o token: ${props.token} usuario id: ${props.id}`)
+   
+         if (!props.token) {
+            api.get(`promocoes?date=${dataPesquisa}`).then(r => {
+               props.setPromocoes(r.data)
+               console.log('consultei sem token...')
+               go();
+            })
+         }else{
+            api.get(`promocoes?date=${dataPesquisa}&id=${props.id}`).then(r => {
+               console.log(`Consultando com token do cliente id: ${props.id}`)
+               props.setPromocoes(r.data)
+               go();
+            })
+         }
+         
+      }, 1000)
+   }, [])
 
 
    return (

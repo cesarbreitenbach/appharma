@@ -82,3 +82,9 @@ export const MsgError = styled.Text`
    color:#ff0000;
    margin-top:5px;
 `;
+
+export const InternalButtom = styled.View`
+   flex-direction:row;
+   justify-content:center;
+   align-items:center;
+`

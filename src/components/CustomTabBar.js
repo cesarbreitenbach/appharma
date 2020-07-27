@@ -58,18 +58,22 @@ const CustomTabBar = props => {
                            <Icon name={item.icon} size={25} color="#fff" /> :
                            <Icon name={item.icon} size={25} color="rgba(255, 255, 255, 0.6)" />}
                      </TabImage>
-                        <Text>{item.text}</Text>
+                     {props.activePage === item.icon ?
+                        <Text style={{ fontFamily: 'Roboto Regular', color: '#fff' }}>{item.text}</Text> :
+                        <Text style={{ fontFamily: 'Roboto Regular', color: "rgba(255, 255, 255, 0.6)" }}>{item.text}</Text>}
                   </>
                </TabRegular>
             }
             {item.type == 'big' &&
                <>
                   <TabBall underlayColor="#ddd" onPress={() => go(item.route, item.icon)}>
-                  {props.activePage === item.icon ?
-                           <Icon name={item.icon} size={33} color="#fff" /> :
-                           <Icon name={item.icon} size={33}  color="rgba(255, 255, 255, 0.6)" />}
+                     {props.activePage === item.icon ?
+                        <Icon name={item.icon} size={33} color="#fff" /> :
+                        <Icon name={item.icon} size={33} color="rgba(255, 255, 255, 0.6)" />}
                   </TabBall>
-                  <Text>{item.text}</Text>
+                  {props.activePage === item.icon ?
+                     <Text style={{ fontFamily: 'Roboto Regular', color: '#fff' }}>{item.text}</Text> :
+                     <Text style={{ fontFamily: 'Roboto Regular', color: "rgba(255, 255, 255, 0.6)" }}>{item.text}</Text>}
                </>
             }
          </TabBarItem>

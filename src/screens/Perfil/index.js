@@ -10,7 +10,8 @@ const Page = (props) => {
       await props.setToken('');
       await props.setNome('');
       await props.setStatus(false);
-      props.navigation.navigate('Preload')
+      await props.setActivePage('home');
+      props.navigation.navigate('Preload');
    }
 
    return (
@@ -39,7 +40,8 @@ const mapStateToProps = (state) => {
       nome: state.userReducer.name,
       id: state.userReducer.id,
       token: state.authReducer.token,
-      status: state.authReducer.status
+      status: state.authReducer.status,
+      activePage: state.tabReducer.activePage
    }
 }
 
@@ -50,6 +52,7 @@ const mapDispatchToProps = (dispatch) => {
       setToken: (token) => dispatch({ type: 'SET_TOKEN', payload: { token } }),
       setStatus: (status) => dispatch({ type: 'SET_STATUS', payload: { status } }),
       setId: (id) => dispatch({ type: 'SET_ID', payload: { id } }),
+      setActivePage: (activePage) => dispatch({ type: 'SET_ACTIVE', payload: { activePage } })
    }
 }
 

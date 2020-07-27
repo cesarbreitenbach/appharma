@@ -19,7 +19,7 @@ const Page = (props) => {
                <GreetensArea nome={props.nome} />
                <Vitrine navigation={props.navigation} />
                <BuyNow navigation={props.navigation} />
-               <LoginArea navigation={props.navigation} />
+               {!props.token &&  <LoginArea navigation={props.navigation} />}
             </ScrollArea>
 
          </ConteinerArea>
@@ -28,7 +28,10 @@ const Page = (props) => {
 }
 
 Page.navigationOptions = {
-   headerTitle: "Sua Farmacia 24hrs",
+   headerTitle: "Sua Farmacia de Bolso",
+   headerTitleStyle:{
+      fontFamily:'Roboto Black Italic'
+   },
    headerShown: true,
    headerTitleAlign: 'center',
    headerTintColor: "#fff",
@@ -42,6 +45,7 @@ const mapStateToProps = (state) => {
    return {
       cpf: state.userReducer.cpf,
       nome: state.userReducer.name,
+      token: state.authReducer.token
    }
 }
 

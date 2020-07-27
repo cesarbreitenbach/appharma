@@ -3,6 +3,7 @@ import { Text } from 'react-native'
 import styled from 'styled-components/native'
 import Items from '../Items'
 import padrao from '../../config/padroes'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export const Conteiner = styled.View`
 width:100%;
@@ -41,7 +42,7 @@ padding:10px;
 export const HeaderText = styled.Text`
 color:#fff;
 font-size:${props=>props.size || '17px'};;
-font-weight:bold;
+fontFamily:Ubuntu Bold Italic  
 text-align:center;
 `;
 
@@ -89,8 +90,8 @@ const LoginArea = props => {
       <HeaderArea>
          <IconeArea><Items width="30px" height="30px" source={require('../../assets/senha.png')} /></IconeArea>
          <HeaderTextArea>
-            <HeaderText size="14px">Faça o login ou cadastre-se </HeaderText>
-            <HeaderText size="12px">Tenha acesso a todos os nossos descontos </HeaderText>
+            <HeaderText >Faça o login ou cadastre-se </HeaderText>
+            <HeaderText size="14px">Tenha acesso a todos os nossos descontos </HeaderText>
          </HeaderTextArea>
       </HeaderArea>
 
@@ -98,8 +99,8 @@ const LoginArea = props => {
          <ButtomArea>
             <Buttom underlayColor="#52d191" onPress={() => props.navigation.navigate('Login')}>
                <ViewButtom>
-                  <Items source={require('../../assets/chave.png')} />
-                  <Text style={{ color: '#fff' }}>Cadastar ou Entrar</Text>
+                  <Icon name="login"  size={25} color="#fff" style={{marginRight:5}} />
+                  <Text style={{ fontFamily:'Roboto Bold', fontSize:15, color: '#fff' }}>Cadastrar ou Entrar</Text>
                </ViewButtom>
             </Buttom>
 
