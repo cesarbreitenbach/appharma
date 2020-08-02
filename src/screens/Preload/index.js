@@ -3,6 +3,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import api from '../../helpers/api'
 import { Conteiner, Title, Logo } from './styled'
+import {promoRandom} from '../../services/PromoService'
 
 
 const Preload = (props) => {
@@ -20,20 +21,20 @@ const Preload = (props) => {
       setTimeout(() => {
          const dataPesquisa = '2020-07-14T00:00:00-03:00'
    
-         console.log(`este é o token: ${props.token} usuario id: ${props.id}`)
-   
          if (!props.token) {
-            api.get(`promocoes?date=${dataPesquisa}`).then(r => {
+            
+            api.get(`promocoes/best`).then(r=>{
                props.setPromocoes(r.data)
-               console.log('consultei sem token...')
-               go();
+               go()
             })
+
+
          }else{
-            api.get(`promocoes?date=${dataPesquisa}&id=${props.id}`).then(r => {
-               console.log(`Consultando com token do cliente id: ${props.id}`)
+            console.log(`vou chamar api do directno cpf : ${props.cpf} com o token ${props.token}`)
+            api.get(`promocoes/direct?cpf=${props.cpf}`, {headers:{auth:props.token}}).then(r=>{
                props.setPromocoes(r.data)
-               go();
-            })
+               go()
+            });
          }
          
       }, 1000)
@@ -54,6 +55,7 @@ const mapStateToProps = (state) => {
       promocoes: state.vitrineReducer.promocoes,
       token: state.authReducer.token,
       id:state.userReducer.id,
+      cpf:state.userReducer.cpf,
    };
 };
 

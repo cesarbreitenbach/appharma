@@ -28,7 +28,7 @@ const ConfirmPassword = (props) => {
       if (!props.id) {
          api.post('usuarios', { name, cpf: props.cpf, password, confirmPassword }).then(e => {
             props.setId(e.data.id);
-            props.setToken(e.data.token);
+            props.setToken(`Bearer ${e.data.token}`);
             props.setStatus(true);
             props.setName(name);
 
@@ -50,9 +50,11 @@ const ConfirmPassword = (props) => {
 
       // Aqui o kra já tem cadastro, tem um nome definido e um id
       if (props.id) {
+         console.log(`Vou tentar autenticar o cpf: ${props.cpf}` )
          api.post('sessions', { cpf: props.cpf, password: password }).then((r) => {
 
-            props.setToken(r.data.token);
+
+            props.setToken(`Bearer ${r.data.token}`);
             props.setStatus(true);
 
             props.navigation.navigate('Preload');

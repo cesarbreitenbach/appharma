@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { connect } from 'react-redux'
 import padrao from '../config/padroes'
+import {promoRandom} from '../services/PromoService'
 
 
 const TabBarArea = styled.SafeAreaView`
@@ -39,9 +40,13 @@ const TabBall = styled.TouchableHighlight`
 
 const CustomTabBar = props => {
 
-   const go = (route, icon) => {
+   const go = async (route, icon) => {
       console.log(`Clicou em: ${icon}`)
       props.setActivePage(icon)
+
+      if(icon=='home'){
+         await promoRandom(props);
+      }
 
       console.log(`active page: ${props.activePage}`)
       props.navigation.navigate(route);
@@ -89,13 +94,16 @@ const CustomTabBar = props => {
 
 const mapStateToProps = (state) => {
    return {
-      activePage: state.tabReducer.activePage
+      activePage: state.tabReducer.activePage,
+      token: state.authReducer.token,
+      cpf:state.userReducer.cpf,
    }
 }
 
 const mapDispatchToProps = (dispatch) => {
    return {
-      setActivePage: (activePage) => dispatch({ type: 'SET_ACTIVE', payload: { activePage } })
+      setActivePage: (activePage) => dispatch({ type: 'SET_ACTIVE', payload: { activePage } }),
+      setPromocoes: (promocoes) => dispatch({ type: 'SET_PROMOCOES', payload: { promocoes } })
    }
 }
 

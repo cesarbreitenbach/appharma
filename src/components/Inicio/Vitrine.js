@@ -6,11 +6,13 @@ import ItemVitrine from '../../components/Inicio/ItemVitrine'
 import Items from '../Items'
 import padrao from '../../config/padroes'
 import {connect} from 'react-redux'
+import {ActivityIndicator} from 'react-native'
 
 
 
 const Conteiner = styled.View`
     background-color:#eee;
+    border:1px solid #ddd
     width:100%;
     height:300px;
     margin-bottom:5px;
@@ -53,23 +55,29 @@ export const HeaderArea = styled.View`
    
 `;
 export const HeaderText = styled.Text`
-color:#eee;
+color:${props => props.color || '#eee'};
 font-size:${props => props.size || '17px'};
 font-weight:bold;
 text-align:center;
 `;
-const ProductScroll = styled.FlatList`
+export const ProductScroll = styled.FlatList`
    background-color:#eee;
    opacity:0.8;
    flex:1
 `;
+export const Nodata = styled.View`
+  
+   justify-content:center;
+   align-items:center;
+   padding:5px;
+   height:100%;
 
+` 
 
 
 const Vitrine = props => {
 
    const tamanhoTotal = Dimensions.get('window').width;
-   const thirdW = tamanhoTotal / 3;
    let welcome = 'Top ofertas da semana';
 
    if(props.status){
@@ -83,7 +91,13 @@ const Vitrine = props => {
             <Text style={{ fontSize: 18, color: '#fff', fontFamily:'Ubuntu Bold Italic' }}>{welcome}</Text>
          </HeaderPromo>
          <Conteiner>
-
+           {props.promocoes.length == 0 ?
+            <Nodata>
+               <HeaderText color="#000" size="14px" style={{marginBottom:5}}>Estamos trabalhando em suas promoções</HeaderText>
+               <ActivityIndicator size="large" color="#ddd" />
+               <HeaderText  color="#000" size="14px" style={{marginTop:5}}>Volte mais tarde</HeaderText>
+            </Nodata> 
+            : 
             <ProductScroll horizontal={true}
                showsHorizontalScrollIndicator={false}
                data={props.promocoes}
@@ -92,9 +106,9 @@ const Vitrine = props => {
                decelerationRate="fast"
                maxToRenderPerBatch={20}
                snapToInterval={130}
-               >
-                  
+               >     
             </ProductScroll>
+         }
 
          </Conteiner>
 
