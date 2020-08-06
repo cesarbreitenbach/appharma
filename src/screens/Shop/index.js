@@ -53,7 +53,7 @@ const Page = () => {
                />
             </ContentArea>
 
-            <ContentArea  height="115px" >
+            <ContentArea  height="265px" >
                <Title>Mais Vendidos </Title>
                <ItemList
                   horizontal={true}

@@ -34,10 +34,13 @@ margin-left:15px;
 `;
 export const HeaderArea = styled.View`
    width:100%;
-   height:65px;
+   height:40px;
    background-color:${padrao.corPrincipal || '#3f9168'};
    border-top-left-radius: 35px;
    flex-direction:row;
+   justify-content:center;
+   align-items:center
+
    
 `;
 export const FooterArea = styled.View`
@@ -94,7 +97,7 @@ const BuyNow = (props) => {
                <HeaderArea>
                   <IconeArea><Items width="30px" height="30px" source={require('../../assets/ecommerce.png')} /></IconeArea>
                   <HeaderTextArea>
-                     <HeaderText >Compre pelo aplicativo </HeaderText>
+                     <HeaderText style={{marginTop:15}}>Compre pelo aplicativo </HeaderText>
                      <HeaderText size="14px">Receba em casa ou retire na loja! </HeaderText>
                   </HeaderTextArea>
                </HeaderArea>

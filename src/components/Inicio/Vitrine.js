@@ -23,7 +23,7 @@ const Conteiner = styled.View`
 export const HeaderPromo = styled.View`
    background-color:${padrao.corPrincipal || '#3f9168'};
    width:100%;
-   height:50px;
+   height:30px;
    justify-content:center;
    align-items:center;
    padding:10px;
@@ -39,16 +39,17 @@ align-items:center;
 padding:10px;
 `;
 export const IconeArea = styled.View`
-width:50px;
+width:40px;
 border-top-left-radius: 35px;
 background-color:${padrao.corPrincipal || '#3f9168'};
 justify-content:center;
 align-items:center;
 margin-left:15px;
+margin-top:19px;
 `;
 export const HeaderArea = styled.View`
    width:100%;
-   height:45px;
+   height:40px;
    background-color:#04c2b5;
    border-top-left-radius: 35px;
    flex-direction:row;
@@ -87,8 +88,8 @@ const Vitrine = props => {
    return (
       <>
          <HeaderPromo>
-            <IconeArea><Items width="30px" height="30px" source={require('../../assets/offinicial.png')} /></IconeArea>
-            <Text style={{ fontSize: 18, color: '#fff', fontFamily:'Ubuntu Bold Italic' }}>{welcome}</Text>
+            <IconeArea><Items width="25px" height="25px" source={require('../../assets/offinicial.png')} /></IconeArea>
+            <Text style={{ fontSize: 18, color: '#fff', fontFamily:'Roboto Black Italic' }}>{welcome}</Text>
          </HeaderPromo>
          <Conteiner>
            {props.promocoes.length == 0 ?
