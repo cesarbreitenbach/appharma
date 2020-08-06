@@ -32,7 +32,7 @@ const ConfirmPassword = (props) => {
             props.setStatus(true);
             props.setName(name);
 
-            console.log(`Cadastrei, id: ${e.data.id} o token é: ${e.data.token}`);
+            console.log(`Cadastrei, id: ${e.data.id} o token é: ${e.data.token} o status é: ${props.status}`);
 
             props.navigation.navigate('Preload');
          }).catch(e => {
@@ -53,9 +53,9 @@ const ConfirmPassword = (props) => {
          console.log(`Vou tentar autenticar o cpf: ${props.cpf}` )
          api.post('sessions', { cpf: props.cpf, password: password }).then((r) => {
 
+            props.setStatus(true);
 
             props.setToken(`Bearer ${r.data.token}`);
-            props.setStatus(true);
 
             props.navigation.navigate('Preload');
          }).catch(e => {
@@ -99,7 +99,7 @@ const ConfirmPassword = (props) => {
                   onChangeText={(e) => setPassword(e)}
                   returnKeyType={!props.id ? "go" : "done"}
                   onSubmitEditing={() => {
-                     !props.id ? confirmPasswordRef.current.focus() : start
+                     !props.id ? confirmPasswordRef.current.focus() : start()
                         ;
                   }}
                />

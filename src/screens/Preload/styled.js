@@ -8,8 +8,9 @@ export const Conteiner = styled.SafeAreaView`
 
 export const Title = styled.Text`
    font-size:${props=>props.size||"20px"};
-   color:#ff0000;
-   font-weight:bold;
+   color:${props=> props.color || '#ff0000'};
+   margin-bottom:10px;
+   margin-top:10px;
 `
 
 export const Logo = styled.Image`

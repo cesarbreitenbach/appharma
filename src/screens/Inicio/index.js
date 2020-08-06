@@ -1,5 +1,4 @@
 import React from 'react';
-import { Text } from 'react-native'
 import { Conteiner, ConteinerArea, ScrollArea } from './styled'
 import Vitrine from '../../components/Inicio/Vitrine'
 import BuyNow from '../../components/Inicio/BuyNow'
@@ -20,6 +19,8 @@ const Page = (props) => {
                <Vitrine navigation={props.navigation} />
                <BuyNow navigation={props.navigation} />
                {!props.token &&  <LoginArea navigation={props.navigation} />}
+               <ConteinerArea style={{marginTop:10}}/>
+                  
             </ScrollArea>
 
          </ConteinerArea>

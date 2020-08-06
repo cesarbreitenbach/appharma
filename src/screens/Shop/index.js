@@ -1,34 +1,76 @@
-import React, { useState } from 'react';
-import { AvatarArea, UserAvatar, Conteiner, WelcomeText, DescText} from './styled'
-import { connect } from 'react-redux'
+import React, { useState, useEffect } from 'react';
+import { Conteiner, ScrollArea, ContentArea, Title, ItemList } from './styled'
+import { useSelector } from 'react-redux'
+import api from '../../helpers/api'
+import ItemCategoria from '../../components/Shop/ItemCategoria'
+import ItemDestaque from '../../components/Shop/ItemDestaque'
+import ItemProduct from '../../components/Shop/ItemProduct'
 
-const Page = (props) => {
+
+const Page = () => {
+
+   const [categorias, setCategorias] = useState([])
+
+   const nome = useSelector(state => state.userReducer.name)
+
+   useEffect(() => {
+
+      api.get('categorias').then(r => {
+         console.log(r.data)
+         setCategorias(r.data)
+      }).catch(e => console.log(e))
+
+   }, [])
 
    return (
       <Conteiner>
-         <WelcomeText>Em breve nosso Ecommerce!</WelcomeText>
-         <AvatarArea>
-            <UserAvatar source={require('../../assets/ecommerce.png')} />
-         </AvatarArea>
-         <DescText>Essa pagina destina-se a loja, vitrines com produtos e filtros faceis, nessa tela tem o carrinho.</DescText>
+         <ScrollArea showsVerticalScrollIndicator={false}>
+            <ContentArea height="255px"  >
+               <Title>Destaques </Title>
+               <ItemList
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                  data={categorias}
+                  renderItem={({ item }) => <ItemDestaque data={item} /> }
+                  keyExtractor={(item) => item.id.toString()}
+                  decelerationRate="fast"
+                  maxToRenderPerBatch={10}
+                  snapToInterval={130}
+               />
+            </ContentArea>
+
+            <ContentArea  height="100px" >
+               <Title>Categorias </Title>
+               <ItemList
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                  data={categorias}
+                  renderItem={({ item }) => <ItemCategoria data={item} />}
+                  keyExtractor={(item) => item.id.toString()}
+                  decelerationRate="fast"
+                  maxToRenderPerBatch={10}
+                  snapToInterval={130}
+               />
+            </ContentArea>
+
+            <ContentArea  height="115px" >
+               <Title>Mais Vendidos </Title>
+               <ItemList
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                  data={categorias}
+                  renderItem={({ item }) => <ItemProduct data={item} />}
+                  keyExtractor={(item) => item.id.toString()}
+                  decelerationRate="fast"
+                  maxToRenderPerBatch={20}
+                  snapToInterval={130}
+               />
+            </ContentArea>
+
+         </ScrollArea>
       </Conteiner>
    );
 }
 
-Page.navigationOptions = {
-   headerShown: false
-}
 
-const mapStateToProps = (state) => {
-   return {
-      cpf: state.userReducer.cpf
-   }
-}
-
-const mapDispatchToProps = (dispatch) => {
-   return {
-      setCpf: (cpf) => dispatch({ type: 'SET_CPF', payload: { cpf } })
-   }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Page);
+export default Page;

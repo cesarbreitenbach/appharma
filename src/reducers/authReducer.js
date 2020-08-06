@@ -2,7 +2,7 @@
 const initialState = {
    token:'',
    admin:false,
-   status:false, // false - deslogado; true - logado
+   status:false, 
  };
  
  export default (state = initialState, action) => {

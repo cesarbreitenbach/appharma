@@ -73,6 +73,7 @@ const Login = (props) => {
                   onChangeText={text => {
                      setCpfUser(text)
                   }}
+                  onSubmitEditing={start}
                />
                {error && <MsgError> CPF INVALIDO </MsgError>}
             </InputArea>
