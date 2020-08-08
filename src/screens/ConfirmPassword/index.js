@@ -87,6 +87,7 @@ const ConfirmPassword = (props) => {
                   onChangeText={(e) => setName(e)}
                   blurOnSubmit={false}
                   returnKeyType="go"
+                  autoFocus={true}
                   onSubmitEditing={() => {
                      passwordRef.current.focus();
                   }}
@@ -98,6 +99,7 @@ const ConfirmPassword = (props) => {
                   secureTextEntry
                   onChangeText={(e) => setPassword(e)}
                   returnKeyType={!props.id ? "go" : "done"}
+                  autoFocus={ props.id ? true : false}
                   onSubmitEditing={() => {
                      !props.id ? confirmPasswordRef.current.focus() : start()
                         ;
@@ -121,7 +123,6 @@ const ConfirmPassword = (props) => {
                      <Icon name="login" size={25} color="#fff" style={{ marginRight: 5 }} />
                      <FormText size="15px" color="#fff">{props.id ? "Entrar" : "Cadastrar"} </FormText>
                   </InternalButtom>
-
                </Buttom>
             </ButtomArea>
 

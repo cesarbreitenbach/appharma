@@ -37,7 +37,7 @@ export const FormArea = styled.View`
    background-color:#fff;
    padding:10px;
    border-radius:10px;
-   margin-bottom:20px;
+   margin-bottom:70px;
   
 `;
 

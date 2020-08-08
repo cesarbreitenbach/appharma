@@ -31,7 +31,7 @@ const TabBall = styled.TouchableHighlight`
     height:57px;
     background-color:${padrao.corPrincipal || '#3f9168'};
     border-radius:45px;
-    margin-top:-25px;
+    margin-top:-15px;
     justify-content:center;
     align-items:center;
     border:5px solid #FFF;

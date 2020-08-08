@@ -1,3 +1,4 @@
 export default {
-   corPrincipal:"#ff0000"
+   corPrincipal:"#1e6aa8",
+   URL_FILES:"https://ioffertas.club:3333/files/"
 }

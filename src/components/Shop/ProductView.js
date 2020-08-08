@@ -74,7 +74,7 @@ export const Nodata = styled.View`
 ` 
 
 
-const Vitrine = props => {
+const ProductView = props => {
 
 
    return (
@@ -122,4 +122,4 @@ const mapDispatchToProps = (dispatch) => {
    }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Vitrine);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductView);

@@ -19,7 +19,7 @@ const AppTab = createBottomTabNavigator({
       <TabBarComponent {...props}
       items={[
          {type:'regular', text:'Inicio', icon:"home", route:'HomeStack'},
-         {type:'big', text:'Ofertas', icon:"local-offer", route:'OfertasStack'},
+       // {type:'big', text:'Ofertas', icon:"local-offer", route:'OfertasStack'},
          {type:'big', text:'Compras', icon:"shopping-cart", route:'ShopStack'},
          {type:'regular', text:'Perfil', icon:"account-circle", route:'PerfilStack'}
       ]} />

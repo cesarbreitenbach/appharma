@@ -29,6 +29,7 @@ export const ContentArea = styled.View`
       border-bottom-width:1px;
       border-bottom-color:#ddd;
       margin-top:10px;
+      margin-bottom:5px;
    `
 export const CategoriasArea = styled.View`
       width:100%;

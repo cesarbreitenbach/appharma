@@ -4,6 +4,7 @@ import Vitrine from '../../components/Inicio/Vitrine'
 import BuyNow from '../../components/Inicio/BuyNow'
 import LoginArea from '../../components/Inicio/LoginArea'
 import GreetensArea from '../../components/Inicio/GreetensArea'
+import d from '../../config/padroes'
 
 
 import { connect } from 'react-redux'
@@ -38,7 +39,7 @@ Page.navigationOptions = {
    headerTintColor: "#fff",
    headerStyle: {
       height: 50, // Specify the height of your custom header
-      backgroundColor:  '#de3e3e'  ,
+      backgroundColor:  d.corPrincipal  ,
    }
 }
 

@@ -7,17 +7,21 @@ import ItemDestaque from '../../components/Shop/ItemDestaque'
 import ItemProduct from '../../components/Shop/ItemProduct'
 
 
-const Page = () => {
+const Page = (props) => {
 
-   const [categorias, setCategorias] = useState([])
-
-   const nome = useSelector(state => state.userReducer.name)
+   const [categorias, setCategorias] = useState([]);
+   const [topSellers, setTopSellers] = useState([])
 
    useEffect(() => {
 
       api.get('categorias').then(r => {
-         console.log(r.data)
+         console.log("peguei categorias")
          setCategorias(r.data)
+      }).catch(e => console.log(e))
+
+      api.get('produtos/best-sellers').then(r => {
+         console.log("Peguei lista de top sellers: ")
+         setTopSellers(r.data)
       }).catch(e => console.log(e))
 
    }, [])
@@ -31,41 +35,41 @@ const Page = () => {
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
                   data={categorias}
-                  renderItem={({ item }) => <ItemDestaque data={item} /> }
+                  renderItem={({ item }) => <ItemDestaque navigation={props.navigation} data={item} />}
                   keyExtractor={(item) => item.id.toString()}
                   decelerationRate="fast"
                   maxToRenderPerBatch={10}
                   snapToInterval={130}
                />
             </ContentArea>
-
-            <ContentArea  height="100px" >
+            <ContentArea height="100px" >
                <Title>Categorias </Title>
                <ItemList
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
                   data={categorias}
-                  renderItem={({ item }) => <ItemCategoria data={item} />}
+                  renderItem={({ item }) => <ItemCategoria navigation={props.navigation} data={item} />}
                   keyExtractor={(item) => item.id.toString()}
                   decelerationRate="fast"
                   maxToRenderPerBatch={10}
                   snapToInterval={130}
                />
             </ContentArea>
-
-            <ContentArea  height="265px" >
+            <ContentArea height="285px" >
                <Title>Mais Vendidos </Title>
                <ItemList
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
-                  data={categorias}
-                  renderItem={({ item }) => <ItemProduct data={item} />}
+                  data={topSellers}
+                  renderItem={({ item }) => <ItemProduct navigation={props.navigation} data={item} />}
                   keyExtractor={(item) => item.id.toString()}
                   decelerationRate="fast"
                   maxToRenderPerBatch={20}
                   snapToInterval={130}
                />
             </ContentArea>
+
+           
 
          </ScrollArea>
       </Conteiner>
