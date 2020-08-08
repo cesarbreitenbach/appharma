@@ -1,23 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Title, ProdutoArea, ProdutoImg, ProdutoScroll, ActionArea, Price, PriceInfo, OriginalPriceArea, AreaButtom, AddToCart, Off , IconArea} from './styled.js';
+import React, { useEffect, useState, useRef } from 'react';
+import { Container, Title, ProdutoArea, ProdutoImg, ProdutoScroll, ActionArea, Price, PriceInfo, OriginalPriceArea, AreaButtom, AddToCart, Off, IconArea, DescricaoArea, HeaderArea, ExpandButtom } from './styled.js';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import p from '../../config/padroes'
 import api from '../../helpers/api'
+import { Animated } from 'react-native'
+import ItemList from '../../components/Shop/ItemList'
 
 const Produto = (props) => {
+
+   // const heightAnim = useRef(new Animated.Value(40)).current;
+
+   const [heightAnim] = useState(new Animated.Value(40))
+   const [isOpen, setIsOpen] = useState(false)
 
    const [produto, setProduto] = useState({})
    const [error, setError] = useState(false)
    const [errorMsg, setErrorMsg] = useState('')
    let idProduto = props.navigation.getParam('id')
-  
+
+   const animarBox = () => {
+
+      if (!isOpen) {
+         Animated.timing(heightAnim, {
+            toValue: 200,
+            duration: 200,
+            useNativeDriver: false
+         }).start()
+      } else {
+         Animated.timing(heightAnim, {
+            toValue: 40,
+            duration: 200,
+            useNativeDriver: false
+         }).start()
+      }
+      setIsOpen(!isOpen)
+   }
+
    useEffect(() => {
       setError(false)
-      console.log(`vou executar: /produtos/consulta?id=${idProduto}`)
       api.get(`/produtos/consulta?id=${idProduto}`).then(r => {
-         console.log(r.data)
          setProduto(r.data[0])
-         console.log(produto)
       }).catch(e => {
          console.log(e)
          setError(true)
@@ -25,7 +47,7 @@ const Produto = (props) => {
       })
    }, [])
 
-   let desconto =  Number.parseFloat(produto.discount);
+   let desconto = Number.parseFloat(produto.discount);
 
    return (
       <Container>
@@ -34,8 +56,28 @@ const Produto = (props) => {
                <ProdutoImg resizeMode='cover' source={{ uri: p.URL_FILES + produto.image }} />
                <Title color="#000">{produto.nome}</Title>
             </ProdutoArea>
-         </ProdutoScroll>
 
+            <DescricaoArea style={{ height: heightAnim }} >
+               <HeaderArea>
+                  <Title>Mais detalhes</Title>
+                  <ExpandButtom onPress={animarBox} activeOpacity={0.9}>
+                     {  !isOpen ?
+                        <Icon name="chevron-down" size={25} color="#888" /> :
+                        <Icon name="chevron-up" size={25} color="#888" />
+                     }
+                  </ExpandButtom>
+               </HeaderArea>
+               <Title size="16px" color="#000" style={{ fontFamily: "Ubuntu Regular", margin: 5 , marginTop:10, marginBottom:15}}>{produto.descricao}</Title>
+               <Title>Principio ativo</Title>
+               <Title size="16px" color="#000" style={{ fontFamily: "Ubuntu Regular", margin: 5 }}>{produto.principio}</Title>
+               
+            </DescricaoArea>
+
+            <ItemList />
+
+
+
+         </ProdutoScroll>
          <ActionArea>
 
             <PriceInfo>
@@ -49,15 +91,15 @@ const Produto = (props) => {
             </PriceInfo>
 
             <AreaButtom>
-               <AddToCart  >
-                  <Title size="19px">-</Title>
+               <AddToCart activeOpacity={0.7} >
+                  <Icon name="minus" size={25} color={p.corPrincipal} />
                </AddToCart>
                <IconArea>
-                  <Icon name="cart-arrow-down" size={25} color={p.corPrincipal} style={{ marginRight: 5 }} />
+                  <Icon name="cart-arrow-down" size={25} color={p.corPrincipal} />
                   <Title size="12px" color="#000"> 1 </Title>
                </IconArea>
-               <AddToCart >
-                  <Title size="19px">+</Title>
+               <AddToCart activeOpacity={0.7} >
+                  <Icon name="plus-thick" size={25} color={p.corPrincipal} />
                </AddToCart>
             </AreaButtom>
 

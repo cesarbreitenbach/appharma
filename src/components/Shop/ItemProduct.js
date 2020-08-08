@@ -8,8 +8,8 @@ import d from '../../config/padroes'
 const Conteiner = styled.TouchableOpacity`
     background-color: #f2f2f2
     border:1px solid #ddd
-    width: 170px ;
-    height: 225px ;
+    width: ${ props => props.width || '170px'} ;
+    height: ${ props => props.width || '225px'} ;
     margin:5px;
     padding-left:3px;
     padding-right:3px;

@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { Animated } from 'react-native'
 
 export const Container = styled.SafeAreaView`
    flex:1; 
@@ -11,21 +12,24 @@ export const Title = styled.Text`
 `
 
 export const ProdutoArea = styled.View`
-   height:250px;
+   justify-content:center;
+   align-items:center;
+   height:240px;
    background-color:#fff
+
 `
 export const ProdutoImg = styled.Image`
-   width:150px;
-   height:150px;
+   width:175px;
+   height:175px;
+   margin-top:20px;
 `
 
 export const ProdutoScroll = styled.ScrollView`
 background-color:#eee
 `
 export const ActionArea = styled.View`
-   height:80px;
-   background-color:#fff;
-   flex:1;
+   height:90px;
+   background-color:#fff;;
    flex-direction:row;
    justify-content:space-between;
 
@@ -61,25 +65,48 @@ align-items:center;
 
 export const AddToCart = styled.TouchableOpacity`
    background-color:#ddd
-   border-radius:25px;
+   border-radius:10px;
    width:50px;
    height:50px;
-   align-items:center;
    justify-content:center;
+   align-items:center;
 `
 export const Off = styled.View`
-   width:50px;
-   height:50px;
-   border-radius:25px;
+   width:40px;
+   height:40px;
+   border-radius:20px;
    background-color:#0dbf16;
    align-items:center;
    justify-content:center;
-   margin-top:-35px;
+   margin-top:-20px;
+   transform: rotate(-15deg);
 
 `
+
 
 export const IconArea = styled.View`
    padding:2px;
    justify-content:center;
    align-items:center;
+`
+
+export const DescricaoArea = styled(Animated.View) `
+   background-color:#fff
+   padding:5px;
+`
+
+export const HeaderArea = styled.View`
+   height:40px;
+   background-color:#fff
+   border-bottom-width:1px;
+   border-bottom-color:#eee;
+   flex-direction:row;
+   justify-content:space-between;
+   align-items:center;
+   margin-top:5px;
+`
+
+export const ExpandButtom = styled.TouchableOpacity`
+   width:30px;
+   height:30px;
 `

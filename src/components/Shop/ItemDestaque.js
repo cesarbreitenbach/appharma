@@ -7,8 +7,8 @@ import Item from '../../components/Items'
 const Conteiner = styled.TouchableOpacity`
     flex:1;
     border:1px solid #ddd
-    width: 175px ;
-    height: 225px ;
+    width: ${ props=> props.width ||  '175px'}  ;
+    height: ${ props=> props.height ||  '225px'} ;
     margin:5px;
     padding-left:5px;
     padding-right:5px;
@@ -18,8 +18,8 @@ const Conteiner = styled.TouchableOpacity`
 `;
 
 const ImageItem = styled.Image`
-   width:170px
-   height:220px
+   width: ${ props=> props.imgwidth || '170px'};
+   height: ${ props=> props.imgheight || '220px'}; 
    border-radius:10px
 `
 
