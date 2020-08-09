@@ -110,3 +110,25 @@ export const ExpandButtom = styled.TouchableOpacity`
    width:30px;
    height:30px;
 `
+
+export const ContentArea = styled.View`
+      
+      justify-content:center;
+      height:${props => props.height || '125px'};
+      background-color:#fff;
+      border-bottom-width:1px;
+      border-bottom-color:#ddd;
+      margin-top:10px;
+      margin-bottom:5px;
+   `
+export const TitleProduct = styled.Text`
+   font-family:Ubuntu Medium;
+   margin-left:5px;
+   margin-right:5px;  
+   margin-top:10px;
+   margin-bottom:5px;
+`
+
+export const ItemList = styled.FlatList`
+
+`

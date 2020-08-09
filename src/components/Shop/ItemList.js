@@ -5,8 +5,6 @@ import ItemProduct from '../../components/Shop/ItemProduct'
 const ContentArea = styled.View`
       flex:1;
       justify-content:center;
-      height:${props => props.height || '125px'};
-      width:100%;
       background-color:#fff;
       border-bottom-width:1px;
       border-bottom-color:#ddd;
@@ -14,8 +12,7 @@ const ContentArea = styled.View`
       margin-bottom:5px;
    `
 
-   export const Title = styled.Text`
-   font-family:Ubuntu Medium;
+export const Title = styled.Text`
    margin-left:5px;
    margin-right:5px;
    
@@ -27,19 +24,22 @@ export const List = styled.FlatList`
 
 const ItemList = props => {
 
-   <ContentArea height="285px" >
-      <Title>Mais Vendidos </Title>
-      <List
-         horizontal={true}
-         showsHorizontalScrollIndicator={false}
-         data={topSellers}
-         renderItem={({ item }) => <ItemProduct navigation={props.navigation} data={item} />}
-         keyExtractor={(item) => item.id.toString()}
-         decelerationRate="fast"
-         maxToRenderPerBatch={20}
-         snapToInterval={130}
-      />
-   </ContentArea>
+   return (
+      <ContentArea height="285px" >
+         <Title>Mais Vendidos </Title>
+         <ItemList
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            data={props.itemList}
+            renderItem={({ item }) => <ItemProduct navigation={props.navigation} data={item} />}
+            keyExtractor={(item) => item.id.toString()}
+            decelerationRate="fast"
+            maxToRenderPerBatch={20}
+            snapToInterval={130}
+         />
+      </ContentArea>
+   )
+
 
 }
 

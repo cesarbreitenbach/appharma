@@ -1,10 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Container, Title, ProdutoArea, ProdutoImg, ProdutoScroll, ActionArea, Price, PriceInfo, OriginalPriceArea, AreaButtom, AddToCart, Off, IconArea, DescricaoArea, HeaderArea, ExpandButtom } from './styled.js';
+import { Container, Title, ProdutoArea, ProdutoImg, ProdutoScroll, ActionArea, Price, PriceInfo, 
+             OriginalPriceArea, AreaButtom, AddToCart, Off, IconArea, DescricaoArea, HeaderArea, ExpandButtom,
+            ContentArea, TitleProduct,ItemList } from './styled.js';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import p from '../../config/padroes'
 import api from '../../helpers/api'
 import { Animated } from 'react-native'
-import ItemList from '../../components/Shop/ItemList'
+
+import ItemSimilar from '../../components/Shop/ItemSimilar'
 
 const Produto = (props) => {
 
@@ -12,11 +15,25 @@ const Produto = (props) => {
 
    const [heightAnim] = useState(new Animated.Value(40))
    const [isOpen, setIsOpen] = useState(false)
+   const [similarList, setSimilarList] = useState([])
 
    const [produto, setProduto] = useState({})
+
    const [error, setError] = useState(false)
    const [errorMsg, setErrorMsg] = useState('')
    let idProduto = props.navigation.getParam('id')
+
+   useEffect(()=>{
+      
+      api.get(`/produtos/similars?tipo=${produto.tipo}`)
+      .then(r=>{
+         console.log(`Produtos similares tipo ${produto.tipo}`)
+         setSimilarList(r.data)
+      }).catch(e =>{
+         console.log(e=>console.log("Erro: "+e.message))
+      })
+
+   }, [produto.tipo])
 
    const animarBox = () => {
 
@@ -73,9 +90,21 @@ const Produto = (props) => {
                
             </DescricaoArea>
 
-            <ItemList />
+            <ContentArea height="235px" >
+               <TitleProduct>Você pode se interressar também por: </TitleProduct>
+               <ItemList
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                  data={similarList}
+                  renderItem={({ item }) => <ItemSimilar imgWidth="70px" imgHeight="70px" navigation={props.navigation} data={item} />}
+                  keyExtractor={(item) => item.id.toString()}
+                  decelerationRate="fast"
+                  maxToRenderPerBatch={20}
+                  snapToInterval={130}
+               />
+            </ContentArea>
 
-
+            
 
          </ProdutoScroll>
          <ActionArea>
