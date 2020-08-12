@@ -89,7 +89,7 @@ const Vitrine = props => {
       <>
          <HeaderPromo>
             <IconeArea><Items width="25px" height="25px" source={require('../../assets/offinicial.png')} /></IconeArea>
-            <Text style={{ fontSize: 18, color: '#fff', fontFamily:'Roboto Black Italic' }}>{welcome}</Text>
+            <Text style={{ fontSize: 18, color: '#fff', fontFamily:'Roboto Medium' }}>{welcome}</Text>
          </HeaderPromo>
          <Conteiner>
            {props.promocoes.length == 0 ?

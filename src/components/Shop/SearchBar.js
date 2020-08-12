@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { connect } from 'react-redux'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import HeaderCart from '../Cart/HeaderCart'
 
 
 
@@ -16,7 +17,7 @@ const Conteiner = styled.View`
 
 const InputSearch = styled.TextInput`
    border:1px solid #ddd;
-   width:90%;
+   width:300;
    height:30px;
    padding:5px;
    margin-top:5px;
@@ -27,6 +28,7 @@ const InputSearch = styled.TextInput`
 const ButtonSearch = styled.TouchableOpacity`
    width: 40px;
    height: 40px;
+   margin-right:5px;
 `
 
 const Texto = styled.Text`
@@ -40,9 +42,12 @@ const SearchBar = props => {
    return (
       <Conteiner>
          <InputSearch />
-            <ButtonSearch activeOpacity={0.7}> 
-               <Icon name="search" size={35} style={{marginLeft:5, color:'#eee'}} />
-            </ButtonSearch>
+         <ButtonSearch activeOpacity={0.7}>
+            <Icon name="search" size={35} style={{ marginLeft: 5, color: '#eee' }} />
+         </ButtonSearch>
+         {props.status &&
+            <HeaderCart cart={props.cart} goCart={props.goCart} />
+         }
       </Conteiner>
    )
 }
@@ -51,6 +56,8 @@ const mapStateToProps = (state) => {
       activePage: state.tabReducer.activePage,
       token: state.authReducer.token,
       cpf: state.userReducer.cpf,
+      cart: state.cartReducer.cart,
+      status: state.authReducer.status,
    }
 }
 

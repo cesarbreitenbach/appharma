@@ -14,9 +14,7 @@ export const BuyNowArea = styled.View`
    margin-bottom:10px;
    margin-top:5px;
 
-   
-   border-top-left-radius: 35px
-   border-bottom-right-radius: 35px
+   border-radius:35px;
    
 `;
 export const HeaderTextArea = styled.View`
@@ -26,7 +24,7 @@ padding:10px;
 `;
 export const IconeArea = styled.View`
 width:50px;
-border-top-left-radius: 35px;
+border-radius: 35px;
 background-color:${padrao.corPrincipal || '#3f9168'};
 justify-content:center;
 align-items:center;
@@ -36,7 +34,8 @@ export const HeaderArea = styled.View`
    width:100%;
    height:40px;
    background-color:${padrao.corPrincipal || '#3f9168'};
-   border-top-left-radius: 35px;
+   border-top-left-radius: 15px;
+   border-top-right-radius: 15px;
    flex-direction:row;
    justify-content:center;
    align-items:center
@@ -46,7 +45,8 @@ export const HeaderArea = styled.View`
 export const FooterArea = styled.View`
    width:100%; 
    height:15px;
-   border-bottom-right-radius: 35px;
+   border-bottom-right-radius: 15px;
+   border-bottom-left-radius: 15px;
    background-color:${padrao.corPrincipal || '#3f9168'};
    `
 export const ButtomArea = styled.View`

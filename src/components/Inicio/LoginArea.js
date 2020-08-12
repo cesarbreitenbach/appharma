@@ -14,21 +14,21 @@ margin-bottom:10px;
 margin-top:5px;
 
 
-border-top-left-radius: 35px
+border-top-left-radius: 20px
 
-border-bottom-right-radius: 35px
+
 `;
 export const HeaderArea = styled.View`
    width:100%;
-   height:65px;
+   height:55px;
    background-color:${padrao.corPrincipal || '#3f9168'};
-   border-top-left-radius: 35px;
+   border-top-left-radius: 20px;
    flex-direction:row;
    
 `;
 export const IconeArea = styled.View`
 width:50px;
-border-top-left-radius: 35px;
+border-top-left-radius: 20px;
 background-color:${padrao.corPrincipal || '#3f9168'};
 justify-content:center;
 align-items:center;

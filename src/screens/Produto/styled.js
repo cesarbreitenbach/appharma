@@ -21,7 +21,7 @@ export const ProdutoArea = styled.View`
 export const ProdutoImg = styled.Image`
    width:175px;
    height:175px;
-   margin-top:20px;
+   margin-top:10px;
 `
 
 export const ProdutoScroll = styled.ScrollView`
@@ -55,22 +55,7 @@ export const Price = styled.Text`
    margin:5px;
    text-decoration: ${props=>props.decoration || 'none'}
 `
-export const AreaButtom = styled.View`
-padding:25px;
-width:200px;
-flex-direction:row
-justify-content:space-between;
-align-items:center;
-`
 
-export const AddToCart = styled.TouchableOpacity`
-   background-color:#ddd
-   border-radius:10px;
-   width:50px;
-   height:50px;
-   justify-content:center;
-   align-items:center;
-`
 export const Off = styled.View`
    width:40px;
    height:40px;
@@ -83,12 +68,6 @@ export const Off = styled.View`
 
 `
 
-
-export const IconArea = styled.View`
-   padding:2px;
-   justify-content:center;
-   align-items:center;
-`
 
 export const DescricaoArea = styled(Animated.View) `
    background-color:#fff
