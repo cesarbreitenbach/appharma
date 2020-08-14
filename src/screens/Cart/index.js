@@ -11,6 +11,8 @@ const Cart = (props) => {
    const [error, setError] = useState(false)
    const [errorMsg, setErrorMsg] = useState("")
 
+   const vTotal = props.total
+
    const goCheckout = () => {
       if (!props.status){
          setError(true)
@@ -21,11 +23,15 @@ const Cart = (props) => {
       
    }
 
+   const goToShop = () => {
+      props.navigation.navigate('Shop')
+   }
+
 
    return (
       <Container>
          <Header>
-            <IconBackArea onPress={()=>props.navigation.goBack()}>
+            <IconBackArea onPress={goToShop}>
                <Icon2 name="arrow-back" size={25} color="#fff" />
             </IconBackArea>
             <Text style={{ textAlign: 'center' }}>Seu carrinho de compras</Text>
@@ -46,7 +52,7 @@ const Cart = (props) => {
          <InfoArea>
             <TotalArea>
                <Text style={{ fontFamily: 'Roboto Black', fontSize: 16, color: '#000' }}>Valor Total:</Text>
-               <Text style={{ fontSize: 18, color: '#000' }}>R$ 1000,00</Text>
+               <Text style={{ fontSize: 18, color: '#000' }}>R$ {vTotal.toFixed(2)}</Text>
 
             </TotalArea>
             <Buttom activeOpacity={0.7} onPress={goCheckout}>
@@ -68,7 +74,8 @@ Cart.navigationOptions = {
 const mapStateToProps = (state) => {
    return {
       cart: state.cartReducer.carrinho,
-      status:state.authReducer.status
+      status:state.authReducer.status,
+      total: state.cartReducer.total
    }
 }
 

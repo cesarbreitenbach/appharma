@@ -23,7 +23,7 @@ const ItemProduct = props => {
                <PrecoArea>
                   <Title >{props.data.carrinho.nome}</Title>
                   <Preco>R$ {props.data.carrinho.preco_vigente}</Preco>
-                  <AddDelCartButtom product={props.data.carrinho} qtd={props.data.qtd}/>
+                  <AddDelCartButtom product={props.data.carrinho} qtd={props.data.qtd} setQtdProduto={()=>{}}/>
                </PrecoArea>
          </Conteiner>
    )

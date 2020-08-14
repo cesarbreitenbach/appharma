@@ -41,7 +41,15 @@ const AddDelCartButtom = (props) => {
 
    function addProduct(product){
       let novaQtd = qtdAtual + 1;
+      props.setQtdProduto(novaQtd)
       props.addCart(product)
+      setQtdAtual(novaQtd)
+   }
+
+   function delProduct(product){
+      let novaQtd = qtdAtual > 0? qtdAtual - 1 :  0;
+      props.setQtdProduto(novaQtd)
+      props.delCart(product)
       setQtdAtual(novaQtd)
    }
 
@@ -49,7 +57,7 @@ const AddDelCartButtom = (props) => {
 
    return (
       <AreaButtom>
-         <AddToCart activeOpacity={0.7} >
+         <AddToCart activeOpacity={0.7} onPress={() => delProduct(props.product)}>
             <Icon name="minus" size={25} color={p.corPrincipal} />
          </AddToCart>
          <IconArea activeOpacity={0.7} onPress={props.goCart}>
@@ -72,7 +80,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
    return {
-      addCart: (carrinho) => dispatch({ type: 'ADD_TO_CART', payload: { carrinho } })
+      addCart: (carrinho) => dispatch({ type: 'ADD_TO_CART', payload: { carrinho } }),
+      delCart: (carrinho) => dispatch({type: 'DEL_FROM_CART', payload: { carrinho }})
    }
 }
 

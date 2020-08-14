@@ -5,6 +5,7 @@ import {
    ContentArea, TitleProduct, ItemList
 } from './styled.js';
 
+
 import AddDelCartButtom from '../../components/AddDelCartButtom'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import p from '../../config/padroes'
@@ -23,6 +24,7 @@ const Produto = (props) => {
    const [heightAnim] = useState(new Animated.Value(40))
    const [isOpen, setIsOpen] = useState(false)
    const [similarList, setSimilarList] = useState([])
+   const[qtdProduto, setQtdProduto] = useState(0)
 
    const [produto, setProduto] = useState({})
 
@@ -84,6 +86,7 @@ const Produto = (props) => {
             console.log("Qtd: "+ novoProduto.qtd)
             console.log(JSON.stringify(novoProduto))
             setProduto(novoProduto)
+            setQtdProduto(novoProduto.qtd)
             setCarregou(true)
          } else {
             let novoProduto = {
@@ -95,6 +98,7 @@ const Produto = (props) => {
             console.log("Qtd: "+ novoProduto.qtd)
             console.log(JSON.stringify(novoProduto))
             setProduto(novoProduto)
+            setQtdProduto(novoProduto.qtd)
             setCarregou(true)
          }
 
@@ -109,8 +113,6 @@ const Produto = (props) => {
       setChangeProduct(id)
    }
  
-   
-
    const goCart = () =>{
       console.log("Vou pro carrinho...")
       props.navigation.navigate('Cart')
@@ -172,7 +174,7 @@ const Produto = (props) => {
             <Price size="18px">por R$ {produto.produtoEscolhido.preco_vigente}</Price> 
             </PriceInfo>
 
-            <AddDelCartButtom goCart={goCart} product={produto.produtoEscolhido} qtd={ produto.qtd }  />
+            <AddDelCartButtom goCart={goCart} product={produto.produtoEscolhido} qtd={ qtdProduto} setQtdProduto={setQtdProduto}  />
             
          </ActionArea>
       }
