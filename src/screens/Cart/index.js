@@ -35,10 +35,11 @@ const Cart = (props) => {
          <ItensOnCart
             showsVerticalScrollIndicator={false}
             data={props.cart}
-            renderItem={({ item }) => <Product  data={item} navigation={props.navigation} />}
+            renderItem={({ item }) => <Product data={item} navigation={props.navigation} />}
             decelerationRate="fast"
             maxToRenderPerBatch={20}
             snapToInterval={130}
+            keyExtractor={(item) => item.carrinho.id.toString()}
          />
 
 

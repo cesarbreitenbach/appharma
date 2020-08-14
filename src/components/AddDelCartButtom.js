@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import p from '../config/padroes'
@@ -37,11 +37,15 @@ export const Title = styled.Text`
 
 const AddDelCartButtom = (props) => {
 
+   const [qtdAtual, setQtdAtual] = useState(props.qtd)
+
    function addProduct(product){
+      let novaQtd = qtdAtual + 1;
       props.addCart(product)
+      setQtdAtual(novaQtd)
    }
 
-   console.log("qtd da prop: "+props.qtd+" qtd no produto: "+props.product.qtd+" o id "+props.product.id)
+   
 
    return (
       <AreaButtom>
@@ -50,7 +54,7 @@ const AddDelCartButtom = (props) => {
          </AddToCart>
          <IconArea activeOpacity={0.7} onPress={props.goCart}>
             <Icon name="cart-arrow-down" size={25} color={p.corPrincipal} />
-            <Title size="13px" color="#000"> {props.qtd} </Title>
+            <Title size="13px" color="#000"> {qtdAtual} </Title>
          </IconArea>
          <AddToCart activeOpacity={0.7} onPress={() => addProduct(props.product) }>
             <Icon name="plus-thick" size={25} color={p.corPrincipal} />

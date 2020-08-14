@@ -27,8 +27,10 @@ const Produto = (props) => {
    const [produto, setProduto] = useState({})
 
    const [error, setError] = useState(false)
+   const [carregou, setCarregou] = useState(false)
    const [errorMsg, setErrorMsg] = useState('')
    let idProduto = props.navigation.getParam('id')
+   let desconto = 0 ;
    const [changeProduct, setChangeProduct] = useState(idProduto)
 
    useEffect(() => {
@@ -65,15 +67,37 @@ const Produto = (props) => {
 
       api.get(`/produtos/consulta?id=${changeProduct}`).then(r => {
          console.log("id produto: "+r.data[0].id)
-         setProduto(r.data[0])
+         
+         let produtoEscolhido = r.data[0];
+
          const lista = props.cart;
-         const index = lista.findIndex(p => p.carrinho.id == r.data[0].id)
+         const index = lista.findIndex(p => p.carrinho.id == produtoEscolhido.id)
+
          if (index >= 0){
-            console.log("qtd do produto é "+ lista[index].qtd)
-            setProduto([...produto, {qtd:lista[index].qtd}])
+            console.log("Esse item já está no carrinho, tem:  "+ lista[index].qtd)
+            
+            let novoProduto = {
+               produtoEscolhido,
+               qtd:  lista[index].qtd
+            }
+            console.log("Novo produto: "+ novoProduto.produtoEscolhido.nome)
+            console.log("Qtd: "+ novoProduto.qtd)
+            console.log(JSON.stringify(novoProduto))
+            setProduto(novoProduto)
+            setCarregou(true)
+         } else {
+            let novoProduto = {
+               produtoEscolhido,
+               qtd: 0
+            }
+            desconto = Number.parseFloat(novoProduto.produtoEscolhido.discount);
+            console.log("Novo produto: "+ novoProduto.produtoEscolhido.nome)
+            console.log("Qtd: "+ novoProduto.qtd)
+            console.log(JSON.stringify(novoProduto))
+            setProduto(novoProduto)
+            setCarregou(true)
          }
 
-//         setProduto(newProduto)
       }).catch(e => {
          console.log(e)
          setError(true)
@@ -85,7 +109,7 @@ const Produto = (props) => {
       setChangeProduct(id)
    }
  
-   let desconto = Number.parseFloat(produto.discount);
+   
 
    const goCart = () =>{
       console.log("Vou pro carrinho...")
@@ -97,8 +121,8 @@ const Produto = (props) => {
          <Back navigation={props.navigation} />
          <ProdutoScroll>
             <ProdutoArea>
-               <ProdutoImg resizeMode='cover' source={{ uri: p.URL_FILES + produto.image }} />
-               <Title color="#000">{produto.nome}</Title>
+               <ProdutoImg resizeMode='cover' source={carregou ? { uri: p.URL_FILES + produto.produtoEscolhido.image } : {uri:'https://ioffertas.club:3333/files/2ff6b01c543450dcc450a3bb194479b0.png'}} />
+               <Title color="#000">{carregou ? produto.produtoEscolhido.nome : 'carregando...'}</Title>
             </ProdutoArea>
 
             <DescricaoArea style={{ height: heightAnim }} >
@@ -111,9 +135,9 @@ const Produto = (props) => {
                      }
                   </ExpandButtom>
                </HeaderArea>
-               <Title size="16px" color="#000" style={{ fontFamily: "Ubuntu Regular", margin: 5, marginTop: 10, marginBottom: 15 }}>{produto.descricao}</Title>
+               <Title size="16px" color="#000" style={{ fontFamily: "Ubuntu Regular", margin: 5, marginTop: 10, marginBottom: 15 }}>{ carregou ? produto.produtoEscolhido.descricao : '...'}</Title>
                <Title>Principio ativo</Title>
-               <Title size="16px" color="#000" style={{ fontFamily: "Ubuntu Regular", margin: 5 }}>{produto.principio}</Title>
+               <Title size="16px" color="#000" style={{ fontFamily: "Ubuntu Regular", margin: 5 }}>{ carregou ? produto.produtoEscolhido.principio : '...'}</Title>
 
             </DescricaoArea>
 
@@ -134,24 +158,24 @@ const Produto = (props) => {
 
 
          </ProdutoScroll>
+         {carregou &&
          <ActionArea>
-
-            <PriceInfo>
-               {(produto.preco_original != produto.preco_vigente) &&
+            <PriceInfo> 
+               {(produto.produtoEscolhido.preco_original != produto.produtoEscolhido.preco_vigente) &&
                   <OriginalPriceArea>
-                     <Price size="10px" decoration="line-through" color="#ff0000">de R$ {produto.preco_original} </Price>
+                     <Price size="10px" decoration="line-through" color="#ff0000">de R$ {produto.produtoEscolhido.preco_original}  </Price>
                      <Off>
                         <Price color="#fff" size="12px"  >{desconto.toFixed(0)} %</Price>
                      </Off>
                   </OriginalPriceArea>
                }
-               <Price size="18px">por R$ {produto.preco_vigente}</Price>
+            <Price size="18px">por R$ {produto.produtoEscolhido.preco_vigente}</Price> 
             </PriceInfo>
 
-            <AddDelCartButtom goCart={goCart} product={produto} />
-
+            <AddDelCartButtom goCart={goCart} product={produto.produtoEscolhido} qtd={ produto.qtd }  />
+            
          </ActionArea>
-
+      }
       </Container>
 
 
