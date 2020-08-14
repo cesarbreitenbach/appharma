@@ -12,12 +12,13 @@ const Conteiner = styled.View`
    height:40px;
    flex-direction:row;
    padding:5px;
+   padding-top:8px;
    justify-content:center;
 `
 
 const InputSearch = styled.TextInput`
    border:1px solid #ddd;
-   width:300;
+   width:300px;
    height:30px;
    padding:5px;
    margin-top:5px;
@@ -31,22 +32,26 @@ const ButtonSearch = styled.TouchableOpacity`
    margin-right:5px;
 `
 
-const Texto = styled.Text`
-   font-size:${props => props.size || "14px"};
-   color:${props => props.color || "#000"};
+const CartArea = styled.View`
+   width:50px;
+   height:50px;
+   margin-top:22px;
 `
 
 
 
 const SearchBar = props => {
+
    return (
       <Conteiner>
          <InputSearch />
          <ButtonSearch activeOpacity={0.7}>
-            <Icon name="search" size={35} style={{ marginLeft: 5, color: '#eee' }} />
+            <Icon name="search" size={35} style={{ marginLeft: 3, color: '#eee' }} />
          </ButtonSearch>
          {props.status &&
+         <CartArea>
             <HeaderCart cart={props.cart} goCart={props.goCart} />
+         </CartArea>
          }
       </Conteiner>
    )
@@ -55,8 +60,7 @@ const mapStateToProps = (state) => {
    return {
       activePage: state.tabReducer.activePage,
       token: state.authReducer.token,
-      cpf: state.userReducer.cpf,
-      cart: state.cartReducer.cart,
+      cart: state.cartReducer.carrinho,
       status: state.authReducer.status,
    }
 }

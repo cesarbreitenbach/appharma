@@ -1,6 +1,5 @@
 import React from 'react'
 import { createStackNavigator } from 'react-navigation-stack';
-import SearchBar from '../components/Shop/SearchBar'
 import Shop from '../screens/Shop'
 import Produto from '../screens/Produto'
 import Cart from '../screens/Cart'
@@ -19,8 +18,7 @@ const ShopStack = createStackNavigator({
 }, {
       initialRouteName:'Shop',
       defaultNavigationOptions:{
-         headerTitle: () =><SearchBar />,
-         headerStyle:{backgroundColor:padroes.corPrincipal}
+         headerStyle:{backgroundColor:padroes.corPrincipal, height:80}
       },
       
 });

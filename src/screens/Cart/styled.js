@@ -7,18 +7,23 @@ export const Container = styled.SafeAreaView`
 
 export const Header = styled.View`
    background-color:${d.corPrincipal}
-   height:80px;
-   padding-top:30px;
+   margin-top:20px;
+   padding-top: 8px;
+   padding-bottom: 5px;
+   height:50px;
    flex-direction:row;
-   justify-content:space-between;
+   justify-content: space-between
 
- 
+
 `
 export const IconBackArea = styled.TouchableOpacity`
    width:50px;
    height:50px
 `
-
+export const IconCartArea = styled.View`
+   width:80px;
+   height:80px
+`
 
 export const ItensOnCart = styled.FlatList`
    background-color:#ddd

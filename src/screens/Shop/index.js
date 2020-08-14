@@ -4,6 +4,7 @@ import api from '../../helpers/api'
 import ItemCategoria from '../../components/Shop/ItemCategoria'
 import ItemDestaque from '../../components/Shop/ItemDestaque'
 import ItemProduct from '../../components/Shop/ItemProduct'
+import SearchBar from '../../components/Shop/SearchBar'
 
 
 const Page = (props) => {
@@ -14,12 +15,10 @@ const Page = (props) => {
    useEffect(() => {
 
       api.get('categorias').then(r => {
-         console.log("peguei categorias")
          setCategorias(r.data)
       }).catch(e => console.log(e))
 
       api.get('produtos/best-sellers').then(r => {
-         console.log("Peguei lista de top sellers: ")
          setTopSellers(r.data)
       }).catch(e => console.log(e))
 
@@ -75,5 +74,13 @@ const Page = (props) => {
    );
 }
 
+Page.navigationOptions = ( {navigation} ) =>{
+   const goCart = () => {
+      navigation.navigate('Cart')
+   }
+   return{
+      headerTitle: () =><SearchBar goCart={goCart}/>,
+   }
+}
 
 export default Page;

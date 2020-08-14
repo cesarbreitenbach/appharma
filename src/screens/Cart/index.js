@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Container, Header, ItensOnCart, InfoArea, TotalArea, Buttom, Text, IconBackArea } from './styled.js';
+import { Container, Header, ItensOnCart, InfoArea, TotalArea, Buttom, Text, IconBackArea, IconCartArea } from './styled.js';
 import HeaderCart from '../../components/Cart/HeaderCart'
 import Product from '../../components/Cart/Product'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -14,7 +14,7 @@ const Cart = (props) => {
    const goCheckout = () => {
       if (!props.status){
          setError(true)
-         setErrorMsg("Você precisa efetuar o login primeiro.")
+         setErrorMsg("Efetue o login ou cadastre-se gratis")
          return
       }
       console.log("Efetuando a compra....")
@@ -29,14 +29,13 @@ const Cart = (props) => {
                <Icon2 name="arrow-back" size={25} color="#fff" />
             </IconBackArea>
             <Text style={{ textAlign: 'center' }}>Seu carrinho de compras</Text>
-    
             <HeaderCart cart={props.cart} /> 
          </Header>
 
          <ItensOnCart
             showsVerticalScrollIndicator={false}
             data={props.cart}
-            renderItem={({ item }) => <Product data={item} />}
+            renderItem={({ item }) => <Product  data={item} navigation={props.navigation} />}
             decelerationRate="fast"
             maxToRenderPerBatch={20}
             snapToInterval={130}
@@ -67,14 +66,14 @@ Cart.navigationOptions = {
 
 const mapStateToProps = (state) => {
    return {
-      cart: state.cartReducer.cart,
+      cart: state.cartReducer.carrinho,
       status:state.authReducer.status
    }
 }
 
 const mapDispatchToProps = (dispatch) => {
    return {
-      addCart: (product) => dispatch({ type: 'ADD_TO_CART', payload: { product } })
+      addCart: (product) => dispatch({ type: 'ADD_TO_CART', payload: { carrinho:product } })
    }
 }
 

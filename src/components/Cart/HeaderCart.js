@@ -20,7 +20,7 @@ const Cart = (props) => {
    return (
       <CarArea onPress={props.goCart}>
          <Icon name="cart" size={18} color="#fff" />
-         <Text>Itens: {props.cart.length}</Text>
+         <Text>Itens: {props.cart.length} </Text>
       </CarArea>
    )
 }

@@ -11,17 +11,18 @@ const ItemProduct = props => {
    let desconto =  Number.parseFloat(props.data.discount);
 
    const handleClick = (id) => {
+      console.log("clicou no id: "+id)
       props.navigation.navigate('Produto', {id})
    }
 
    return (
-         <Conteiner activeOpacity={0.7} onPress={()=>handleClick(props.data.id)}>
+         <Conteiner key={props.data.carrinho.id} activeOpacity={0.7} onPress={()=>handleClick(props.carrinho.data.id)}>
                <Item style={{marginBottom:20}}  radius="50px" resizeMode='stretch' width={props.imgWidth || "100px"} height={props.imgHeight || "100px"} source={{uri:'https://ioffertas.club:3333/files/2ff6b01c543450dcc450a3bb194479b0.png'}}  />
                <PrecoArea>
-                  <Title>Algum Produto {props.data.nome}</Title>
-                  <Preco>R$ 50,00 {props.data.preco_vigente}</Preco>
+                  <Title >{props.data.carrinho.nome}</Title>
+                  <Preco>R$ {props.data.carrinho.preco_vigente}</Preco>
+                  <AddDelCartButtom product={props.data} qtd={props.data.qtd}/>
                </PrecoArea>
-               <AddDelCartButtom />
          </Conteiner>
    )
 }

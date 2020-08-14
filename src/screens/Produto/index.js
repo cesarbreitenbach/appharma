@@ -14,6 +14,8 @@ import Back from '../../components/Back'
 
 import ItemSimilar from '../../components/Shop/ItemSimilar'
 
+import {connect} from 'react-redux'
+
 const Produto = (props) => {
 
    // const heightAnim = useRef(new Animated.Value(40)).current;
@@ -62,7 +64,15 @@ const Produto = (props) => {
       setError(false)
 
       api.get(`/produtos/consulta?id=${changeProduct}`).then(r => {
+         console.log("id produto: "+r.data[0].id)
          setProduto(r.data[0])
+         const lista = props.cart;
+         const index = lista.findIndex(p => p.carrinho.id == r.data[0].id)
+         if (index >= 0){
+            console.log("qtd do produto é "+ lista[index].qtd)
+            setProduto([...produto, {qtd:lista[index].qtd}])
+         }
+
 //         setProduto(newProduto)
       }).catch(e => {
          console.log(e)
@@ -138,7 +148,7 @@ const Produto = (props) => {
                <Price size="18px">por R$ {produto.preco_vigente}</Price>
             </PriceInfo>
 
-            <AddDelCartButtom goCart={goCart}/>
+            <AddDelCartButtom goCart={goCart} product={produto} />
 
          </ActionArea>
 
@@ -152,4 +162,16 @@ Produto.navigationOptions = {
    headerShown: false,
 }
 
-export default Produto;
+const mapStateToProps = (state) => {
+   return {
+      cart: state.cartReducer.carrinho,
+   }
+}
+
+const mapDispatchToProps = (dispatch) => {
+   return {
+    
+   }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Produto);

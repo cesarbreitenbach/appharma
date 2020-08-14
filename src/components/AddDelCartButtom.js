@@ -36,6 +36,13 @@ export const Title = styled.Text`
 `
 
 const AddDelCartButtom = (props) => {
+
+   function addProduct(product){
+      props.addCart(product)
+   }
+
+   console.log("qtd da prop: "+props.qtd+" qtd no produto: "+props.product.qtd+" o id "+props.product.id)
+
    return (
       <AreaButtom>
          <AddToCart activeOpacity={0.7} >
@@ -43,9 +50,9 @@ const AddDelCartButtom = (props) => {
          </AddToCart>
          <IconArea activeOpacity={0.7} onPress={props.goCart}>
             <Icon name="cart-arrow-down" size={25} color={p.corPrincipal} />
-            <Title size="12px" color="#000"> 1 </Title>
+            <Title size="13px" color="#000"> {props.qtd} </Title>
          </IconArea>
-         <AddToCart activeOpacity={0.7} >
+         <AddToCart activeOpacity={0.7} onPress={() => addProduct(props.product) }>
             <Icon name="plus-thick" size={25} color={p.corPrincipal} />
          </AddToCart>
       </AreaButtom>
@@ -55,13 +62,13 @@ const AddDelCartButtom = (props) => {
 
 const mapStateToProps = (state) => {
    return {
-      cart: state.cartReducer.cart,
+    
    }
 }
 
 const mapDispatchToProps = (dispatch) => {
    return {
-      addCart: (product) => dispatch({ type: 'ADD_TO_CART', payload: { product } })
+      addCart: (carrinho) => dispatch({ type: 'ADD_TO_CART', payload: { carrinho } })
    }
 }
 
