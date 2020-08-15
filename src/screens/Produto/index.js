@@ -73,7 +73,7 @@ const Produto = (props) => {
          let produtoEscolhido = r.data[0];
 
          const lista = props.cart;
-         const index = lista.findIndex(p => p.carrinho.id == produtoEscolhido.id)
+         const index = lista.findIndex(p => p.id == produtoEscolhido.id)
 
          if (index >= 0){
             console.log("Esse item já está no carrinho, tem:  "+ lista[index].qtd)

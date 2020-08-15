@@ -40,17 +40,22 @@ const AddDelCartButtom = (props) => {
    const [qtdAtual, setQtdAtual] = useState(props.qtd)
 
    function addProduct(product){
-      let novaQtd = qtdAtual + 1;
+      let novaQtd = qtdAtual;
+      novaQtd++;
       props.setQtdProduto(novaQtd)
       props.addCart(product)
       setQtdAtual(novaQtd)
+      console.log(JSON.stringify(props.cart))
    }
 
    function delProduct(product){
+      if (qtdAtual == 0) { return }
       let novaQtd = qtdAtual > 0? qtdAtual - 1 :  0;
+
       props.setQtdProduto(novaQtd)
       props.delCart(product)
       setQtdAtual(novaQtd)
+      console.log(JSON.stringify(props.cart))
    }
 
    
@@ -74,7 +79,7 @@ const AddDelCartButtom = (props) => {
 
 const mapStateToProps = (state) => {
    return {
-    
+      cart: state.cartReducer.carrinho
    }
 }
 

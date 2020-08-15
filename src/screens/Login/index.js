@@ -14,10 +14,10 @@ const Login = (props) => {
    const [error, setError] = useState(false);
    const start =  () => {
       setError(false)
-      // if (!ValidateCpf(cpfUser)){
-      //    setError(true)
-      //    return
-      // }
+      if (!ValidateCpf(cpfUser)){
+         setError(true)
+         return
+      }
       let parsedCpf = cpfUser;
 
       parsedCpf = parsedCpf.replace('.', '').replace('.', '').replace('-', '');

@@ -34,30 +34,36 @@ export const InfoArea = styled.View`
    height:70px;
    background-color:${d.corPrincipal}
    flex-direction:row;
-   justify-content: space-between
+   justify-content: center
    align-items:flex-start;
 `
 
 export const TotalArea = styled.View`
    margin-top:10px;
    margin-left:30px;
+   margin-right:10px;
+   flex:1;
 `
 
 export const Buttom = styled.TouchableOpacity`
-   width:140px;
-   height:50px;
+   width:100px;
+   height:40px;
    align-items:center;
    justify-content:center;
    background-color:#00524f;
    margin-right:20px;
    margin-top:10px;
-   border-radius:10px;
+   border-radius:5px;
    padding:5px;
 `
 
 export const Text = styled.Text`
    font-size:${props=>props.size  || "15px"};
-   font-family:Roboto Medium;
+   font-family:${ props=> props.family || 'Roboto Medium'};
    color:#cbf7d6
    
+`
+
+export const Empty = styled.View`
+   flex:1;
 `

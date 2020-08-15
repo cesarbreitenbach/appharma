@@ -11,6 +11,7 @@ const Page = (props) => {
       await props.setNome('');
       await props.setStatus(false);
       await props.setActivePage('home');
+      await props.clearCart()
       props.navigation.navigate('Preload');
    }
 
@@ -52,7 +53,8 @@ const mapDispatchToProps = (dispatch) => {
       setToken: (token) => dispatch({ type: 'SET_TOKEN', payload: { token } }),
       setStatus: (status) => dispatch({ type: 'SET_STATUS', payload: { status } }),
       setId: (id) => dispatch({ type: 'SET_ID', payload: { id } }),
-      setActivePage: (activePage) => dispatch({ type: 'SET_ACTIVE', payload: { activePage } })
+      setActivePage: (activePage) => dispatch({ type: 'SET_ACTIVE', payload: { activePage } }),
+      clearCart: () => dispatch({type: 'CLEAR_CART' })
    }
 }
 

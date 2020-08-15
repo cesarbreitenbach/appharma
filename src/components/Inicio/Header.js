@@ -26,7 +26,7 @@ const Header = props => {
    return (
       <Conteiner>
          <HeaderArea>
-            <Text style={{ textAlign: 'center' , fontFamily:'Roboto Black', fontSize:16, color:'#fff'}}>Sua Farmacia Online</Text>
+            <Text style={{ textAlign: 'center' , fontFamily:'Roboto Medirum', fontSize:15, color:'#fff'}}>PocketShop - a farmacia no seu bolso!</Text>
          </HeaderArea>
          {props.status &&
          <CartArea>

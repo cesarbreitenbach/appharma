@@ -21,9 +21,9 @@ const ItemProduct = props => {
          <Conteiner  activeOpacity={0.7} onPress={()=>handleClick(props.data.carrinho.id)}>
                <Item style={{marginBottom:20}}  radius="50px" resizeMode='stretch' width={props.imgWidth || "100px"} height={props.imgHeight || "100px"} source={{uri:'https://ioffertas.club:3333/files/2ff6b01c543450dcc450a3bb194479b0.png'}}  />
                <PrecoArea>
-                  <Title >{props.data.carrinho.nome}</Title>
-                  <Preco>R$ {props.data.carrinho.preco_vigente}</Preco>
-                  <AddDelCartButtom product={props.data.carrinho} qtd={props.data.qtd} setQtdProduto={()=>{}}/>
+                  <Title >{props.data.nome}</Title>
+                  <Preco>R$ {props.data.preco_vigente}</Preco>
+                  <AddDelCartButtom product={props.data} qtd={props.data.qtd} setQtdProduto={props.setQtdProduto}/>
                </PrecoArea>
          </Conteiner>
    )
