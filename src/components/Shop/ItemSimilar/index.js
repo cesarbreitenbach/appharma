@@ -16,7 +16,7 @@ const ItemProduct = props => {
 
    return (
          <Conteiner activeOpacity={0.7} onPress={()=>handleClick(props.data.id)}>
-               <Item style={{marginBottom:20}}  radius="50px" resizeMode='stretch' width={props.imgWidth || "100px"} height={props.imgHeight || "100px"} source={{uri:d.URL_FILES+props.data.image}}  />
+               <Item style={{marginBottom:20}}  radius="50px" resizeMode='stretch' width={props.imgWidth || "80px"} height={props.imgHeight || "80px"} source={{uri:d.URL_FILES+props.data.image}}  />
                <Title>{props.data.nome}</Title>
                { props.data.preco_vigente !== props.data.preco_original &&
                <>

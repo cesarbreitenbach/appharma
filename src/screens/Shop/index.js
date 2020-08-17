@@ -4,7 +4,8 @@ import api from '../../helpers/api'
 import ItemCategoria from '../../components/Shop/ItemCategoria'
 import ItemDestaque from '../../components/Shop/ItemDestaque'
 import ItemProduct from '../../components/Shop/ItemProduct'
-import SearchBar from '../../components/Shop/SearchBar'
+import SearchBar from '../../components/SearchBar'
+import Cart from '../../components/Cart'
 
 
 const Page = (props) => {
@@ -79,7 +80,9 @@ Page.navigationOptions = ( {navigation} ) =>{
       navigation.navigate('Cart')
    }
    return{
-      headerTitle: () =><SearchBar goCart={goCart}/>,
+      headerTintColor: '#fff',
+      headerTitle: () =><SearchBar />,
+      headerRight: () => <Cart goCart={goCart} />
    }
 }
 

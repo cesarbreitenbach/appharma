@@ -102,7 +102,7 @@ const Vitrine = props => {
             <ProductScroll horizontal={true}
                showsHorizontalScrollIndicator={false}
                data={props.promocoes}
-               renderItem={({ item }) => <ItemVitrine data={item} />} 
+               renderItem={({ item }) => <ItemVitrine data={item} navigation={props.navigation} />} 
                keyExtractor={(item) => item.id.toString()}
                decelerationRate="fast"
                maxToRenderPerBatch={20}

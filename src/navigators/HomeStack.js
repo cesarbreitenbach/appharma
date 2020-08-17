@@ -1,5 +1,4 @@
 import { createStackNavigator } from 'react-navigation-stack';
-import React from 'react'
 import Inicio from '../screens/Inicio'
 import Login from '../screens/Login'
 import ConfirmPassword from '../screens/ConfirmPassword'
@@ -20,7 +19,7 @@ const HomeStack = createStackNavigator({
       initialRouteName:'Inicio',
       defaultNavigationOptions:{
          headerShown: true,
-         headerStyle:{backgroundColor:p.corPrincipal}
+         headerStyle:{backgroundColor:p.corPrincipal, height:80}
       },
 });
 

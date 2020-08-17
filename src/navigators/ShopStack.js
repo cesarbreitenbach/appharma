@@ -29,7 +29,7 @@ ShopStack.navigationOptions = ({ navigation }) => {
 
    let routeName = navigation.state.routes[navigation.state.index].routeName
 
-   if ( routeName == 'Cart' ) {
+   if ( routeName == 'Cart'  || routeName == 'Produto' ) {
        tabBarVisible = false
    }
 

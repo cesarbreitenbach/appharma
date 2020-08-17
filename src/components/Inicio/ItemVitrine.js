@@ -2,6 +2,7 @@ import React from 'react'
 import Item from '../../components/Items'
 import styled from 'styled-components/native';
 import StrCaptalize from '../../helpers/StrCaptalize'
+import p from '../../config/padroes'
 
 export const ProductArea = styled.TouchableHighlight`
    height:100%;
@@ -48,29 +49,23 @@ color:#282e29;
 font-family:Roboto Bold;
 `;
 
-const badgeOff = styled.Text`
-   font-size:14px;
-   color:#fff;
-   font-weight:bold;
-
-   `
 
 const ItemVitrine = (props) => {
 
-  // let percentOff = parseFloat(props.data.percent);
-
+   const handleClick = ({id, tipo}) => {
+      props.navigation.navigate('Produto', {id, tipo})
+   }
 
 
    return (
-      <ProductArea underlayColor='#52d191' onPress={() => console.log("clicou na oferta")}>
+      <ProductArea underlayColor='#52d191' onPress={() => handleClick(props.data)}>
          <>
-               {props.data.image && <Item style={{marginTop:5}} radius="60px" resizeMode='cover' width="95px" height="95px" source={{uri:props.data.image}}  />}
+               {props.data.image && <Item style={{marginTop:5}} radius="60px" resizeMode='cover' width="95px" height="95px" source={{uri:p.URL_FILES+props.data.image}}  />}
                {!props.data.image && <Item style={{marginTop:5}} width="95px" height="95px" source={require('../../assets/nopicture.png')} />}  
          
                <ProductTitle >{StrCaptalize(props.data.nome)}</ProductTitle>
                <OriginalPrice>de {props.data.valor_venda}</OriginalPrice>
                <PromoPrice >por {props.data.preco_promocao}</PromoPrice>
-               {/* <badgeOff>{percentOff.toFixed(2)}</badgeOff> */}
 
          </>
       </ProductArea>

@@ -1,10 +1,12 @@
 import React from 'react';
+import { NavigationActions, StackActions } from 'react-navigation';
 import { Conteiner, ConteinerArea, ScrollArea } from './styled'
 import Vitrine from '../../components/Inicio/Vitrine'
 import BuyNow from '../../components/Inicio/BuyNow'
 import LoginArea from '../../components/Inicio/LoginArea'
 import GreetensArea from '../../components/Inicio/GreetensArea'
-import Header from '../../components/Inicio/Header'
+import Cart from '../../components/Cart'
+import HeaderTitle from '../../components/HeaderTitle'
 import { connect } from 'react-redux'
 
 const Page = (props) => {
@@ -28,10 +30,15 @@ const Page = (props) => {
 
 Page.navigationOptions = ( {navigation} ) =>{
    const goCart = () => {
-      navigation.navigate('Cart')
+        const resetAction = StackActions.reset({
+                index: 0,
+                actions: [NavigationActions.navigate({ routeName: 'Cart' })],
+            });
+      navigation.dispatch(resetAction);
    }
    return{
-      headerTitle: ()  => <Header goCart={goCart}  /> 
+     headerRight: () => <Cart goCart={goCart} />,
+     headerTitle: () => <HeaderTitle />
    }
 }
 

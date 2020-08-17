@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Alert } from 'react-native'
-import { Container, Header, ItensOnCart, InfoArea, TotalArea, Buttom, Text, IconBackArea, Empty } from './styled.js';
-import HeaderCart from '../../components/Cart/HeaderCart'
+import { Container, ItensOnCart, InfoArea, TotalArea, Buttom, Text } from './styled.js';
+import HeaderTitle from '../../components/HeaderTitle'
+import HeaderCart from '../../components/Cart'
 import Product from '../../components/Cart/Product'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import Icon2 from 'react-native-vector-icons/MaterialIcons'
 import { connect } from 'react-redux'
 
 const Cart = (props) => {
@@ -60,15 +60,7 @@ const Cart = (props) => {
 
    return (
       <Container>
-         <Header>
-            <IconBackArea onPress={goToShop}>
-               <Icon2 name="arrow-back" size={25} color="#fff" />
-            </IconBackArea>
-            <Text style={{ textAlign: 'center' }}>Seu carrinho de compras</Text>
-            <HeaderCart cart={props.cart} />
-         </Header>
 
-         {visible &&
             <ItensOnCart
                showsVerticalScrollIndicator={false}
                data={props.cart}
@@ -77,10 +69,8 @@ const Cart = (props) => {
                maxToRenderPerBatch={20}
                snapToInterval={130}
                keyExtractor={(item, index) => `${item.nome}-${index}`}
-            />}
-         {!visible &&
-            <Empty />
-         }
+            />
+
 
 
          <InfoArea>
@@ -103,9 +93,15 @@ const Cart = (props) => {
    )
 }
 
-Cart.navigationOptions = {
-   headerShown: false,
-   tabBarVisible: false
+Cart.navigationOptions = ( {navigation} ) =>{
+   const goCart = () => {
+      navigation.navigate('Cart')
+   }
+   return{
+     headerRight: () => <HeaderCart goCart={goCart} />,
+     headerTitle: () => <HeaderTitle />,
+     headerTintColor: '#fff'
+   }
 }
 
 const mapStateToProps = (state) => {
