@@ -5,12 +5,13 @@ import d from '../config/padroes'
 
 
 const Conteiner = styled.View`
-    background-color:#fff;
-    height:50px;
-    padding-top:25px;
+    background-color:${d.corPrincipal};
+    height:40px;
+    margin-left:10px;
+    margin-top:5px;
 `;
 const Buttom = styled.TouchableOpacity`
-   margin-left:5px;
+
 `
 
 
@@ -18,7 +19,7 @@ const Back = props => {
    return (
       <Conteiner>
          <Buttom onPress={()=>props.navigation.goBack()}>
-            <Icon name="arrow-back" size={25} color={props.color || d.corPrincipal} />
+            <Icon name="arrow-back" size={25} color="#fff" />
          </Buttom>
       </Conteiner>
    )

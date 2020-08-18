@@ -31,10 +31,10 @@ const TabBall = styled.TouchableHighlight`
     height:57px;
     background-color:${padrao.corPrincipal || '#3f9168'};
     border-radius:45px;
-    margin-top:-15px;
     justify-content:center;
     align-items:center;
-    border:5px solid #FFF;
+    margin-top:3px
+    border:4px solid #FFF;
 `;
 
 
@@ -76,9 +76,7 @@ const CustomTabBar = props => {
                         <Icon name={item.icon} size={33} color="#fff" /> :
                         <Icon name={item.icon} size={33} color="rgba(255, 255, 255, 0.6)" />}
                   </TabBall>
-                  {props.activePage === item.icon ?
-                     <Text style={{ fontFamily: 'Roboto Regular', color: '#fff' }}>{item.text}</Text> :
-                     <Text style={{ fontFamily: 'Roboto Regular', color: "rgba(255, 255, 255, 0.6)" }}>{item.text}</Text>}
+                  
                </>
             }
          </TabBarItem>

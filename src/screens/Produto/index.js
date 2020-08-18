@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
    Container, Title, ProdutoArea, ProdutoImg, ProdutoScroll, ActionArea, Price, PriceInfo,
    OriginalPriceArea, Off, DescricaoArea, HeaderArea, ExpandButtom,
-   ContentArea, TitleProduct, ItemList
+   ContentArea, TitleProduct, ItemList, ActivityArea
 } from './styled.js';
 import { ActivityIndicator } from 'react-native'
-import { NavigationActions, StackActions } from 'react-navigation';
 import Search from '../../components/SearchBar'
 import Cart from '../../components/Cart'
 import AddDelCartButtom from '../../components/AddDelCartButtom'
@@ -17,8 +16,6 @@ import ItemSimilar from '../../components/Shop/ItemSimilar'
 import { connect } from 'react-redux'
 
 const Produto = (props) => {
-
-   // const heightAnim = useRef(new Animated.Value(40)).current;
 
    const [heightAnim] = useState(new Animated.Value(40))
    const [isOpen, setIsOpen] = useState(false)
@@ -107,18 +104,23 @@ const Produto = (props) => {
       }
       carregaSimilar()
    }, [tipoProduto])
-
+   
    const changeItem = (id) => {
       setChangeProduct(id)
    }
-
+   
    const goCart = () => {
       console.log("Vou pro carrinho...")
       props.navigation.navigate('Cart')
    }
-
+   
    return (
-      <Container>
+      <Container>        
+         {!carregou &&
+            <ActivityArea>
+               <ActivityIndicator size="large" color="#999"  />
+            </ActivityArea>
+         }
          {carregou &&
             <>
                <ProdutoScroll>
@@ -186,14 +188,15 @@ const Produto = (props) => {
    )
 }
 
-Produto.navigationOptions = ({ navigation }) => {
+Produto.navigationOptions = ({ navigation } ) => {
+   const {params = {}} = navigation.state;
    const goCart = () => {
       navigation.navigate('Cart')
    }
 
    return {
       headerTintColor: '#fff',
-      headerTitle: () => <Search />,
+      headerTitle: () => <Search setSearch={params.setSearch} navigation={navigation}/>,
       headerRight: () => <Cart goCart={goCart} />
    }
 }

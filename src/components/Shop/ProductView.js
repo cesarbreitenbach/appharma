@@ -76,9 +76,9 @@ export const Nodata = styled.View`
 
 const ProductView = props => {
 
-
    return (
       <>
+         
          <HeaderPromo>
             <IconeArea><Items width="30px" height="30px" source={require('../../assets/offinicial.png')} /></IconeArea>
             <Text style={{ fontSize: 18, color: '#fff', fontFamily:'Ubuntu Bold Italic' }}>{welcome}</Text>

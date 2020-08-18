@@ -1,5 +1,5 @@
 import { createStackNavigator } from 'react-navigation-stack';
-import Inicio from '../screens/Inicio'
+import Inicio from '../screens/Home'
 import Login from '../screens/Login'
 import ConfirmPassword from '../screens/ConfirmPassword'
 import p from '../config/padroes'

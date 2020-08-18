@@ -30,13 +30,12 @@ const SearchArea = styled.View`
    height:35px;
 `;
 
-
-
 const SearchBar = (props) => {
    const [busca, setBusca] = useState('')
    const goSearch = () => {
-      let search = busca.toUpperCase();
-      props.navigation.navigate('Search', {busca:search})
+      let upper = busca.toUpperCase()
+      console.log(upper)
+      props.setNomeBusca(upper)
    }
 
    return (

@@ -81,7 +81,7 @@ Page.navigationOptions = ( {navigation} ) =>{
    }
    return{
       headerTintColor: '#fff',
-      headerTitle: () =><SearchBar />,
+      headerTitle: () =><SearchBar navigation={navigation}/>,
       headerRight: () => <Cart goCart={goCart} />
    }
 }

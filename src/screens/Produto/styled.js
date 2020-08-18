@@ -5,6 +5,13 @@ export const Container = styled.SafeAreaView`
    flex:1; 
 `;
 
+export const ActivityArea = styled.View`
+   align-items:center;
+   justify-content:center;
+   flex:1;
+`
+
+
 export const Title = styled.Text`
    font-family:Roboto Black;
    font-size:${props=>props.size || '15px'};
