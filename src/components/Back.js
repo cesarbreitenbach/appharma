@@ -18,7 +18,7 @@ const Buttom = styled.TouchableOpacity`
 const Back = props => {
    return (
       <Conteiner>
-         <Buttom onPress={()=>props.navigation.goBack()}>
+         <Buttom onPress={()=>props.navigation.navigate('Shop')}>
             <Icon name="arrow-back" size={25} color="#fff" />
          </Buttom>
       </Conteiner>

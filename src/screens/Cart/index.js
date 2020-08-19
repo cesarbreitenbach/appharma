@@ -3,6 +3,7 @@ import { Alert } from 'react-native'
 import { Container, ItensOnCart, InfoArea, TotalArea, Buttom, Text } from './styled.js';
 import HeaderTitle from '../../components/HeaderTitle'
 import HeaderCart from '../../components/Cart'
+import Back from '../../components/Back'
 import Product from '../../components/Cart/Product'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { connect } from 'react-redux'
@@ -100,7 +101,7 @@ Cart.navigationOptions = ( {navigation} ) =>{
    return{
      headerRight: () => <HeaderCart goCart={goCart} />,
      headerTitle: () => <HeaderTitle />,
-     headerTintColor: '#fff'
+     headerLeft: () => <Back navigation={navigation} />
    }
 }
 

@@ -18,10 +18,6 @@ const Search = (props) => {
       return parsedDate
    }
 
-
-
-
-
    const [nomeProduto, setNomeProduto] = useState(props.navigation.getParam('busca'));
    const [qtdProduto, setQtdProduto] = useState(0)
    const [nrPages, setNrPages] = useState(1)
@@ -33,7 +29,6 @@ const Search = (props) => {
       const getSearch = async () =>{
          setCarregou(false)
          const data = getDate()
-         console.log(`vou entrar em: /produtos/search?name=${nomeProduto}&data=${data}`)
          const res = await api.get(`/produtos/search?name=${nomeProduto}&data=${data}`)
          const {produtos, paginas} = res.data;
          
