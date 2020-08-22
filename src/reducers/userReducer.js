@@ -3,6 +3,7 @@ const initialState = {
   id:"",
   name: '',
   cpf:'',
+  addressList:[]
 };
 
 export default (state = initialState, action) => {
@@ -15,6 +16,9 @@ export default (state = initialState, action) => {
          break; 
       case 'SET_CPF':
          return {...state, cpf:action.payload.cpf}
+         break;
+      case 'SET_ADDRESS_LIST':
+         return {...state, addressList:action.payload.addressList}
          break;
    }
 

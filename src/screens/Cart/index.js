@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Alert } from 'react-native'
-import { Container, ItensOnCart, InfoArea, TotalArea, Buttom, Text } from './styled.js';
+import { Container, ItensOnCart, InfoArea, TotalArea, Buttom, Text, ScrollArea, TipoEntregaArea, Entrega, RadioButtom, ValorEntregaArea } from './styled.js';
 import HeaderTitle from '../../components/HeaderTitle'
 import HeaderCart from '../../components/Cart'
 import Back from '../../components/Back'
 import Product from '../../components/Cart/Product'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import CartModal from '../../components/ModalFinalizar'
+import AddressModal from '../../components/AddressModal'
 import { connect } from 'react-redux'
+import api from '../../helpers/api'
+import FlashMessage from "react-native-flash-message";
+
 
 const Cart = (props) => {
 
    const [error, setError] = useState(false)
    const [errorMsg, setErrorMsg] = useState("")
    const [qtdCart, setQtdCart] = useState(props.cart.length)
-   const [visible, setVisible] = useState(true)
+   const [modalVisible, setModalVisible] = useState(false)
+   const [addressModalVisible, setAddressModalVisible] = useState(false)
+   const [radioDelivery, setRadioDelivery] = useState(false)
 
    const vTotal = props.total
 
@@ -41,13 +48,18 @@ const Cart = (props) => {
       );
    }
 
-   const goCheckout = () => {
-      if (!props.status) {
-         setError(true)
-         setErrorMsg("Efetue o login ou cadastre-se gratis")
-         return
+   const goCheckout =  async () => {
+
+      const addressList = await api.get('/endereco', {headers:{auth:props.token}})
+
+      const count = addressList.data.length;
+
+      if (count > 0) {
+         setModalVisible(true)
+      } else {
+         setAddressModalVisible(true)
       }
-      console.log("Efetuando a compra....")
+
 
    }
 
@@ -62,6 +74,21 @@ const Cart = (props) => {
    return (
       <Container>
 
+            <AddressModal 
+               title=""
+               visible={addressModalVisible}
+               visibleAction={setAddressModalVisible}
+               userId={props.userId}
+               token={props.token}
+            />
+
+            <CartModal 
+               title=""
+               visible={modalVisible}
+               visibleAction={setModalVisible}
+            />
+
+
             <ItensOnCart
                showsVerticalScrollIndicator={false}
                data={props.cart}
@@ -71,6 +98,26 @@ const Cart = (props) => {
                snapToInterval={130}
                keyExtractor={(item, index) => `${item.nome}-${index}`}
             />
+            <TipoEntregaArea>
+               <Entrega>
+                  <RadioButtom onPress={() => setRadioDelivery(false)}  enabled={!radioDelivery}/>
+                  <Text color="#000">Retirar na loja</Text>
+               </Entrega>
+               <ValorEntregaArea>
+                  <Text color="#000">Grátís</Text>
+               </ValorEntregaArea>
+            </TipoEntregaArea>
+            
+            <TipoEntregaArea>
+               <Entrega>
+                  <RadioButtom onPress = { () => setRadioDelivery(true)}  enabled={radioDelivery}/>
+                  <Text color="#000">Receber em casa</Text>
+               </Entrega>
+               <ValorEntregaArea>
+                  <Text color="#000">R$ 8,00</Text>
+               </ValorEntregaArea>
+            </TipoEntregaArea>
+
 
 
 
@@ -88,6 +135,7 @@ const Cart = (props) => {
                <Text size="12px">Finalizar</Text>
             </Buttom>
          </InfoArea>
+         <FlashMessage position="top" animated={true} icon="success" titleStyle={{color:'#fff'}} />     
       </Container>
 
 
@@ -107,9 +155,11 @@ Cart.navigationOptions = ( {navigation} ) =>{
 
 const mapStateToProps = (state) => {
    return {
+      token: state.authReducer.token,
       cart: state.cartReducer.carrinho,
       status: state.authReducer.status,
-      total: state.cartReducer.total
+      total: state.cartReducer.total,
+      userId: state.userReducer.id
    }
 }
 

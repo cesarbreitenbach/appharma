@@ -60,10 +60,38 @@ export const Buttom = styled.TouchableOpacity`
 export const Text = styled.Text`
    font-size:${props=>props.size  || "15px"};
    font-family:${ props=> props.family || 'Roboto Medium'};
-   color:#cbf7d6
+   color:${ props => props.color || '#cbf7d6'}
    
 `
 
 export const Empty = styled.View`
    flex:1;
+`
+
+export const ScrollArea = styled.ScrollView`
+   flex:1;
+`
+
+export const TipoEntregaArea = styled.View`
+   height:45px;
+   background-color:#ddd
+   flex-direction:row;
+   justify-content:space-between
+`
+export const Entrega = styled.View`
+   flex-direction:row;
+   align-items:center;
+`
+export const RadioButtom = styled.TouchableOpacity`
+   width:20px;
+   height:20px;
+   border-radius:10px
+   border: 3px solid #000
+   margin:10px;
+   background-color: ${props => props.enabled ?  '#000' : '#fff'}
+`
+export const ValorEntregaArea = styled.View`
+   align-items:center;
+   justify-content:center;
+   margin-right:10px;
 `

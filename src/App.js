@@ -6,6 +6,7 @@ import {store, persistor} from './store';
 import  padrao  from './config/padroes'
 import MainStack from './navigators/MainStack';
 
+
 const App = () => {
   return (
      <>
@@ -15,6 +16,7 @@ const App = () => {
         <MainStack />
       </PersistGate>
     </Provider>
+    
     </>
   );
 };
