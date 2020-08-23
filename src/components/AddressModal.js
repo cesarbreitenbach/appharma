@@ -7,6 +7,7 @@ import { TextInputMask } from 'react-native-masked-text'
 import axios from 'axios'
 import api from '../helpers/api'
 import { showMessage } from "react-native-flash-message"
+import {connect} from 'react-redux'
 
 
 
@@ -108,7 +109,7 @@ const apiCep = axios.create({
 })
 
 
-const AddressModal = ({ visible, visibleAction, userId, token, callBack }) => {
+const AddressModal = ({ visible, visibleAction, userId, token, checkoutAction, setAddressList , addressList}) => {
 
    const [cepUser, setCepUser] = useState('')
    const [rua, setRua] = useState('')
@@ -119,6 +120,7 @@ const AddressModal = ({ visible, visibleAction, userId, token, callBack }) => {
    const [uf, setUf] = useState('')
    const [errorMsg, setErrorMsg] = useState('')
 
+   const ruaRef = useRef()
    const numeroRef = useRef()
    const complementoRef = useRef()
    const bairroRef = useRef()
@@ -128,11 +130,16 @@ const AddressModal = ({ visible, visibleAction, userId, token, callBack }) => {
 
    const getCep = async () => {
       const result = await apiCep.get(`/${cepUser}/json/`);
-      setRua(result.data.logradouro)
-      setBairro(result.data.bairro)
-      setCidade(result.data.localidade)
-      setUf(result.data.uf)
-      numeroRef.current.focus();
+      if(!result.data.erro) {
+         setRua(result.data.logradouro)
+         setBairro(result.data.bairro)
+         setCidade(result.data.localidade)
+         setUf(result.data.uf)
+         numeroRef.current.focus();
+      }else{
+         setErrorMsg("Não encontrei o cep, informe manualmente.")
+         ruaRef.current.focus()
+      }
    }
 
 
@@ -146,6 +153,7 @@ const AddressModal = ({ visible, visibleAction, userId, token, callBack }) => {
    }
 
    const handleSave = async () => {
+   
       if(rua == '' || numero == '') {
          setErrorMsg("Você precisa informar os campos obrigatorios * ")
          return
@@ -169,7 +177,11 @@ const AddressModal = ({ visible, visibleAction, userId, token, callBack }) => {
                message:"Endereço cadastrado com sucesso!",
                type:"success"
             })
+            let tempList = addressList;
+            tempList.push(address.data.address)
+            setAddressList(tempList)
              visibleAction(false)
+             checkoutAction(true)
          } else {
             setErrorMsg("Não consegui cadastrar esse endereço... ")
          }
@@ -219,6 +231,7 @@ const AddressModal = ({ visible, visibleAction, userId, token, callBack }) => {
 
                <RuaArea>
                   <Input placeholder="*Nome da rua"
+                     ref={ruaRef}
                      width="200px"
                      value={rua}
                      onChangeText={(t) => setRua(t)}
@@ -287,7 +300,7 @@ const AddressModal = ({ visible, visibleAction, userId, token, callBack }) => {
                         value={uf}
                         onChangeText={(t) => setUf(t)}
                         onSubmitEditing={() => {
-                           console.log("ação de cadastrar um endereço...");
+                           handleSave;
                         }}
                         />
                   </UfArea>
@@ -312,4 +325,19 @@ const AddressModal = ({ visible, visibleAction, userId, token, callBack }) => {
 
 }
 
-export default AddressModal;
+const mapStateToProps = (state) => {
+   return {
+      token: state.authReducer.token,
+      status: state.authReducer.status,
+      userId: state.userReducer.id,
+      addressList: state.userReducer.addressList
+   }
+}
+
+const mapDispatchToProps = (dispatch) => {
+   return {
+      setAddressList: (list) => dispatch({ type: 'SET_ADDRESS', payload: { addressList:list } })
+   }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddressModal);

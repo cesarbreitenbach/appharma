@@ -6,15 +6,15 @@ import HeaderCart from '../../components/Cart'
 import Back from '../../components/Back'
 import Product from '../../components/Cart/Product'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import CartModal from '../../components/ModalFinalizar'
+import CheckOut from '../../components/Finalizar/ModalFinalizar'
 import AddressModal from '../../components/AddressModal'
 import { connect } from 'react-redux'
-import api from '../../helpers/api'
 import FlashMessage from "react-native-flash-message";
 
 
 const Cart = (props) => {
 
+   console.log('lista no redux: '+JSON.stringify(props.addressList))
    const [error, setError] = useState(false)
    const [errorMsg, setErrorMsg] = useState("")
    const [qtdCart, setQtdCart] = useState(props.cart.length)
@@ -34,7 +34,7 @@ const Cart = (props) => {
                onPress: () => {
                   console.log('Confirmou')
                   props.clearCart();
-               } 
+               }
             },
             {
                text: 'Cancelar',
@@ -48,11 +48,9 @@ const Cart = (props) => {
       );
    }
 
-   const goCheckout =  async () => {
+   const goCheckout = async () => {
 
-      const addressList = await api.get('/endereco', {headers:{auth:props.token}})
-
-      const count = addressList.data.length;
+      const count = props.addressList.length;
 
       if (count > 0) {
          setModalVisible(true)
@@ -74,50 +72,58 @@ const Cart = (props) => {
    return (
       <Container>
 
-            <AddressModal 
-               title=""
-               visible={addressModalVisible}
-               visibleAction={setAddressModalVisible}
-               userId={props.userId}
-               token={props.token}
-            />
+         <AddressModal
+            title=""
+            visible={addressModalVisible}
+            visibleAction={setAddressModalVisible}
+            checkoutAction={setModalVisible}
+            userId={props.userId}
+            token={props.token}
+         />
 
-            <CartModal 
-               title=""
-               visible={modalVisible}
-               visibleAction={setModalVisible}
-            />
+         <CheckOut
+            title=""
+            visible={modalVisible}
+            visibleAction={setModalVisible}
+            addressAction={setAddressModalVisible}
+            delivery={radioDelivery}
+            data={props.addressList}
+         />
 
 
-            <ItensOnCart
-               showsVerticalScrollIndicator={false}
-               data={props.cart}
-               renderItem={({ item, index }) => <Product data={item} navigation={props.navigation} setQtdProduto={setQtdCart} />}
-               decelerationRate="fast"
-               maxToRenderPerBatch={20}
-               snapToInterval={130}
-               keyExtractor={(item, index) => `${item.nome}-${index}`}
-            />
-            <TipoEntregaArea>
-               <Entrega>
-                  <RadioButtom onPress={() => setRadioDelivery(false)}  enabled={!radioDelivery}/>
-                  <Text color="#000">Retirar na loja</Text>
-               </Entrega>
-               <ValorEntregaArea>
-                  <Text color="#000">Grátís</Text>
-               </ValorEntregaArea>
-            </TipoEntregaArea>
-            
-            <TipoEntregaArea>
-               <Entrega>
-                  <RadioButtom onPress = { () => setRadioDelivery(true)}  enabled={radioDelivery}/>
-                  <Text color="#000">Receber em casa</Text>
-               </Entrega>
-               <ValorEntregaArea>
-                  <Text color="#000">R$ 8,00</Text>
-               </ValorEntregaArea>
-            </TipoEntregaArea>
+         <ItensOnCart
+            showsVerticalScrollIndicator={false}
+            data={props.cart}
+            renderItem={({ item, index }) => <Product data={item} navigation={props.navigation} setQtdProduto={setQtdCart} />}
+            decelerationRate="fast"
+            maxToRenderPerBatch={20}
+            snapToInterval={130}
+            keyExtractor={(item, index) => `${item.nome}-${index}`}
+         />
 
+         {props.cart.length > 0 &&
+            <>
+               <TipoEntregaArea>
+                  <Entrega>
+                     <RadioButtom onPress={() => setRadioDelivery(false)} enabled={!radioDelivery} />
+                     <Text color="#000">Retirar na loja</Text>
+                  </Entrega>
+                  <ValorEntregaArea>
+                     <Text color="#000">Grátis</Text>
+                  </ValorEntregaArea>
+               </TipoEntregaArea>
+
+               <TipoEntregaArea>
+                  <Entrega>
+                     <RadioButtom onPress={() => setRadioDelivery(true)} enabled={radioDelivery} />
+                     <Text color="#000">Receber em casa</Text>
+                  </Entrega>
+                  <ValorEntregaArea>
+                     <Text color="#000">R$ 8,00</Text>
+                  </ValorEntregaArea>
+               </TipoEntregaArea>
+            </>
+         }
 
 
 
@@ -135,21 +141,21 @@ const Cart = (props) => {
                <Text size="12px">Finalizar</Text>
             </Buttom>
          </InfoArea>
-         <FlashMessage position="top" animated={true} icon="success" titleStyle={{color:'#fff'}} />     
+         <FlashMessage position="top" animated={true} icon="success" titleStyle={{ color: '#fff' }} />
       </Container>
 
 
    )
 }
 
-Cart.navigationOptions = ( {navigation} ) =>{
+Cart.navigationOptions = ({ navigation }) => {
    const goCart = () => {
       navigation.navigate('Cart')
    }
-   return{
-     headerRight: () => <HeaderCart goCart={goCart} />,
-     headerTitle: () => <HeaderTitle />,
-     headerLeft: () => <Back navigation={navigation} />
+   return {
+      headerRight: () => <HeaderCart goCart={goCart} />,
+      headerTitle: () => <HeaderTitle title="Seu Carrinho" />,
+      headerLeft: () => <Back navigation={navigation} />
    }
 }
 
@@ -159,14 +165,16 @@ const mapStateToProps = (state) => {
       cart: state.cartReducer.carrinho,
       status: state.authReducer.status,
       total: state.cartReducer.total,
-      userId: state.userReducer.id
+      userId: state.userReducer.id,
+      addressList: state.userReducer.addressList
    }
 }
 
 const mapDispatchToProps = (dispatch) => {
    return {
       addCart: (product) => dispatch({ type: 'ADD_TO_CART', payload: { carrinho: product } }),
-      clearCart: () => dispatch({ type: 'CLEAR_CART' })
+      clearCart: () => dispatch({ type: 'CLEAR_CART' }),
+      setAddressList: (list) => dispatch({ type: 'SET_ADDRESS', payload: { addressList:list } })
    }
 }
 

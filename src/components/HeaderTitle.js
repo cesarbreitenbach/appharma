@@ -12,12 +12,12 @@ const Text = styled.Text`
 `
 
 const HeaderTitle = (props) => {
-  return (
-   <Conteiner>
-      <Text>APPharma - A Farmacia Inteligênte</Text>
-</Conteiner>
+   return (
+      <Conteiner>
+         <Text>{ props.title }</Text>
+      </Conteiner>
 
-  )
+   )
 }
 
 export default HeaderTitle;

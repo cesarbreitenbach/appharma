@@ -17,7 +17,7 @@ export default (state = initialState, action) => {
       case 'SET_CPF':
          return {...state, cpf:action.payload.cpf}
          break;
-      case 'SET_ADDRESS_LIST':
+      case 'SET_ADDRESS':
          return {...state, addressList:action.payload.addressList}
          break;
    }
