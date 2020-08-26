@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Modal } from "react-native";
 import styled from 'styled-components/native';
 import p from '../config/padroes'
@@ -108,6 +108,8 @@ const apiCep = axios.create({
    baseURL: `https://viacep.com.br/ws/`
 })
 
+let timer;
+
 
 const AddressModal = ({ visible, visibleAction, userId, token, checkoutAction, setAddressList , addressList}) => {
 
@@ -127,17 +129,38 @@ const AddressModal = ({ visible, visibleAction, userId, token, checkoutAction, s
    const cidadeRef = useRef()
    const ufRef = useRef()
 
+   useEffect(()=>{
+      if(cepUser.length == 9){
+         if(timer){
+            clearTimeout(timer)
+         }
+         timer = setTimeout(()=>{
+            getCep()
+         }, 100)
+      }
+
+   }, [cepUser])
+
+
 
    const getCep = async () => {
-      const result = await apiCep.get(`/${cepUser}/json/`);
-      if(!result.data.erro) {
-         setRua(result.data.logradouro)
-         setBairro(result.data.bairro)
-         setCidade(result.data.localidade)
-         setUf(result.data.uf)
-         numeroRef.current.focus();
-      }else{
-         setErrorMsg("Não encontrei o cep, informe manualmente.")
+
+      try{
+         const result = await apiCep.get(`/${cepUser}/json/`);
+         if((!result.data.erro) || (result.status === 400)) {
+            setRua(result.data.logradouro)
+            setBairro(result.data.bairro)
+            setCidade(result.data.localidade)
+            setUf(result.data.uf)
+            numeroRef.current.focus();
+         } else {
+            console.log(e.message)
+            setErrorMsg(e.message)
+            ruaRef.current.focus()   
+         }
+      } catch(e){
+         console.log(e.message)
+         setErrorMsg("Não encontrei endereço, informe manualmente.S")
          ruaRef.current.focus()
       }
    }
