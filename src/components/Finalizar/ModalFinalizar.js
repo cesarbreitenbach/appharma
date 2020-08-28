@@ -32,6 +32,7 @@ const Text = styled.Text`
    font-family:${props => props.family || 'Roboto Medium'};
    font-size:${props => props.size || "14px"}
    color:${props => props.color || "#000"}
+   margin-top:2px
 `
 const AreaText = styled.View`
    flex:1
@@ -62,12 +63,12 @@ const AreaButtom = styled.TouchableOpacity`
 
 const RevisaoArea = styled.View``
 const ScrollRevisao = styled.ScrollView`
-   height:225px
+   height:190px
 
    
 `
 const ScrollEndereco = styled.ScrollView`
-   height:70px
+   height:90px
 `
 
 const ProdutoArea = styled.View`
@@ -96,6 +97,7 @@ const TotaisArea = styled.View`
 const TotaisInfo = styled.View`
    flex-direction:row;
    padding:5px 10px;
+   height:50px
 
 `
 
@@ -106,7 +108,7 @@ const ErrorArea = styled.View`
    padding:5px
 `
 const AreaCheckoutButtom = styled.View`
-  flex:1
+   flex:1
    background-color:${p.corPrincipal}
    justify-content:center;
    align-items:center;
@@ -132,39 +134,66 @@ const SubArea = styled.View`
    justify-content:center;
    align-items:center;
 `
-const Input = styled.TextInput``
 const TipoPgtoArea = styled.View`
    flex-direction:row
    justify-content:center
    
 `
-const CartaoArea = styled.View`
+const CartaoArea = styled.TouchableOpacity`
+padding-top:5px
 justify-content:center;
 align-items:center;
-width:80px;
+width:90px;
 height:60px;
 background-color:${p.corPrincipal}
 margin:10px 20px
 border-radius:7px
+margin:10px 20px
+border-color:${props => props.enabled ? p.corSecundaria : p.corPrincipal}
+border-width:2px
 `
-const DinheiroArea = styled.View`
+const DinheiroArea = styled.TouchableOpacity`
+padding-top:5px
 justify-content:center;
 align-items:center;
-width:80px;
+width:90px;
 height:60px;
 background-color:${p.corPrincipal}
 margin:10px 20px
 border-radius:7px
+border-color:${props => props.enabled ? p.corSecundaria : p.corPrincipal}
+border-width:2px
+`
+const TrocoArea = styled.View`
+padding-top:5px
+justify-content:center;
+align-items:center;
+width:100px;
+height:60px;
+background-color:${p.corPrincipal}
+margin:10px 20px
+border-radius:7px
+flex-direction:row
 `
 
 
-const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddress, delivery, cart, total, token }) => {
+
+const SubtrocoArea = styled.View`
+ justify-content:center;
+ align-items:center;
+ padding:5px
+
+`
+
+const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddress, delivery, cart, total, token, trocoAction, getTroco, troco, endereco }) => {
 
    const [addressList, setAddressList] = useState(data)
    const [errorMsg, setErrorMsg] = useState('')
    const [idAddress, setIdAddress] = useState(0)
    const [subTotal, setSubTotal] = useState(0)
    const [descontoTotal, setDescontoTotal] = useState(0)
+   const [tipoPgto, setTipoPgto] = useState(false)
+
 
    useEffect(() => {
       let vSubTotal = 0;
@@ -210,10 +239,33 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
    }
 
    const handleCheckout = async () => {
+
+      if (endereco.length==0) {
+         setErrorMsg('Selecione um endereço!')
+         setTimeout(() => {
+            setErrorMsg('')
+         }, 1850)
+         return
+      }
+
+      console.log(JSON.stringify(endereco))
+
       const venda = await api.post('venda', { cart, levar_pinpad: true, troco_para: 100.00, tipo_venda: 'A' }, { headers: { auth: token } });
       console.log(venda.data)
    }
 
+   const handleTipoPgto = (tipo) => {
+      console.log(`Recebio o tipo de pagamento: ${tipo}`)
+      if (tipo === 'Dinheiro') {
+         trocoAction(true);
+         setTipoPgto('Dinheiro')
+      }
+      if (tipo === 'Cartao') {
+         setTipoPgto('Cartao')
+         getTroco(0)
+      }
+
+   }
 
    return (
       <Modal
@@ -294,8 +346,10 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                </TitleArea>
                <TotaisInfo>
                   <SubArea>
+
                      <Text size="14px">Sub-Total: R$ {subTotal.toFixed(2)}</Text>
                      <Text size="14px">Desconto: R$ {descontoTotal.toFixed(2)}</Text>
+
                   </SubArea>
                   <TotalArea>
                      <Text size="20px" family="Roboto Black">Total: R$ {parseFloat(total).toFixed(2)}</Text>
@@ -303,25 +357,34 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                </TotaisInfo>
             </TotaisArea>
 
-               <TitleArea>
-                  <Text size="15px" color="#fff" >Tipo de pagamento:</Text>
-               </TitleArea>
+            <TitleArea>
+               <Text size="15px" color="#fff" >Tipo de pagamento:</Text>
+            </TitleArea>
             <TipoPgtoArea>
-               <CartaoArea>
-                  <IconAwesome name="credit-card" size={20} color="#00ffff" />
-                  <Text size="9px" color='#fff'>Cartão de Credito</Text>
+               <CartaoArea enabled={tipoPgto === 'Cartao' ? true : false} onPress={() => handleTipoPgto('Cartao')} activeOpacity={0.7}>
+                  <IconAwesome name="credit-card" size={20} color="#999" />
+                  <Text size="10px" color='#fff'>Cartão de Credito</Text>
                </CartaoArea>
-               <DinheiroArea>
+               <DinheiroArea enabled={tipoPgto === 'Dinheiro' ? true : false} onPress={() => handleTipoPgto('Dinheiro')} activeOpacity={0.7}>
                   <IconAwesome name="money-bill" size={20} color={p.corSecundaria} />
-                  <Text size="9px" color="#fff">Dinheiro</Text>
+                  <Text size="10px" color="#fff">Dinheiro</Text>
                </DinheiroArea>
-               <DinheiroArea>
-                  <Input placeholder="Troco?" keyboardType="number-pad" placeholderTextColor="#fff"  />
-               </DinheiroArea>
+               {troco > 0 &&
+                  <>
+                     <TrocoArea>
+                        <IconAwesome name="coins" size={20} color={'#ff0'} />
+                        <SubtrocoArea>
+                           <Text size="10px" color="#fff">Troco para</Text>
+                           <Text size="10px" color="#fff">R$ {parseFloat(troco).toFixed(2)}</Text>
+                        </SubtrocoArea>
+                     </TrocoArea>
+                  </>
+               }
             </TipoPgtoArea>
 
+
             <AreaCheckoutButtom>
-               <CheckoutButtom onPress={handleCheckout}>
+               <CheckoutButtom onPress={handleCheckout} activeOpacity={0.7}>
                   <IconTwo name="cart-arrow-right" size={20} color="#fff" />
                   <Text color="#fff" size="16px">Concluir Compra</Text>
                </CheckoutButtom>
@@ -340,12 +403,17 @@ const mapStateToProps = (state) => {
       cart: state.cartReducer.carrinho,
       total: state.cartReducer.total,
       token: state.authReducer.token,
+      troco: state.checkoutReducer.troco,
+      endereco: state.checkoutReducer.endereco,
    }
 }
 
 const mapDispatchToProps = (dispatch) => {
    return {
-      setAddress: (list) => dispatch({ type: 'SET_ADDRESS', payload: { addressList: list } })
+      setAddress: (list) => dispatch({ type: 'SET_ADDRESS', payload: { addressList: list } }),
+      getTroco: (troco) => dispatch({ type: 'SET_TROCO', payload: { troco } }),
+
+
    }
 }
 

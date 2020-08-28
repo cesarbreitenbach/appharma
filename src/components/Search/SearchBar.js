@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {Keyboard} from 'react-native'
 import styled from 'styled-components/native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { connect } from 'react-redux'
@@ -30,12 +31,27 @@ const SearchArea = styled.View`
    height:35px;
 `;
 
+let timer;
+
 const SearchBar = (props) => {
    const [busca, setBusca] = useState('')
+
+   useEffect(()=>{
+      if(busca){
+         if (timer){
+            clearTimeout(timer)
+         }
+        timer = setTimeout( ()=>{
+            goSearch()
+         }, 1700)
+      }
+   }, [busca])
+   
+
    const goSearch = () => {
       let upper = busca.toUpperCase()
-      console.log(upper)
       props.setNomeBusca(upper)
+      Keyboard.dismiss()
    }
 
    return (

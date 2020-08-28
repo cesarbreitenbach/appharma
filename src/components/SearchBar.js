@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
+import { Keyboard } from 'react-native'
 import styled from 'styled-components/native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { connect } from 'react-redux'
@@ -31,18 +32,31 @@ const SearchArea = styled.View`
 `;
 
 
-
+let timer;
 const SearchBar = (props) => {
    const [busca, setBusca] = useState('')
+
+   useEffect(()=>{
+      if(busca){
+         if (timer){
+            clearTimeout(timer)
+         }
+        timer = setTimeout( ()=>{
+            goSearch()
+         }, 1700)
+      }
+   }, [busca])
+
    const goSearch = () => {
       let search = busca.toUpperCase();
-      props.navigation.navigate('Search', {busca:search})
+      props.navigation.navigate('Search', { busca: search })
+      Keyboard.dismiss()
    }
 
    return (
       <Conteiner>
          <SearchArea>
-            <InputSearch placeholder="O que você procura?" onChangeText={(t)=> setBusca(t)} onSubmitEditing={() => goSearch()} />
+            <InputSearch placeholder="O que você procura?" onChangeText={(t) => setBusca(t)} onSubmitEditing={() => goSearch()} />
             <ButtonSearch activeOpacity={0.7} onPress={() => goSearch()}>
                <Icon name="search" size={20} style={{ marginLeft: 3, color: '#999' }} />
             </ButtonSearch>

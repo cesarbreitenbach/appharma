@@ -8,6 +8,7 @@ import Product from '../../components/Cart/Product'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import CheckOut from '../../components/Finalizar/ModalFinalizar'
 import AddressModal from '../../components/AddressModal'
+import TrocoModal from '../../components/TrocoModal'
 import { connect } from 'react-redux'
 import FlashMessage from "react-native-flash-message";
 
@@ -21,6 +22,7 @@ const Cart = (props) => {
    const [modalVisible, setModalVisible] = useState(false)
    const [addressModalVisible, setAddressModalVisible] = useState(false)
    const [radioDelivery, setRadioDelivery] = useState(false)
+   const [trocoModalVisible, setTrocoModalVisible] = useState(false)
 
    const vTotal = props.total
 
@@ -88,6 +90,13 @@ const Cart = (props) => {
             addressAction={setAddressModalVisible}
             delivery={radioDelivery}
             data={props.addressList}
+            trocoAction={setTrocoModalVisible}
+         />
+
+         <TrocoModal
+            title=""
+            visible={trocoModalVisible}
+            visibleAction={setTrocoModalVisible}
          />
 
 

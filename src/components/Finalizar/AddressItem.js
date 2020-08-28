@@ -3,7 +3,7 @@ import { Alert } from 'react-native'
 import styled from 'styled-components/native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import p from '../../config/padroes'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import api from '../../helpers/api'
 
 const ContentAddressArea = styled.View`
@@ -23,7 +23,7 @@ const Text = styled.Text`
    color:${props => props.color || "#000"}
 `
 
-const TextArea = styled.View`
+const TextArea = styled.TouchableOpacity`
    flex-direction:row
    flex:1
    align-items:center;
@@ -40,7 +40,7 @@ const AreaButtom = styled.TouchableOpacity`
 const RadioArea = styled.View`
 
 `
-const RadioButtom = styled.TouchableOpacity`
+const RadioButtom = styled.View`
    width:15px;
    height:15px;
    margin-right:5px;
@@ -48,19 +48,19 @@ const RadioButtom = styled.TouchableOpacity`
    border: 2px solid ${p.corPrincipal}
    background-color: ${props => props.enabled ? p.corPrincipal : '#fff'}
 `
-const AddressItem = ({ data,  token, onDelete, onSelect, active } ) => {
+const AddressItem = ({ data, token, onDelete, onSelect, active, setEndereco }) => {
 
    const [radioEnable, setRadioEnable] = useState(false)
 
-   useEffect(()=>{
-      if(data.id == active){
+   useEffect(() => {
+      if (data.id == active) {
          setRadioEnable(true)
       } else {
          setRadioEnable(false)
       }
    }, [active])
 
-   const handleDeleteAddress =  () => {
+   const handleDeleteAddress = () => {
       Alert.alert(
          'Deletar endereço',
          'Seu endereço será excluido, tem certeza?',
@@ -69,7 +69,7 @@ const AddressItem = ({ data,  token, onDelete, onSelect, active } ) => {
                text: 'Confirmar',
                onPress: async () => {
                   console.log('Confirmou')
-                  try{
+                  try {
                      const r = await api.delete(`/endereco/${data.id}`, { headers: { auth: token } });
                      if (r.data.success) {
                         onDelete(data.id);
@@ -97,9 +97,10 @@ const AddressItem = ({ data,  token, onDelete, onSelect, active } ) => {
    }
    const handleSelect = () => {
       setRadioEnable(!radioEnable)
-      if(!radioEnable){
-         console.log("vou selecinar: "+ JSON.stringify(data) )
+      if (!radioEnable) {
+         console.log("vou selecinar: " + JSON.stringify(data))
          onSelect(data.id)
+         setEndereco(data)
       } else {
          onSelect('')
       }
@@ -108,14 +109,14 @@ const AddressItem = ({ data,  token, onDelete, onSelect, active } ) => {
 
    return (
       <ContentAddressArea>
-         <TextArea>
+         <TextArea onPress={handleSelect}>
             <RadioArea>
-               <RadioButtom onPress={handleSelect} enabled={radioEnable} />
+               <RadioButtom  enabled={radioEnable} />
             </RadioArea>
             <SubTextArea>
-               <Text size="11px" >Rua {data.rua} nº {data.numero} {data.complemento}, {data.bairro} </Text>
-               <Text size="10px" >{data.cidade} - {data.uf}</Text>
-               <Text size="9px" >{data.cep}</Text>
+               <Text size="12px" >Rua {data.rua} nº {data.numero} {data.complemento}, {data.bairro} </Text>
+               <Text size="11px" >{data.cidade} - {data.uf}</Text>
+               <Text size="10px" >{data.cep}</Text>
             </SubTextArea>
          </TextArea>
          <AreaButtom onPress={handleDeleteAddress}>
@@ -134,6 +135,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
    return {
+      setEndereco: (endereco) => dispatch({ type: 'SET_ENDERECO', payload: {endereco}})
    }
 }
 
