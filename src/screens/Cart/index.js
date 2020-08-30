@@ -66,6 +66,11 @@ const Cart = (props) => {
          return
       }
 
+      if(!props.status){
+         props.navigation.navigate('Login')
+      }
+
+
       if (!radioDelivery){
          props.setTroco(0);
       }
