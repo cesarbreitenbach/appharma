@@ -5,7 +5,7 @@ import {PersistGate} from 'redux-persist/es/integration/react';
 import {store, persistor} from './store';
 import  padrao  from './config/padroes'
 import MainStack from './navigators/MainStack';
-
+import CodePush from 'react-native-code-push'
 
 const App = () => {
   return (
@@ -21,4 +21,6 @@ const App = () => {
   );
 };
 
-export default App;
+export default CodePush({
+   checkFrequency: CodePush.CheckFrequency.ON_APP_RESUME,
+})(App);
