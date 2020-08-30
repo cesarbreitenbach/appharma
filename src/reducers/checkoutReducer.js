@@ -4,7 +4,9 @@ const initialState = {
    subTotal:0,
    desconto:0,
    total:0,
-   tipoPgto:''
+   tipoPgto:'',
+   taxaEntrega:0,
+   previsaoEntrega:60,
 };
 
 export default (state = initialState, action) => {
@@ -37,6 +39,16 @@ export default (state = initialState, action) => {
 
       case "SET_TOTAL": {
          return { ...state, total: action.payload.total }
+         break
+      }
+
+      case "SET_TAXA": {
+         return { ...state, taxaEntrega: action.payload.taxaEntrega }
+         break
+      }
+
+      case "SET_PREVISAO": {
+         return { ...state, previsaoEntrega: action.payload.previsaoEntrega }
          break
       }
 

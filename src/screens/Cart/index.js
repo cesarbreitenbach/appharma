@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Alert } from 'react-native'
-import { Container, ItensOnCart, InfoArea, TotalArea, Buttom, Text, ScrollArea, TipoEntregaArea, Entrega, RadioButtom, ValorEntregaArea } from './styled.js';
+import { Container, ItensOnCart, InfoArea, TotalArea, Buttom, Text, TipoEntregaArea, Entrega, RadioButtom, ValorEntregaArea } from './styled.js';
 import HeaderTitle from '../../components/HeaderTitle'
 import HeaderCart from '../../components/Cart'
 import Back from '../../components/Back'
@@ -11,11 +11,12 @@ import AddressModal from '../../components/AddressModal'
 import TrocoModal from '../../components/TrocoModal'
 import { connect } from 'react-redux'
 import FlashMessage from "react-native-flash-message";
-
+import {ErrorArea, Text as TextError} from '../../components/ErrorArea'
+import ModalSucesso from '../../components/Finalizar/ModalSucesso'
 
 const Cart = (props) => {
 
-   console.log('lista no redux: '+JSON.stringify(props.addressList))
+   console.log('lista no redux: ' + JSON.stringify(props.addressList))
    const [error, setError] = useState(false)
    const [errorMsg, setErrorMsg] = useState("")
    const [qtdCart, setQtdCart] = useState(props.cart.length)
@@ -23,8 +24,16 @@ const Cart = (props) => {
    const [addressModalVisible, setAddressModalVisible] = useState(false)
    const [radioDelivery, setRadioDelivery] = useState(false)
    const [trocoModalVisible, setTrocoModalVisible] = useState(false)
-
+   const [modalSucessoVisible, setModalSucessoVisible] = useState(false)
+   const [checkoutSuccess, setCheckoutSuccess] = useState(false)
    const vTotal = props.total
+   
+   useEffect(() => {
+      setTimeout(() => {
+         setErrorMsg('')
+      }, 1850)
+   }, [errorMsg])
+
 
    const ClearCartConfirm = () => {
       Alert.alert(
@@ -52,6 +61,15 @@ const Cart = (props) => {
 
    const goCheckout = async () => {
 
+      if (props.cart.length < 1) {
+         setErrorMsg('Adicione pelo menos 1 item ao carrinho!')
+         return
+      }
+
+      if (!radioDelivery){
+         props.setTroco(0);
+      }
+      
       const count = props.addressList.length;
 
       if (count > 0) {
@@ -75,7 +93,6 @@ const Cart = (props) => {
       <Container>
 
          <AddressModal
-            title=""
             visible={addressModalVisible}
             visibleAction={setAddressModalVisible}
             checkoutAction={setModalVisible}
@@ -84,22 +101,33 @@ const Cart = (props) => {
          />
 
          <CheckOut
-            title=""
             visible={modalVisible}
             visibleAction={setModalVisible}
             addressAction={setAddressModalVisible}
             delivery={radioDelivery}
             data={props.addressList}
             trocoAction={setTrocoModalVisible}
+            successAction={setModalSucessoVisible}
+            confirmSuccess={setCheckoutSuccess}
          />
 
          <TrocoModal
-            title=""
             visible={trocoModalVisible}
             visibleAction={setTrocoModalVisible}
          />
 
+         <ModalSucesso
+            visible={modalSucessoVisible}
+            visibleAction={setModalSucessoVisible}
+            navigation={props.navigation}
+            success={checkoutSuccess}
+            confirmSuccess={setCheckoutSuccess}
+         />
 
+         {errorMsg != '' &&
+            <ErrorArea>
+               <TextError size="12px" color="#fff" family="Roboto Regular">{errorMsg}</TextError>
+            </ErrorArea>}
          <ItensOnCart
             showsVerticalScrollIndicator={false}
             data={props.cart}
@@ -183,7 +211,8 @@ const mapDispatchToProps = (dispatch) => {
    return {
       addCart: (product) => dispatch({ type: 'ADD_TO_CART', payload: { carrinho: product } }),
       clearCart: () => dispatch({ type: 'CLEAR_CART' }),
-      setAddressList: (list) => dispatch({ type: 'SET_ADDRESS', payload: { addressList:list } })
+      setAddressList: (list) => dispatch({ type: 'SET_ADDRESS', payload: { addressList: list } }),
+      setTroco: (troco) => dispatch({ type: 'SET_TROCO', payload: { troco } }),
    }
 }
 
