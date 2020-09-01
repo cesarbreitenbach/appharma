@@ -46,7 +46,7 @@ export const TotalArea = styled.View`
 `
 
 export const Buttom = styled.TouchableOpacity`
-   width:100px;
+   width:80px;
    height:40px;
    align-items:center;
    justify-content:center;
@@ -72,7 +72,7 @@ export const ScrollArea = styled.ScrollView`
    flex:1;
 `
 
-export const TipoEntregaArea = styled.View`
+export const TipoEntregaArea = styled.TouchableOpacity`
    height:45px;
    background-color:#ddd
    flex-direction:row;

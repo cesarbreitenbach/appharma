@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { Animated } from 'react-native'
+import p from '../../config/padroes'
 
 export const Container = styled.SafeAreaView`
    flex:1; 
@@ -36,8 +37,8 @@ export const ProdutoScroll = styled.ScrollView`
 background-color:#eee
 `
 export const ActionArea = styled.View`
-   height:80px;
-   background-color:#eee;
+
+   background-color:${p.corPrincipal};
    flex-direction:row;
    justify-content:space-around;
 

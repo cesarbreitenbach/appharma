@@ -347,13 +347,6 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                      }
                   </ScrollRevisao>
                </RevisaoArea>
-
-
-               {errorMsg != '' &&
-                  <ErrorArea>
-                     <Text size="12px" color="#fff" family="Roboto Regular">{errorMsg}</Text>
-                  </ErrorArea>}
-
                {delivery &&
 
                   <EnderecoArea>
@@ -425,7 +418,10 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                      </TipoPgtoArea>
                   </TipoPgto>
                }
-
+             {errorMsg != '' &&
+                  <ErrorArea>
+                     <Text size="12px" color="#fff" family="Roboto Regular">{errorMsg}</Text>
+                  </ErrorArea>}
             <AreaCheckoutButtom>
                <CheckoutButtom onPress={handleCheckout} activeOpacity={0.7}>
                   <IconTwo name="cart-arrow-right" size={20} color="#fff" />

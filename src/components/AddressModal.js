@@ -7,7 +7,8 @@ import { TextInputMask } from 'react-native-masked-text'
 import axios from 'axios'
 import api from '../helpers/api'
 import { showMessage } from "react-native-flash-message"
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import {ErrorArea, Text as Text2} from '../components/ErrorArea'
 
 
 
@@ -46,8 +47,9 @@ const Text = styled.Text`
    color:${props => props.color || '#000'}
 `
 const FormAddress = styled.View`
-   height:205px;
+   height:225px
    background-color:#eee
+   padding:5px
 `
 
 const ButtonSearch = styled.TouchableOpacity`
@@ -67,6 +69,7 @@ const CepArea = styled.View`
    height:35px;
    padding:3px;
    margin-left:5px;
+   margin-top:10px
 `;
 
 const TitleAddressArea = styled.View`
@@ -76,20 +79,26 @@ const TitleAddressArea = styled.View`
 const Input = styled.TextInput`
    padding:5px;
    width: ${props => props.width || '275px'};
-   height:40px;
+
    border:1px solid #999
-   margin:5px
-   border-radius:8px;
+   margin:4px 2px
+   border-radius:5px;
    background-color:#fff
 `;
 
 const RuaArea = styled.View`
    flex-direction:row
+   justify-content:center;
+   align-items:center;
+   margin-top:5px
+   margin-bottom:-5px
 `
 const NumeroArea = styled.View``
 const ComplementoArea = styled.View``
 const BairroArea = styled.View`
 flex-direction:row;
+justify-content:center;
+   align-items:center;
 `
 const CidadeArea = styled.View``
 const UfArea = styled.View``
@@ -102,16 +111,22 @@ const ButtonAddDel = styled.TouchableOpacity`
    justify-content:center;
    align-items:center;
 `
+const BotaoArea = styled.View`
+   flex:1;
+   justify-content:center;
+   align-items:center;
+`
 
 
 const apiCep = axios.create({
    baseURL: `https://viacep.com.br/ws/`
 })
 
+
 let timer;
 
 
-const AddressModal = ({ visible, visibleAction, userId, token, checkoutAction, setAddressList , addressList}) => {
+const AddressModal = ({ visible, visibleAction, userId, token, checkoutAction, setAddressList, addressList }) => {
 
    const [cepUser, setCepUser] = useState('')
    const [rua, setRua] = useState('')
@@ -129,12 +144,18 @@ const AddressModal = ({ visible, visibleAction, userId, token, checkoutAction, s
    const cidadeRef = useRef()
    const ufRef = useRef()
 
-   useEffect(()=>{
-      if(cepUser.length == 9){
-         if(timer){
+   useEffect(() => {
+      setTimeout(() => {
+         setErrorMsg('')
+      }, 1850)
+   }, [errorMsg])
+
+   useEffect(() => {
+      if (cepUser.length == 9) {
+         if (timer) {
             clearTimeout(timer)
          }
-         timer = setTimeout(()=>{
+         timer = setTimeout(() => {
             getCep()
          }, 100)
       }
@@ -145,9 +166,9 @@ const AddressModal = ({ visible, visibleAction, userId, token, checkoutAction, s
 
    const getCep = async () => {
 
-      try{
+      try {
          const result = await apiCep.get(`/${cepUser}/json/`);
-         if((!result.data.erro) || (result.status === 400)) {
+         if ((!result.data.erro) || (result.status === 400)) {
             setRua(result.data.logradouro)
             setBairro(result.data.bairro)
             setCidade(result.data.localidade)
@@ -156,9 +177,9 @@ const AddressModal = ({ visible, visibleAction, userId, token, checkoutAction, s
          } else {
             console.log(e.message)
             setErrorMsg(e.message)
-            ruaRef.current.focus()   
+            ruaRef.current.focus()
          }
-      } catch(e){
+      } catch (e) {
          console.log(e.message)
          setErrorMsg("Não encontrei endereço, informe manualmente.S")
          ruaRef.current.focus()
@@ -176,39 +197,39 @@ const AddressModal = ({ visible, visibleAction, userId, token, checkoutAction, s
    }
 
    const handleSave = async () => {
-   
-      if(rua == '' || numero == '') {
+
+      if (rua == '' || numero == '') {
          setErrorMsg("Você precisa informar os campos obrigatorios * ")
          return
       }
 
 
       let body = {
-         cep:cepUser,
+         cep: cepUser,
          rua,
          numero,
          complemento,
          bairro,
          cidade,
          uf,
-         user_id:userId
+         user_id: userId
       }
-      try{
-         const address = await api.post('/endereco', body, {headers:{auth:token}})
-         if(address.data){
+      try {
+         const address = await api.post('/endereco', body, { headers: { auth: token } })
+         if (address.data) {
             showMessage({
-               message:"Endereço cadastrado com sucesso!",
-               type:"success"
+               message: "Endereço cadastrado com sucesso!",
+               type: "success"
             })
             let tempList = addressList;
             tempList.push(address.data.address)
             setAddressList(tempList)
-             visibleAction(false)
-             checkoutAction(true)
+            visibleAction(false)
+            checkoutAction(true)
          } else {
             setErrorMsg("Não consegui cadastrar esse endereço... ")
          }
-      } catch (e){
+      } catch (e) {
          console.log(e.message)
       }
    }
@@ -246,7 +267,7 @@ const AddressModal = ({ visible, visibleAction, userId, token, checkoutAction, s
                      }}
                      placeholder="Qual seu cep?"
                      onSubmitEditing={searchCep}
-                     />
+                  />
                   <ButtonSearch activeOpacity={0.7} onPress={() => searchCep()}>
                      <Icon name="search" size={20} style={{ marginLeft: 3, color: '#999' }} />
                   </ButtonSearch>
@@ -255,13 +276,13 @@ const AddressModal = ({ visible, visibleAction, userId, token, checkoutAction, s
                <RuaArea>
                   <Input placeholder="*Nome da rua"
                      ref={ruaRef}
-                     width="200px"
+                     width="170px"
                      value={rua}
                      onChangeText={(t) => setRua(t)}
                      onSubmitEditing={() => {
                         numeroRef.current.focus();
                      }}
-                     />
+                  />
                   <NumeroArea >
                      <Input
                         ref={numeroRef}
@@ -273,7 +294,7 @@ const AddressModal = ({ visible, visibleAction, userId, token, checkoutAction, s
                         onSubmitEditing={() => {
                            complementoRef.current.focus();
                         }}
-                        />
+                     />
                   </NumeroArea>
                   <ComplementoArea >
                      <Input
@@ -285,7 +306,7 @@ const AddressModal = ({ visible, visibleAction, userId, token, checkoutAction, s
                         onSubmitEditing={() => {
                            bairroRef.current.focus();
                         }}
-                        />
+                     />
                   </ComplementoArea>
                </RuaArea>
 
@@ -300,7 +321,7 @@ const AddressModal = ({ visible, visibleAction, userId, token, checkoutAction, s
                      onSubmitEditing={() => {
                         cidadeRef.current.focus();
                      }}
-                     />
+                  />
                   <CidadeArea>
                      <Input
                         placeholder="* Cidade"
@@ -311,7 +332,7 @@ const AddressModal = ({ visible, visibleAction, userId, token, checkoutAction, s
                         onSubmitEditing={() => {
                            ufRef.current.focus();
                         }}
-                        />
+                     />
                   </CidadeArea>
                   <UfArea>
                      <Input
@@ -325,24 +346,25 @@ const AddressModal = ({ visible, visibleAction, userId, token, checkoutAction, s
                         onSubmitEditing={() => {
                            handleSave;
                         }}
-                        />
+                     />
                   </UfArea>
-                  <ButtonAddDel onPress={handleSave}>
-                     <Icon name="add-location" size={25} color={p.corPrincipal}/>
-                     <Text size="13px">Salvar</Text>
-                  </ButtonAddDel>
-                  <ButtonAddDel onPress={handleClose}>
-                     <Icon name="cancel" size={25} color="#ff0000"/>
-                     <Text size="13px">Fechar</Text>
-                  </ButtonAddDel>
+                  <BotaoArea>
+                     <ButtonAddDel onPress={handleSave}>
+                        <Icon name="add-location" size={25} color={p.corPrincipal} />
+                        <Text size="13px">Salvar</Text>
+                     </ButtonAddDel>
+                  </BotaoArea>
                </BairroArea>
-               {errorMsg !== '' && <Text style={{marginTop:-12}} size="12px" color="#ff0000"> {errorMsg} </Text>}
+               {errorMsg != '' &&
+                  <ErrorArea>
+                     <Text2 size="12px" color="#fff" family="Roboto Regular">{errorMsg}</Text2>
+                  </ErrorArea>}
 
             </FormAddress>
 
 
          </ModalArea>
-                     
+
       </Modal>
    )
 
@@ -359,7 +381,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
    return {
-      setAddressList: (list) => dispatch({ type: 'SET_ADDRESS', payload: { addressList:list } })
+      setAddressList: (list) => dispatch({ type: 'SET_ADDRESS', payload: { addressList: list } })
    }
 }
 

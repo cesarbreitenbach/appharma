@@ -77,7 +77,7 @@ const Cart = (props) => {
       
       const count = props.addressList.length;
 
-      if (count > 0) {
+      if (count > 0 || !radioDelivery) {
          setModalVisible(true)
       } else {
          setAddressModalVisible(true)
@@ -145,9 +145,9 @@ const Cart = (props) => {
 
          {props.cart.length > 0 &&
             <>
-               <TipoEntregaArea>
+               <TipoEntregaArea  onPress={() => setRadioDelivery(false)}>
                   <Entrega>
-                     <RadioButtom onPress={() => setRadioDelivery(false)} enabled={!radioDelivery} />
+                     <RadioButtom enabled={!radioDelivery} />
                      <Text color="#000">Retirar na loja</Text>
                   </Entrega>
                   <ValorEntregaArea>
@@ -155,9 +155,9 @@ const Cart = (props) => {
                   </ValorEntregaArea>
                </TipoEntregaArea>
 
-               <TipoEntregaArea>
+               <TipoEntregaArea  onPress={() => setRadioDelivery(true)} >
                   <Entrega>
-                     <RadioButtom onPress={() => setRadioDelivery(true)} enabled={radioDelivery} />
+                     <RadioButtom enabled={radioDelivery} />
                      <Text color="#000">Receber em casa</Text>
                   </Entrega>
                   <ValorEntregaArea>
@@ -171,7 +171,7 @@ const Cart = (props) => {
 
          <InfoArea>
             <TotalArea>
-               <Text style={{ fontFamily: 'Roboto Black', fontSize: 17, color: '#000' }}>Total:</Text>
+               <Text style={{ fontFamily: 'Roboto Black', fontSize: 15, color: '#000' }}>Total:</Text>
                <Text style={{ fontSize: 19, color: '#000' }}>R$ {vTotal.toFixed(2)}</Text>
             </TotalArea>
             <Buttom activeOpacity={0.7} onPress={goClearCart}>

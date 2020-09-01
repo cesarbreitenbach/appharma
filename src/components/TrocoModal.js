@@ -4,7 +4,6 @@ import styled from 'styled-components/native';
 import p from '../config/padroes'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { connect } from 'react-redux'
-import {Picker} from '@react-native-community/picker';
 
 
 const ModalArea = styled.SafeAreaView`
@@ -16,18 +15,18 @@ const ModalArea = styled.SafeAreaView`
 
 const TrocoArea = styled.View`
    width:280px;
-   height:175px;
+   height:160px;
    background-color:${p.corModal}
    justify-content:center;
    align-items:center;
-   border-radius:10px;
+   border-radius:7px;
    
 `
 
 
 const Text = styled.Text`
    font-family: Roboto Medium
-   font-size: 16px;
+   font-size: ${props => props.size || '12px'};
    color:#fff
 `
 
@@ -41,8 +40,13 @@ const IconeArea = styled.TouchableOpacity`
    border-radius: 5px
 `
 
-const ButtomArea = styled.View`
-   flex-direction:row
+const Input = styled.TextInput`
+   width:65px;
+   padding:2px
+   height:35px;
+   background-color:#FFF
+   border-radius:5px
+   margin-top:5px
 `
 
 const TrocoModal = ({ visible, visibleAction, getTroco }) => {
@@ -65,15 +69,9 @@ const TrocoModal = ({ visible, visibleAction, getTroco }) => {
       >
          <ModalArea >
             <TrocoArea>
-               <Text>Você precisa de troco para quanto?</Text>
+               <Text size="19px" style={{margin:5}}>Você precisa de troco?</Text>
  
-                  <Picker style={{height:50, width:150}} selectedValue={troco}  onValueChange={ (itemValue, itemIndex) => setTroco(itemValue)} mode="dropdown">
-                       <Picker.Item key={0} value="0" label="Não precisa" />
-                        <Picker.Item key={1} value="20" label="R$ 20,00" />
-                        <Picker.Item key={2} value="50" label="R$ 50,00" />
-                        <Picker.Item key={3} value="100" label="R$ 100,00" />
-                        <Picker.Item key={4} value="200" label="R$ 200,00" />
-                  </Picker>
+               <Input placeholder="R$ 50,00" onChangeText={(t)=>setTroco(t)} value={troco} />
                <IconeArea activeOpacity={0.7} onPress={ handleClick }>
                   <Icon name="coins" size={20} color='#e3e02d'/>
                   <Text> Pronto </Text>
