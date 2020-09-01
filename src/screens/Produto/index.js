@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {
-   Container, Title, ProdutoArea, ProdutoImg, ProdutoScroll, ActionArea, Price, PriceInfo,
+   Container, Title, ProdutoArea, ProdutoImg, ProdutoScroll, ActionArea, Price, PriceInfo, PriceInfo2,
    OriginalPriceArea, Off, DescricaoArea, HeaderArea, ExpandButtom,
-   ContentArea, TitleProduct, ItemList, ActivityArea
+   ContentArea, TitleProduct, ItemList, ActivityArea, FuckItem, SubtotalArea
 } from './styled.js';
 import { ActivityIndicator } from 'react-native'
 import Search from '../../components/SearchBar'
@@ -104,31 +104,45 @@ const Produto = (props) => {
       }
       carregaSimilar()
    }, [tipoProduto])
-   
+
    const changeItem = (id) => {
       setChangeProduct(id)
    }
-   
+
    const goCart = () => {
       console.log("Vou pro carrinho...")
       props.navigation.navigate('Cart')
    }
-   
+
    return (
-      <Container>        
+      <Container>
          {!carregou &&
             <ActivityArea>
-               <ActivityIndicator size="large" color="#999"  />
+               <ActivityIndicator size="large" color="#999" />
             </ActivityArea>
          }
          {carregou &&
             <>
                <ProdutoScroll>
                   <ProdutoArea>
+                     <FuckItem>
                      <ProdutoImg resizeMode='cover' source={{ uri: p.URL_FILES + produto.produtoEscolhido.image }} />
-                     <Title color="#000">{carregou ? produto.produtoEscolhido.nome : 'aguarde...'}</Title>
+                     <Title color="#000">{carregou ? produto.produtoEscolhido.nome : 'aguarde...'}</Title>  
+                     </FuckItem>
+                     <PriceInfo>
+                        {(produto.produtoEscolhido.preco_original != produto.produtoEscolhido.preco_vigente) &&
+                           <OriginalPriceArea>
+                              <Price size="9px" decoration="line-through" color="#ff0000">de R$ {produto.produtoEscolhido.preco_original}  </Price>
+                              <Off>
+                                 <Price color="#fff" size="9px"  >{desconto.toFixed(0)} %</Price>
+                              </Off>
+                           </OriginalPriceArea>
+                        }
+                        <Price size="14px">por R$ {produto.produtoEscolhido.preco_vigente}</Price>
+                     </PriceInfo>
                   </ProdutoArea>
 
+                     
                   <DescricaoArea style={{ height: heightAnim }} >
                      <HeaderArea>
                         <Title>Mais detalhes</Title>
@@ -164,17 +178,10 @@ const Produto = (props) => {
                </ProdutoScroll>
 
                <ActionArea>
-                  <PriceInfo>
-                     {(produto.produtoEscolhido.preco_original != produto.produtoEscolhido.preco_vigente) &&
-                        <OriginalPriceArea>
-                           <Price size="10px" decoration="line-through" color="#ff0000">de R$ {produto.produtoEscolhido.preco_original}  </Price>
-                           <Off>
-                              <Price color="#fff" size="12px"  >{desconto.toFixed(0)} %</Price>
-                           </Off>
-                        </OriginalPriceArea>
-                     }
-                     <Price size="18px">por R$ {produto.produtoEscolhido.preco_vigente}</Price>
-                  </PriceInfo>
+                  <SubtotalArea>
+                     <Price size="14px">Subtotal: </Price>
+                     <Price size="18px">R$ {produto.produtoEscolhido.preco_vigente}</Price>
+                  </SubtotalArea>
 
                   <AddDelCartButtom goCart={goCart} product={produto.produtoEscolhido} qtd={qtdProduto} setQtdProduto={setQtdProduto} />
 
@@ -188,15 +195,15 @@ const Produto = (props) => {
    )
 }
 
-Produto.navigationOptions = ({ navigation } ) => {
-   const {params = {}} = navigation.state;
+Produto.navigationOptions = ({ navigation }) => {
+   const { params = {} } = navigation.state;
    const goCart = () => {
       navigation.navigate('Cart')
    }
 
    return {
       headerTintColor: '#fff',
-      headerTitle: () => <Search setSearch={params.setSearch} navigation={navigation}/>,
+      headerTitle: () => <Search setSearch={params.setSearch} navigation={navigation} />,
       headerRight: () => <Cart goCart={goCart} />
    }
 }

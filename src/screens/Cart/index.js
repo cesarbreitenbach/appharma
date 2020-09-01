@@ -171,7 +171,7 @@ const Cart = (props) => {
 
          <InfoArea>
             <TotalArea>
-               <Text style={{ fontFamily: 'Roboto Black', fontSize: 17, color: '#000' }}>Valor Total:</Text>
+               <Text style={{ fontFamily: 'Roboto Black', fontSize: 17, color: '#000' }}>Total:</Text>
                <Text style={{ fontSize: 19, color: '#000' }}>R$ {vTotal.toFixed(2)}</Text>
             </TotalArea>
             <Buttom activeOpacity={0.7} onPress={goClearCart}>

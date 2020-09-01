@@ -23,11 +23,12 @@ export const ProdutoArea = styled.View`
    align-items:center;
    height:240px;
    background-color:#fff
+   flex-direction:row
 
 `
 export const ProdutoImg = styled.Image`
-   width:175px;
-   height:175px;
+   width:120px;
+   height:120px;
    margin-top:10px;
 `
 
@@ -35,18 +36,21 @@ export const ProdutoScroll = styled.ScrollView`
 background-color:#eee
 `
 export const ActionArea = styled.View`
-   height:90px;
-   background-color:#fff;;
+   height:80px;
+   background-color:#eee;
    flex-direction:row;
-   justify-content:space-between;
+   justify-content:space-around;
 
 `
 
 export const PriceInfo = styled.View`
-width:200px;
 justify-content:center;
 align-items:center;
-margin-top:10px;
+z-index:5
+margin-left:-90px
+margin-top:-100px
+transform: rotate(-25deg);
+margin-right:15px
 
 `
 
@@ -59,19 +63,19 @@ export const Price = styled.Text`
    font-family:Ubuntu Bold;
    font-size:${props=>props.size || '15px'};
    color: ${props=>props.color || '#000'};
-   margin:5px;
+   margin:3px;
    text-decoration: ${props=>props.decoration || 'none'}
 `
 
 export const Off = styled.View`
-   width:40px;
-   height:40px;
-   border-radius:20px;
+   width:30px;
+   height:30px;
+   border-radius:15px;
    background-color:#0dbf16;
    align-items:center;
    justify-content:center;
    margin-top:-20px;
-   transform: rotate(-15deg);
+   transform: rotate(-5deg);
 
 `
 
@@ -117,4 +121,17 @@ export const TitleProduct = styled.Text`
 
 export const ItemList = styled.FlatList`
 
+`
+export const SubtotalArea = styled.View`
+
+   flex:2
+   align-items:center;
+   justify-content:center
+`
+
+export const FuckItem = styled.View`
+   background-color:#fff
+   flex:2
+   align-items:center
+   margin-left:15px
 `

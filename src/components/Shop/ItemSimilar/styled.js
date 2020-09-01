@@ -16,7 +16,7 @@ export const Conteiner = styled.TouchableOpacity`
 export const Title = styled.Text`
    color:#000;
    text-align:center;
-   font-size:12px;
+   font-size:8px;
    font-family:Ubuntu Bold Italic
    margin-bottom:3px;
 `

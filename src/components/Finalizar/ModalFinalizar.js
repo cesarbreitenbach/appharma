@@ -70,7 +70,10 @@ const AreaButtom = styled.TouchableOpacity`
    align-items:center;
 `
 
-const RevisaoArea = styled.View``
+const RevisaoArea = styled.View`
+   flex:1
+
+`
 const ScrollRevisao = styled.ScrollView`
    height:190px
 
@@ -141,42 +144,42 @@ const SubArea = styled.View`
 `
 const TipoPgtoArea = styled.View`
    flex-direction:row
-   justify-content:center
+   justify-content:space-around
+   padding:10px
    
 `
 const CartaoArea = styled.TouchableOpacity`
-padding-top:5px
+
 justify-content:center;
 align-items:center;
 width:90px;
 height:60px;
 background-color:${p.corPrincipal}
-margin:10px 20px
-border-radius:7px
-margin:10px 20px
+
+border-radius:5px
+
 border-color:${props => props.enabled ? p.corSelecionado : p.corPrincipal}
 border-width:2px
 `
 const DinheiroArea = styled.TouchableOpacity`
-padding-top:5px
+
 justify-content:center;
 align-items:center;
 width:90px;
 height:60px;
 background-color:${p.corPrincipal}
-margin:10px 20px
-border-radius:7px
+
+border-radius:5px
 border-color:${props => props.enabled ? p.corSelecionado : p.corPrincipal}
 border-width:2px
 `
 const TrocoArea = styled.View`
-padding-top:5px
+
 justify-content:center;
 align-items:center;
 width:100px;
 height:60px;
 background-color:${p.corPrincipal}
-margin:10px 20px
 border-radius:7px
 flex-direction:row
 `
@@ -192,6 +195,13 @@ const SubtrocoArea = styled.View`
 
 const BodyArea = styled.View`
    flex:1
+`
+
+const TipoPgto = styled.View`
+   width:100%
+   background-color:#fff
+   justify-content:center;
+
 `
 
 const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddress, delivery, cart, total, token, trocoAction, getTroco, troco, endereco, taxaEntrega,  successAction, confirmSuccess }) => {
@@ -384,9 +394,10 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                      </TotalArea>
                   </TotaisInfo>
                </TotaisArea>
+            </BodyArea>
 
-               {delivery &&
-                  <>
+            {delivery &&
+                  <TipoPgto>
                      <TitleArea>
                         <Text size="15px" color="#fff" >Tipo de pagamento:</Text>
                      </TitleArea>
@@ -394,7 +405,7 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                      <TipoPgtoArea>
                         <CartaoArea enabled={tipoPgto === 'Cartao' ? true : false} onPress={() => handleTipoPgto('Cartao')} activeOpacity={0.7}>
                            <IconAwesome name="credit-card" size={20} color="#999" />
-                           <Text size="10px" color='#fff'>Cartão de Credito</Text>
+                           <Text size="10px" color='#fff'>Cartão</Text>
                         </CartaoArea>
                         <DinheiroArea enabled={tipoPgto === 'Dinheiro' ? true : false} onPress={() => handleTipoPgto('Dinheiro')} activeOpacity={0.7}>
                            <IconAwesome name="money-bill" size={20} color={p.corSecundaria} />
@@ -412,9 +423,8 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                            </>
                         }
                      </TipoPgtoArea>
-                  </>
+                  </TipoPgto>
                }
-            </BodyArea>
 
             <AreaCheckoutButtom>
                <CheckoutButtom onPress={handleCheckout} activeOpacity={0.7}>
