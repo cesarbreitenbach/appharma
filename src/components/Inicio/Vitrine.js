@@ -10,11 +10,11 @@ import {ActivityIndicator} from 'react-native'
 
 
 
-const Conteiner = styled.View`
+const Conteiner = styled.View` 
     background-color:#eee;
     border:1px solid #ddd
     width:100%;
-    height:300px;
+    height:250px;
     margin-bottom:5px;
     padding:5px;
     border-bottom-left-radius: 15px

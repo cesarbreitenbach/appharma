@@ -18,8 +18,8 @@ const ItemProduct = props => {
                <Item style={{marginBottom:20}}  radius="50px" resizeMode='stretch' width={props.imgWidth || "100px"} height={props.imgHeight || "100px"} source={{uri:d.URL_FILES+props.data.image}}  />
                <Title>{props.data.nome}</Title>
                <Off> {desconto.toFixed(0)}% OFF</Off>
-               <Preco>de R$ {props.data.preco_original}</Preco>
-               <PrecoPromo>por R$ {props.data.preco_vigente}</PrecoPromo>
+               <Preco>de R$ {parseFloat(props.data.preco_original).toFixed(2).replace(".", ",")}</Preco>
+               <PrecoPromo>por R$ {parseFloat(props.data.preco_vigente).toFixed(2).replace(".", ",")}</PrecoPromo>
          </Conteiner>
    )
 }

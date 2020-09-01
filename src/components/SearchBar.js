@@ -16,12 +16,12 @@ const ButtonSearch = styled.TouchableOpacity`
 
 const InputSearch = styled.TextInput`
    padding:5px;
-   width: 275px;
+   width: 225px;
    
 `;
 
 const SearchArea = styled.View`
-   width:300px;
+   width:250px;
    flex-direction:row;
    border:1px solid #999;
    border-radius:10px;

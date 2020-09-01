@@ -51,7 +51,7 @@ const Input = styled.TextInput`
 
 const TrocoModal = ({ visible, visibleAction, getTroco }) => {
 
-   const [troco, setTroco] = useState(0)
+   const [troco, setTroco] = useState('')
 
 
    const handleClick = () =>{
@@ -71,7 +71,7 @@ const TrocoModal = ({ visible, visibleAction, getTroco }) => {
             <TrocoArea>
                <Text size="19px" style={{margin:5}}>Você precisa de troco?</Text>
  
-               <Input placeholder="R$ 50,00" onChangeText={(t)=>setTroco(t)} value={troco} />
+               <Input placeholder="R$ 50,00" keyboardType="number-pad" onChangeText={(t)=>setTroco(t)} value={troco} />
                <IconeArea activeOpacity={0.7} onPress={ handleClick }>
                   <Icon name="coins" size={20} color='#e3e02d'/>
                   <Text> Pronto </Text>

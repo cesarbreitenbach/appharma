@@ -18,13 +18,18 @@ const ItemProduct = props => {
       props.navigation.navigate('Produto', {id})
    }
 
+   const goCart = () => {
+      console.log("Vou pro carrinho...")
+      props.navigation.navigate('Cart')
+   }
+   
    return (
          <Conteiner  activeOpacity={0.7} onPress={()=>handleClick(props.data.id)}>
                <Item style={{marginBottom:20}}  radius="50px" resizeMode='stretch' width={props.imgWidth || "100px"} height={props.imgHeight || "100px"} source={{uri:d.URL_FILES+props.data.image}}  />
                <PrecoArea>
                   <Title >{props.data.nome}</Title>
-                  <Preco>R$ {props.data.preco_vigente}</Preco>
-                  <AddDelCartButtom product={props.data} qtd={props.data.qtd} setQtdProduto={props.setQtdProduto}/>
+                  <Preco>R$ {parseFloat(props.data.preco_vigente).toFixed(2).replace(".", ",")}</Preco>
+                  <AddDelCartButtom product={props.data} qtd={props.data.qtd} setQtdProduto={props.setQtdProduto} goCart={goCart}/>
                </PrecoArea>
                {desconto>0 &&
                <TagArea>

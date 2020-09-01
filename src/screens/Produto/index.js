@@ -132,13 +132,13 @@ const Produto = (props) => {
                      <PriceInfo>
                         {(produto.produtoEscolhido.preco_original != produto.produtoEscolhido.preco_vigente) &&
                            <OriginalPriceArea>
-                              <Price size="9px" decoration="line-through" color="#ff0000">de R$ {produto.produtoEscolhido.preco_original}  </Price>
+                              <Price size="10px" decoration="line-through" color="#ff0000">de R$ {parseFloat(produto.produtoEscolhido.preco_original).toFixed(2).replace(".", ",")}  </Price>
                               <Off>
                                  <Price color="#fff" size="9px"  >{desconto.toFixed(0)} %</Price>
                               </Off>
                            </OriginalPriceArea>
                         }
-                        <Price size="14px">por R$ {produto.produtoEscolhido.preco_vigente}</Price>
+                        <Price size="14px">por R$ {parseFloat(produto.produtoEscolhido.preco_vigente).toFixed(2).replace(".", ",")}</Price>
                      </PriceInfo>
                   </ProdutoArea>
 
@@ -180,7 +180,7 @@ const Produto = (props) => {
                <ActionArea>
                   <SubtotalArea>
                      <Price size="14px">Subtotal: </Price>
-                     <Price size="18px">R$ {produto.produtoEscolhido.preco_vigente}</Price>
+                     <Price size="18px">R$ { parseFloat(props.total).toFixed(2).replace(".", ",")}</Price>
                   </SubtotalArea>
 
                   <AddDelCartButtom goCart={goCart} product={produto.produtoEscolhido} qtd={qtdProduto} setQtdProduto={setQtdProduto} />
@@ -211,6 +211,7 @@ Produto.navigationOptions = ({ navigation }) => {
 const mapStateToProps = (state) => {
    return {
       cart: state.cartReducer.carrinho,
+      total: state.cartReducer.total
    }
 }
 

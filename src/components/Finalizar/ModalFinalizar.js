@@ -339,7 +339,7 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                                  <ProdutoInfo>
                                     <Text size="12px">{i.nome}</Text>
                                     <Text size="12px">Qtd: {i.qtd}</Text>
-                                    <Text size="15px">R$ {i.preco_vigente}</Text>
+                                    <Text size="15px">R$ {parseFloat(i.preco_vigente).toFixed(2).replace(".", ",")}</Text>
                                  </ProdutoInfo>
                               </ProdutoArea>
                            )
@@ -376,14 +376,14 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                   <TotaisInfo>
                      <SubArea>
 
-                        <Text size="12px">Sub-Total: R$ {subTotal.toFixed(2)}</Text>
-                        <Text size="12px">Desconto: R$ {descontoTotal.toFixed(2)}</Text>
+                        <Text size="12px">Sub-Total: R$ {subTotal.toFixed(2).replace(".", ",")}</Text>
+                        <Text size="12px">Desconto: R$ {parseFloat(descontoTotal).toFixed(2).replace(".", ",")}</Text>
                         {delivery &&
-                        <Text size="12px">Taxa de Entrega: R$ {parseFloat(taxaEntrega).toFixed(2)}</Text>}
+                        <Text size="12px">Taxa de Entrega: R$ {parseFloat(taxaEntrega).toFixed(2).replace(".", ",")}</Text>}
 
                      </SubArea>
                      <TotalArea>
-                        <Text size="20px" family="Roboto Black">Total: R$ {parseFloat(total).toFixed(2)}</Text>
+                        <Text size="20px" family="Roboto Black">Total: R$ {parseFloat(total).toFixed(2).replace(".", ",")}</Text>
                      </TotalArea>
                   </TotaisInfo>
                </TotaisArea>
@@ -410,7 +410,7 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                                  <IconAwesome name="coins" size={20} color={'#ff0'} />
                                  <SubtrocoArea>
                                     <Text size="10px" color="#fff">Troco para</Text>
-                                    <Text size="10px" color="#fff">R$ {parseFloat(troco).toFixed(2)}</Text>
+                                    <Text size="10px" color="#fff">R$ {parseFloat(troco).toFixed(2).replace(".", ",")}</Text>
                                  </SubtrocoArea>
                               </TrocoArea>
                            </>
