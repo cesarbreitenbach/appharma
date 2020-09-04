@@ -7,6 +7,7 @@ export const Conteiner = styled.View`
 width:100%;
 height:8%;
 padding:20px;
+margin-bottom:20px;
 `;
 
 const GreetensArea = (props) => {

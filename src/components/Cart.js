@@ -7,6 +7,7 @@ const AreaIcone = styled.TouchableOpacity`
    width:30px;
    height:30px;
    margin-right:10px;
+   margin-left:5px;
 `
 const Text = styled.Text`
    font-size: ${props => props.size || "16px"}

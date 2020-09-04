@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL:'https://ioffertas.club:3333/api'
+  baseURL:'https://approachmobile.company/api'
 })
 
 export default api;

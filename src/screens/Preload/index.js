@@ -73,7 +73,7 @@ const Preload = (props) => {
             <>
                <Title size="16px" style={{ fontFamily: "Roboto Black" }}>Approach Mobile </Title>
                <Logo source={require('../../assets/logo.png')} />
-               <Title size="14px" style={{ fontFamily: "Roboto Black" }}>Soluções</Title>
+               <Title size="14px" style={{ fontFamily: "Roboto Black" }}>Solutions</Title>
             </>}
 
          {error &&
