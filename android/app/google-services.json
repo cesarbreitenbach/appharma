@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "379450465180",
+    "firebase_url": "https://appharma-b57f0.firebaseio.com",
+    "project_id": "appharma-b57f0",
+    "storage_bucket": "appharma-b57f0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:379450465180:android:39b4b2bb7d5dca717c8659",
+        "android_client_info": {
+          "package_name": "com.appharma"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "379450465180-i2933pl5sno1u1s6ilog34m0osq1t05a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHtStquekf7pH1JTBat3U-B2TUM0gNMo8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "379450465180-i2933pl5sno1u1s6ilog34m0osq1t05a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
