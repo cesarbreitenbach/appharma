@@ -6,18 +6,27 @@ import {store, persistor} from './store';
 import  padrao  from './config/padroes'
 import MainStack from './navigators/MainStack';
 import CodePush from 'react-native-code-push'
-// import messaging from '@react-native-firebase/messaging'
+import messaging from '@react-native-firebase/messaging'
 
 const App = () => {
 
-   // useEffect(()=>{
-   //    const reqNotifPerm = async () =>{
-   //       const authStatus = await messaging().requestPermission()
-   //       console.log('Permissão: '+authStatus)
-   //    }
-   //    reqNotifPerm()
+   useEffect(()=>{
+      //permissao
+      const reqNotifPerm = async () =>{
+         const authStatus = await messaging().requestPermission()
+         console.log('Permissão: '+authStatus)
+      }
+      reqNotifPerm()
 
-   // }, [])
+      //recebendo notificação app aberto
+      const unsubscribe = messaging().onMessage(async remoteMessage => {
+         console.log('Recebido com app aberto: '+ JSON.stringify(remoteMessage.notification.body) );
+      });
+     
+      return unsubscribe;
+      
+   }, [])
+
    
   return (
      <>
