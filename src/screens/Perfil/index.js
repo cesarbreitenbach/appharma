@@ -5,14 +5,12 @@ import { connect } from 'react-redux'
 const Page = (props) => {
 
    const  logout = async () => {
-      await props.setCpf('');
-      await props.setId('');
-      await props.setToken('');
-      await props.setNome('');
       await props.setStatus(false);
-      await props.setActivePage('home');
+      await props.setActivePage('home')
       await props.clearCart()
-      props.navigation.navigate('Preload');
+      await props.clearUserReducer()
+      await props.clearAuth()
+      props.navigation.navigate('Preload')
    }
 
    return (
@@ -54,7 +52,9 @@ const mapDispatchToProps = (dispatch) => {
       setStatus: (status) => dispatch({ type: 'SET_STATUS', payload: { status } }),
       setId: (id) => dispatch({ type: 'SET_ID', payload: { id } }),
       setActivePage: (activePage) => dispatch({ type: 'SET_ACTIVE', payload: { activePage } }),
-      clearCart: () => dispatch({type: 'CLEAR_CART' })
+      clearCart: () => dispatch({type: 'CLEAR_CART' }),
+      clearUserReducer: () => dispatch({type: 'CLEAR_USERREDUCER' }),
+      clearAuth: () => dispatch({type: 'CLEAR_AUTH'}),
    }
 }
 

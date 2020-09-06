@@ -7,6 +7,8 @@ const initialState = {
  
  export default (state = initialState, action) => {
     switch (action.type) {
+       case 'CLEAR_AUTH':
+          return initialState
        case 'SET_TOKEN':
           return {...state, token: action.payload.token};
           break;

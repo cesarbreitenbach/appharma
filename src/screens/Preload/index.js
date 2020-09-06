@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import api from '../../helpers/api'
 import { Conteiner, Title, Logo } from './styled'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import messaging from '@react-native-firebase/messaging'
 
 
 const Preload = (props) => {
@@ -24,6 +25,7 @@ const Preload = (props) => {
 
       const dataPesquisa = '2020-07-14T00:00:00-03:00'
 
+      //ALTERAR ESSA REGRA AQUI... CRIAR ALGO DIFERENTE E SIMPLES
       if (!props.token) {
          console.log("enteri no best..")
          const goBest = async () => {
@@ -62,6 +64,45 @@ const Preload = (props) => {
          getDirect()
       }
 
+      //Coloca token fcm no reducer
+      if (!props.tokenFcmGuest) {
+         console.log("Vou pegar fcmtoken")
+         const getToken = async () => {
+            const token = await messaging().getToken()
+            console.log("peguei o token: " + JSON.stringify(token))
+            props.setFcmTokenGuest(token)
+
+            try {
+               const resp = await api.post(`fcm`, { token })
+               console.log('inseri: ' + resp)
+            } catch (e) {
+               console.log(e.message)
+            }
+
+         }
+         getToken()
+
+      } else {
+         console.log("Vou atualizar o fcmtoken se tiver usuario")
+         if (props.token && !props.tokenFcm){
+            console.log("Tem token, está logado.. e não tem tokenFcm")
+            const attIdUserFcmToken = async () => {
+               try{
+                  const tokenAux = props.tokenFcmGuest
+                  console.log(`entrei alterar dono o token ${tokenAux}`)
+                  const resp = await api.put(`fcm`, {token:tokenAux}, {headers: {auth:props.token}})
+                  props.setFcmToken(tokenAux)
+                  console.log('Alterei dono do fcmtoken')
+               } catch(e){
+                  console.log(e.message)
+               }
+            }
+            attIdUserFcmToken()
+         } else {
+            console.log('Não fiz nada...')
+         }
+
+      }
 
    }, [])
 
@@ -94,6 +135,8 @@ const mapStateToProps = (state) => {
    return {
       promocoes: state.vitrineReducer.promocoes,
       token: state.authReducer.token,
+      tokenFcm: state.userReducer.tokenFcm,
+      tokenFcmGuest: state.userReducer.tokenFcmGuest,
       id: state.userReducer.id,
       cpf: state.userReducer.cpf,
    };
@@ -102,7 +145,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
    return {
       setPromocoes: (promocoes) => dispatch({ type: 'SET_PROMOCOES', payload: { promocoes } }),
-      setAddressList: (list) => dispatch({ type: 'SET_ADDRESS', payload: { addressList:list } })
+      setAddressList: (list) => dispatch({ type: 'SET_ADDRESS', payload: { addressList: list } }),
+      setFcmToken: (tokenFcm) => dispatch({ type: 'SET_FCMTOKEN', payload: { tokenFcm } }),
+      setFcmTokenGuest: (tokenFcmGuest) => dispatch({ type: 'SET_FCMTOKENGUEST', payload: { tokenFcmGuest } })
    }
 }
 
