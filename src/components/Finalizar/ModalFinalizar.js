@@ -277,12 +277,14 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
          }
       }
 
+      console.log(`Estou inserindo o enderco id: ${idAddress} na requisiçao`)
       const checkout = {
          cart, 
          levar_pinpad: (tipoPgto === 'Cartao' ? true : false),
          troco_para: troco,
          tipo_venda: 'A',
-         tipo_entrega:(delivery? 'Delivery' : 'Balcao')
+         tipo_entrega:(delivery? 'Delivery' : 'Balcao'),
+         id_endereco: idAddress,
       }
 
       const venda = await api.post('venda', checkout, { headers: { auth: token } });
