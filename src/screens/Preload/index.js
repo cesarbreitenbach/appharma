@@ -122,7 +122,11 @@ const Preload = (props) => {
             }
             attIdUserFcmToken()
          } else {
-            console.log('Não fiz nada...')
+            const atualizaUltimoAcesso = async () => {
+               await api.post('lastacess', {fcmToken:props.tokenFcm})
+               console.log("Alterei a data de ultimo acesso do token: "+props.tokenFcm)
+            }
+            atualizaUltimoAcesso()
          }
 
       }

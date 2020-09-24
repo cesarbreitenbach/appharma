@@ -287,10 +287,16 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
          id_endereco: idAddress,
       }
 
-      const venda = await api.post('venda', checkout, { headers: { auth: token } });
-      console.log("inseri: "+ JSON.stringify(venda))
-      successAction(true)
-      confirmSuccess(true)
+      try{
+         
+               const venda = await api.post('venda', checkout, { headers: { auth: token } });
+               console.log("inseri: "+ JSON.stringify(venda))
+               successAction(true)
+               confirmSuccess(true)
+
+      } catch (e){
+         console.log("Erro: "+ JSON.stringify(e))
+      }
    }
 
    const handleTipoPgto = (tipo) => {
