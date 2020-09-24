@@ -1,18 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import { StackActions, NavigationActions } from 'react-navigation';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import api from '../../helpers/api'
 import { Conteiner, Title, Logo } from './styled'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import messaging from '@react-native-firebase/messaging'
+import TokenHandler from '../../helpers/TokenHandler'
 
 
 const Preload = (props) => {
 
    const [error, setError] = useState(false);
    const [errorMessage, setErrorMessage] = useState("")
+   const dispatch = useDispatch();
 
    const go = () => {
+      props.navigation.dispatch(StackActions.reset({
+         index: 0,
+         actions: [
+            NavigationActions.navigate({ routeName: 'AppTab' }),
+         ],
+      }));
+   }
+   const login = () => {
+      console.log("entrei no gologin...")
+      dispatch({
+         type:'CLEAR_AUTH',
+      })
+
       props.navigation.dispatch(StackActions.reset({
          index: 0,
          actions: [
@@ -23,11 +38,12 @@ const Preload = (props) => {
 
    useEffect(() => {
 
+     
+
       const dataPesquisa = '2020-07-14T00:00:00-03:00'
 
       //ALTERAR ESSA REGRA AQUI... CRIAR ALGO DIFERENTE E SIMPLES
       if (!props.token) {
-         console.log("enteri no best..")
          const goBest = async () => {
             try {
                const r = await api.get(`promocoes/best`);
@@ -42,7 +58,14 @@ const Preload = (props) => {
          goBest()
 
       } else {
-         console.log(`vou chamar api do directno cpf : ${props.cpf} com o token ${props.token}`)
+         const validaToken = async () =>{
+            const validToken = await TokenHandler(props.token)
+            if (validToken.expirou){
+               login();
+            }
+
+         }
+         validaToken()
 
          const getDirect = async () => {
             try {
