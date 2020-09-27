@@ -15,7 +15,7 @@ const Page = (props) => {
 
    return (
       <Conteiner>
-         <WelcomeText>Perfil do usuario!</WelcomeText>
+         <WelcomeText>Em breve Perfil</WelcomeText>
          <AvatarArea>
             <UserAvatar source={require('../../assets/avatar2.png')} />
          </AvatarArea>
