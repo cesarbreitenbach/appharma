@@ -11,10 +11,15 @@ import AddressModal from '../../components/AddressModal'
 import TrocoModal from '../../components/TrocoModal'
 import { connect } from 'react-redux'
 import FlashMessage from "react-native-flash-message";
-import {ErrorArea, Text as TextError} from '../../components/ErrorArea'
+import { ErrorArea, Text as TextError } from '../../components/ErrorArea'
 import ModalSucesso from '../../components/Finalizar/ModalSucesso'
+import io from 'socket.io-client';
+
 
 const Cart = (props) => {
+
+   const socket = io('https://approachmobile.company');
+
 
    console.log('lista no redux: ' + JSON.stringify(props.addressList))
    const [error, setError] = useState(false)
@@ -27,14 +32,18 @@ const Cart = (props) => {
    const [modalSucessoVisible, setModalSucessoVisible] = useState(false)
    const [checkoutSuccess, setCheckoutSuccess] = useState(false)
    const vTotal = props.total
-   
+
    useEffect(() => {
       setTimeout(() => {
          setErrorMsg('')
       }, 1850)
    }, [errorMsg])
 
-
+   useEffect(() => {
+      socket.on('connect', () => {
+         console.log("Abrindo conexão com socket...")
+      })
+   }, [])
    const ClearCartConfirm = () => {
       Alert.alert(
          'Esvaziar',
@@ -66,15 +75,15 @@ const Cart = (props) => {
          return
       }
 
-      if(!props.status){
+      if (!props.status) {
          props.navigation.navigate('Login')
       }
 
 
-      if (!radioDelivery){
+      if (!radioDelivery) {
          props.setTroco(0);
       }
-      
+
       const count = props.addressList.length;
 
       if (count > 0 || !radioDelivery) {
@@ -92,6 +101,11 @@ const Cart = (props) => {
 
    const goClearCart = () => {
       ClearCartConfirm()
+   }
+
+   const socketHandlerConfirmSell = (codVenda) => {
+      socket.emit('venda-recebida', codVenda)
+      console.log("Emit uma mensagem ao servidor confirmando uma venda...")
    }
 
    return (
@@ -114,6 +128,7 @@ const Cart = (props) => {
             trocoAction={setTrocoModalVisible}
             successAction={setModalSucessoVisible}
             confirmSuccess={setCheckoutSuccess}
+            socketHandler={socketHandlerConfirmSell}
          />
 
          <TrocoModal
@@ -145,7 +160,7 @@ const Cart = (props) => {
 
          {props.cart.length > 0 &&
             <>
-               <TipoEntregaArea  onPress={() => setRadioDelivery(false)}>
+               <TipoEntregaArea onPress={() => setRadioDelivery(false)}>
                   <Entrega>
                      <RadioButtom enabled={!radioDelivery} />
                      <Text color="#000">Retirar na loja</Text>
@@ -155,7 +170,7 @@ const Cart = (props) => {
                   </ValorEntregaArea>
                </TipoEntregaArea>
 
-               <TipoEntregaArea  onPress={() => setRadioDelivery(true)} >
+               <TipoEntregaArea onPress={() => setRadioDelivery(true)} >
                   <Entrega>
                      <RadioButtom enabled={radioDelivery} />
                      <Text color="#000">Receber em casa</Text>

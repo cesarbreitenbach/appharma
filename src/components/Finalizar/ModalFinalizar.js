@@ -11,6 +11,7 @@ import { ErrorArea } from '../ErrorArea'
 import api from '../../helpers/api'
 
 
+
 const ModalArea = styled.KeyboardAvoidingView`
    flex:1;
    background-color:#fff
@@ -204,7 +205,7 @@ const TipoPgto = styled.View`
 
 `
 
-const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddress, delivery, cart, total, token, trocoAction, getTroco, troco, endereco, taxaEntrega,  successAction, confirmSuccess }) => {
+const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddress, delivery, cart, total, token, trocoAction, getTroco, troco, endereco, taxaEntrega,  successAction, confirmSuccess, socketHandler }) => {
 
    const [addressList, setAddressList] = useState(data)
    const [errorMsg, setErrorMsg] = useState('')
@@ -222,7 +223,7 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
    useEffect(() => {
       let vSubTotal = 0;
       let vDesconto = 0;
-      console.log(JSON.stringify(cart))
+
       const getTotais = async () => {
          await cart.map((i, k) => {
             vSubTotal += parseFloat(i.preco_original) * parseInt(i.qtd)
@@ -233,6 +234,9 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
          setDescontoTotal(vDesconto)
       }
       getTotais();
+
+    
+
    }, [])
 
    useEffect(() => {
@@ -277,7 +281,6 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
          }
       }
 
-      console.log(`Estou inserindo o enderco id: ${idAddress} na requisiçao`)
       const checkout = {
          cart, 
          levar_pinpad: (tipoPgto === 'Cartao' ? true : false),
@@ -290,9 +293,11 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
       try{
          
                const venda = await api.post('venda', checkout, { headers: { auth: token } });
-               console.log("inseri: "+ JSON.stringify(venda))
                successAction(true)
                confirmSuccess(true)
+               const {codigo_venda} = venda.data
+               console.log(`Este é o codigo venda que vou enviar para o socket ${codigo_venda}`)
+               socketHandler(codigo_venda)
 
       } catch (e){
          console.log("Erro: "+ JSON.stringify(e))
@@ -300,7 +305,6 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
    }
 
    const handleTipoPgto = (tipo) => {
-      console.log(`Recebio o tipo de pagamento: ${tipo}`)
       if (tipo === 'Dinheiro') {
          trocoAction(true);
          setTipoPgto('Dinheiro')
@@ -435,7 +439,8 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                   <IconTwo name="cart-arrow-right" size={20} color="#fff" />
                   <Text color="#fff" size="16px">Concluir Compra</Text>
                </CheckoutButtom>
-            </AreaCheckoutButtom>
+            </AreaCheckoutButtom> 
+            
 
 
          </ModalArea>
