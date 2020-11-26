@@ -23,7 +23,6 @@ const Preload = (props) => {
       }));
    }
    const login = () => {
-      console.log("entrei no gologin...")
       dispatch({
          type:'CLEAR_AUTH',
       })
@@ -37,9 +36,7 @@ const Preload = (props) => {
    }
 
    useEffect(() => {
-
-     
-
+      
       const dataPesquisa = '2020-07-14T00:00:00-03:00'
 
       //ALTERAR ESSA REGRA AQUI... CRIAR ALGO DIFERENTE E SIMPLES

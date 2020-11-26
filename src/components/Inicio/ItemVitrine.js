@@ -6,7 +6,7 @@ import p from '../../config/padroes'
 
 export const ProductArea = styled.TouchableHighlight`
    height:100%;
-   width:125px;
+   width:130px;
    padding:5px;
    margin-left:5px;
    background-color:#fff;
@@ -35,8 +35,8 @@ export const OriginalPrice = styled.Text`
    font-size:12px;
    text-align:center;
    text-decoration: line-through;
-   margin-bottom:5px;
-   margin-top:5px;
+   margin-bottom:1px;
+   margin-top:1px;
    color:#ff0000;
    font-family:Roboto Medium;
 `;
