@@ -29,7 +29,7 @@ const ItemProduct = props => {
                <PrecoArea>
                   <Title >{props.data.nome}</Title>
                   <Preco>R$ {parseFloat(props.data.preco_vigente).toFixed(2).replace(".", ",")}</Preco>
-                  <AddDelCartButtom product={props.data} qtd={props.qtd} setQtdProduto={props.setQtdProduto} goCart={goCart}/>
+                  <AddDelCartButtom product={props.data} qtd={props.data.qtd} setQtdProduto={props.setQtdProduto} goCart={goCart}/>
                </PrecoArea>
                {desconto>0 &&
                <TagArea>
