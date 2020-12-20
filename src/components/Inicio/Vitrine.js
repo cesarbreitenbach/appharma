@@ -78,7 +78,8 @@ export const Nodata = styled.View`
 
 const Vitrine = props => {
 
-   const tamanhoTotal = Dimensions.get('window').width;
+    console.log(JSON.stringify(props))
+
    let welcome = 'Top ofertas da semana';
 
    if(props.status){
@@ -101,7 +102,7 @@ const Vitrine = props => {
             : 
             <ProductScroll horizontal={true}
                showsHorizontalScrollIndicator={false}
-               data={props.promocoes}
+               data={props.promocoes.produtos}
                renderItem={({ item }) => <ItemVitrine data={item} navigation={props.navigation} />} 
                keyExtractor={(item) => item.id.toString()}
                decelerationRate="fast"

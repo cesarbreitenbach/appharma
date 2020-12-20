@@ -64,7 +64,7 @@ const ItemVitrine = (props) => {
                {!props.data.image && <Item style={{marginTop:5}} width="95px" height="95px" source={require('../../assets/nopicture.png')} />}  
          
                <ProductTitle >{StrCaptalize(props.data.nome)}</ProductTitle>
-               <OriginalPrice>de {parseFloat(props.data.valor_venda).toFixed(2).replace(".", ",")}</OriginalPrice>
+               <OriginalPrice>de {parseFloat(props.data.preco_venda).toFixed(2).replace(".", ",")}</OriginalPrice>
                <PromoPrice >por {parseFloat(props.data.preco_promocao).toFixed(2).replace(".", ",")}</PromoPrice>
 
          </>
