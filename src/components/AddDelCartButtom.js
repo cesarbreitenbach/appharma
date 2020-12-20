@@ -38,10 +38,16 @@ export const Title = styled.Text`
 const AddDelCartButtom = (props) => {
 
    const [qtdAtual, setQtdAtual] = useState(props.qtd)
+   const [qtdEstoque, setQtdEstoque] = useState(props.product.qtd_estoque)
 
    function addProduct(product){
       let novaQtd = qtdAtual;
       novaQtd++;
+      console.log("Vou add e no carrinho: "+novaQtd+" no estoque "+qtdEstoque)
+      if (novaQtd > qtdEstoque){
+        console.log("Não vou permitir adicionar")
+        return
+    }
       props.setQtdProduto(novaQtd)
       props.addCart(product)
       setQtdAtual(novaQtd)

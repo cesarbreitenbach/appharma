@@ -37,8 +37,8 @@ const Preload = (props) => {
 
     useEffect(() => {
 
-        //ALTERAR ESSA REGRA AQUI... CRIAR ALGO DIFERENTE E SIMPLES
         if (!props.token) {
+            console.log("Vou pegar goBest")
             const goBest = async () => {
                 try {
                     const r = await api.get(`promocoes/best`);
@@ -61,7 +61,6 @@ const Preload = (props) => {
 
             }
             validaToken()
-
             const getDirect = async () => {
                 try {
                     const r = await api.get(`promocoes/direct?cpf=${props.cpf}`, { headers: { auth: props.token } });
@@ -84,15 +83,12 @@ const Preload = (props) => {
 
         //Coloca token fcm no reducer
         if (!props.tokenFcmGuest) {
-            console.log("Vou pegar fcmtoken")
             const getToken = async () => {
                 const token = await messaging().getToken()
-                console.log("peguei o token: " + JSON.stringify(token))
                 props.setFcmTokenGuest(token)
 
                 try {
                     const resp = await api.post(`fcm`, { token })
-                    console.log('inseri: ' + resp)
                 } catch (e) {
                     console.log(e.message)
                 }
@@ -101,9 +97,7 @@ const Preload = (props) => {
             getToken()
 
         } else {
-            console.log("Vou atualizar o fcmtoken se tiver usuario")
             if (props.token && !props.tokenFcm) {
-                console.log("Tem token, está logado.. e não tem tokenFcm")
                 const attIdUserFcmToken = async () => {
                     try {
                         const tokenAux = props.tokenFcmGuest

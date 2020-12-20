@@ -47,7 +47,7 @@ const Search = (props) => {
       props.navigation.setParams({setNomeProduto})
 
    }, [nomeProduto])
-
+ 
 
   return (
       <Container>
