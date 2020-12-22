@@ -3,6 +3,7 @@ import styled from 'styled-components/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import p from '../config/padroes'
 import { connect } from 'react-redux'
+import useApi from '../helpers/apiAppharma'
 
 export const AreaButtom = styled.View`
 padding:25px;
@@ -38,13 +39,24 @@ export const Title = styled.Text`
 const AddDelCartButtom = (props) => {
 
    const [qtdAtual, setQtdAtual] = useState(props.qtd)
+   const [idProduto, setIdProduto] = useState(props.product.id)
    const [qtdEstoque, setQtdEstoque] = useState(props.product.qtd_estoque)
+   const api = useApi();
 
-   function addProduct(product){
+   
+
+    const addProduct = async (product) => {
       let novaQtd = qtdAtual;
       novaQtd++;
-      console.log("Vou add e no carrinho: "+novaQtd+" no estoque "+qtdEstoque)
-      if (novaQtd > qtdEstoque){
+      
+      const reserva = await api.getReservas(idProduto)
+
+      let disponivel = qtdEstoque - reserva;
+
+      console.log("Vou add e no carrinho: "+novaQtd+" no estoque "+qtdEstoque+" e tenho de reseva: "+JSON.stringify(reserva)+" dispoinvel: "+disponivel);
+
+
+      if (novaQtd > disponivel){
         console.log("Não vou permitir adicionar")
         return
     }
