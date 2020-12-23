@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-    Container, Title, ProdutoArea, ProdutoImg, ProdutoScroll, ActionArea, Price, PriceInfo, PriceInfo2,
+    Container, Title, ProdutoArea, ProdutoImg, ProdutoScroll, ActionArea, Price, PriceInfo, 
     OriginalPriceArea, Off, DescricaoArea, HeaderArea, ExpandButtom,
     ContentArea, TitleProduct, ItemList, ActivityArea, FuckItem, SubtotalArea
 } from './styled.js';
@@ -14,6 +14,7 @@ import api from '../../helpers/api'
 import { Animated } from 'react-native'
 import ItemSimilar from '../../components/Shop/ItemSimilar'
 import { connect } from 'react-redux'
+import { ErrorArea, Text } from '../../components/ErrorArea'
 
 const Produto = (props) => {
 
@@ -116,6 +117,10 @@ const Produto = (props) => {
 
     return (
         <Container>
+             {errorMsg != '' &&
+                    <ErrorArea>
+                        <Text size="12px" color="#fff" family="Roboto Regular">{errorMsg}</Text>
+                    </ErrorArea>}
             {!carregou &&
                 <ActivityArea>
                     <ActivityIndicator size="large" color="#999" />
@@ -183,7 +188,7 @@ const Produto = (props) => {
                             <Price size="18px">R$ {parseFloat(props.total).toFixed(2).replace(".", ",")}</Price>
                         </SubtotalArea>
 
-                        <AddDelCartButtom goCart={goCart} product={produto.produtoEscolhido} qtd={qtdProduto} setQtdProduto={setQtdProduto} />
+                        <AddDelCartButtom goCart={goCart} product={produto.produtoEscolhido} qtd={qtdProduto} setQtdProduto={setQtdProduto} setErrorMsg={setErrorMsg}/>
 
                     </ActionArea>
                 </>

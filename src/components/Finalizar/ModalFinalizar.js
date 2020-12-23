@@ -7,8 +7,10 @@ import IconTwo from 'react-native-vector-icons/MaterialCommunityIcons'
 import IconAwesome from 'react-native-vector-icons/FontAwesome5'
 import AddressItem from './AddressItem'
 import { connect } from 'react-redux'
-import { ErrorArea } from '../ErrorArea'
+import { ErrorArea, Text as TextError } from '../../components/ErrorArea'
 import api from '../../helpers/api'
+import useApi from '../../helpers/apiAppharma'
+
 
 
 
@@ -89,6 +91,7 @@ const ProdutoArea = styled.View`
    margin-top:10px
    border-bottom-width:1px;
    border-bottom-color:#ddd
+   background-color: ${props => props.semSaldo == 1 ? '#ff0000' : '#fff'};
 `
 const ImageArea = styled.View`
    padding:5px
@@ -205,268 +208,303 @@ const TipoPgto = styled.View`
 
 `
 
-const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddress, delivery, cart, total, token, trocoAction, getTroco, troco, endereco, taxaEntrega,  successAction, confirmSuccess, socketHandler }) => {
+const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddress, delivery, cart, total, token, trocoAction, getTroco, troco, endereco, taxaEntrega, successAction, confirmSuccess, socketHandler }) => {
 
-   const [addressList, setAddressList] = useState(data)
-   const [errorMsg, setErrorMsg] = useState('')
-   const [idAddress, setIdAddress] = useState(0)
-   const [subTotal, setSubTotal] = useState(0)
-   const [descontoTotal, setDescontoTotal] = useState(0)
-   const [tipoPgto, setTipoPgto] = useState(false)
+    const [addressList, setAddressList] = useState(data)
+    const [errorMsg, setErrorMsg] = useState('')
+    const [idAddress, setIdAddress] = useState(0)
+    const [subTotal, setSubTotal] = useState(0)
+    const [descontoTotal, setDescontoTotal] = useState(0)
+    const [tipoPgto, setTipoPgto] = useState(false)
 
-   useEffect(() => {
-      setTimeout(() => {
-         setErrorMsg('')
-      }, 1850)
-   }, [errorMsg])
+    const appharma = useApi();
 
-   useEffect(() => {
-      let vSubTotal = 0;
-      let vDesconto = 0;
+    useEffect(() => {
+        setTimeout(() => {
+            setErrorMsg('')
+        }, 1850)
+    }, [errorMsg])
 
-      const getTotais = async () => {
-         await cart.map((i, k) => {
-            vSubTotal += parseFloat(i.preco_original) * parseInt(i.qtd)
-            vDesconto += (parseFloat(i.preco_original) * parseInt(i.qtd)) - (parseFloat(i.preco_vigente) * parseInt(i.qtd))
-            console.log(`Preço original: ${i.preco_original} Preco vigente: ${i.preco_vigente}  total desconto: ${vDesconto} subTotal ${vSubTotal}`)
-         });
-         setSubTotal(vSubTotal)
-         setDescontoTotal(vDesconto)
-      }
-      getTotais();
+    useEffect(() => {
+        let vSubTotal = 0;
+        let vDesconto = 0;
 
-    
+        const getTotais = async () => {
+            await cart.map((i, k) => {
+                vSubTotal += parseFloat(i.preco_original) * parseInt(i.qtd)
+                vDesconto += (parseFloat(i.preco_original) * parseInt(i.qtd)) - (parseFloat(i.preco_vigente) * parseInt(i.qtd))
+                console.log(`Preço original: ${i.preco_original} Preco vigente: ${i.preco_vigente}  total desconto: ${vDesconto} subTotal ${vSubTotal}`)
+            });
+            setSubTotal(vSubTotal)
+            setDescontoTotal(vDesconto)
+        }
+        getTotais();
 
-   }, [])
 
-   useEffect(() => {
-      setIdAddress(endereco.id)
 
-   }, [idAddress])
+    }, [])
 
-   const handleClose = () => {
-      console.log("Fechei o modal..")
-      visibleAction(false)
-   }
-   const handleAddAddress = () => {
-      if (addressList.length > 2) {
-         setErrorMsg('Limite de endereços atingido, maximo 3.')
-         return
-      }
-      visibleAction(false)
-      addressAction(true)
-   }
+    useEffect(() => {
+        setIdAddress(endereco.id)
 
-   const handleDelete = (id) => {
-      let newList = addressList.filter(i => i.id != id);
-      setAddressList(newList)
-      setAddress(newList)
-   }
+    }, [idAddress])
 
-   const handleCheckout = async () => {
-
-      if (cart.length < 1) {
-         setErrorMsg('Você precisa inserir itens ao carrinho!')
-         return
-      }
-
-      if (delivery) {
-         if (endereco.length < 1) {
-            setErrorMsg('Selecione um endereço!')
+    const handleClose = () => {
+        console.log("Fechei o modal..")
+        visibleAction(false)
+    }
+    const handleAddAddress = () => {
+        if (addressList.length > 2) {
+            setErrorMsg('Limite de endereços atingido, maximo 3.')
             return
-         }
-         if (!tipoPgto) {
-            setErrorMsg("Selecione um tipo de pagamento!")
+        }
+        visibleAction(false)
+        addressAction(true)
+    }
+
+    const handleDelete = (id) => {
+        let newList = addressList.filter(i => i.id != id);
+        setAddressList(newList)
+        setAddress(newList)
+    }
+
+    const handleCheckout = async () => {
+
+        if (cart.length < 1) {
+            setErrorMsg('Você precisa inserir itens ao carrinho!')
             return
-         }
-      }
+        }
 
-      const checkout = {
-         cart, 
-         levar_pinpad: (tipoPgto === 'Cartao' ? true : false),
-         troco_para: troco,
-         tipo_venda: 'A',
-         tipo_entrega:(delivery? 'Delivery' : 'Balcao'),
-         id_endereco: idAddress,
-      }
+        if (delivery) {
+            if (endereco.length < 1) {
+                setErrorMsg('Selecione um endereço!')
+                return
+            }
+            if (!tipoPgto) {
+                setErrorMsg("Selecione um tipo de pagamento!")
+                return
+            }
+        }
 
-      try{
-         
-               const venda = await api.post('venda', checkout, { headers: { auth: token } });
-               successAction(true)
-               confirmSuccess(true)
-               const {codigo_venda} = venda.data
-               console.log(`Este é o codigo venda que vou enviar para o socket ${codigo_venda}`)
-               socketHandler(codigo_venda)
+        const checkout = {
+            cart,
+            levar_pinpad: (tipoPgto === 'Cartao' ? true : false),
+            troco_para: troco,
+            tipo_venda: 'A',
+            tipo_entrega: (delivery ? 'Delivery' : 'Balcao'),
+            id_endereco: idAddress,
+        }
 
-      } catch (e){
-         console.log("Erro: "+ JSON.stringify(e))
-      }
-   }
+        try {
 
-   const handleTipoPgto = (tipo) => {
-      if (tipo === 'Dinheiro') {
-         trocoAction(true);
-         setTipoPgto('Dinheiro')
-      }
-      if (tipo === 'Cartao') {
-         setTipoPgto('Cartao')
-         getTroco(0)
-      }
+            const estoqueSemSaldo = await appharma.validaCart(token, cart);
 
-   }
+            if (estoqueSemSaldo.length == 0) {
+                const venda = await api.post('venda', checkout, { headers: { auth: token } });
+                successAction(true)
+                confirmSuccess(true)
+                const { codigo_venda } = venda.data
+                socketHandler(codigo_venda)
+                
+                cart.map( async (i, k) => {
+                    let reserva = {
+                        "chave_venda":codigo_venda,
+                        "id_produto":i.id,
+                        "id_estoque":i.id_estoque,
+                        "qtd_reserva":i.qtd
+                    }
+                    await appharma.postReserva(token, reserva)
+                
+                })
 
-   return (
-      <Modal
-         visible={visible}
-         visiblieAction={visibleAction}
-         animationType="slide"
-         transparent={false}
-      >
-         <ModalArea>
-            <BodyArea>
-               <ModalHeader>
-                  <AreaBack>
-                     <Buttom onPress={handleClose}>
-                        <Icon name="arrow-back" size={25} color="#fff" />
-                     </Buttom>
-                  </AreaBack>
-                  <AreaText>
-                     <Text size="17px" color="#fff">Finalizar Compra</Text>
-                  </AreaText>
-               </ModalHeader>
 
-               <RevisaoArea>
-                  <TitleArea>
-                     <Text size="15px" color="#fff" >Revisão do Pedido:</Text>
-                  </TitleArea>
-                  <ScrollRevisao >
-                     {
-                        cart.map((i, k) => {
-                           return (
-                              <ProdutoArea key={k}>
-                                 <ImageArea>
-                                    <ProdutoImage source={{ uri: p.URL_FILES + i.image }} />
-                                 </ImageArea>
-                                 <ProdutoInfo>
-                                    <Text size="12px">{i.nome}</Text>
-                                    <Text size="12px">Qtd: {i.qtd}</Text>
-                                    <Text size="15px">R$ {parseFloat(i.preco_vigente).toFixed(2).replace(".", ",")}</Text>
-                                 </ProdutoInfo>
-                              </ProdutoArea>
-                           )
-                        })
-                     }
-                  </ScrollRevisao>
-               </RevisaoArea>
-               {delivery &&
-
-                  <EnderecoArea>
-                     <TitleEndereco>
-                        <Text size="15px" color="#fff" >Endereço para entrega:</Text>
-                        <AreaButtom onPress={handleAddAddress}>
-                           <Icon name="add-location" size={15} color={p.corPrincipal} />
-                           <Text size="10px" family="Roboto Thin">Adicionar</Text>
-                        </AreaButtom>
-                     </TitleEndereco>
-
-                     <ScrollEndereco showsVerticalScrollIndicator={false}>
-                        {addressList.map((i, k) => {
-                           return (
-                              <AddressItem key={k} data={i} onDelete={handleDelete} onSelect={setIdAddress} active={idAddress} />
-                           )
-                        })
+            } else {
+                console.log("Fazer alguma coisa na tela para dizer que existem produtos sem saldo")
+                console.log(JSON.stringify(estoqueSemSaldo))
+                cart.map((i, k) => {
+                    estoqueSemSaldo.map((item, key) => {
+                        if (i.id == item.id_produto) {
+                            i.semSaldo = 1
+                        } else {
+                            i.semSaldo = 0
                         }
-                     </ScrollEndereco>
+                    })
+                })
 
-                  </EnderecoArea>
-               }
-               <TotaisArea>
-                  <TitleArea>
-                     <Text size="15px" color="#fff" >Totais:</Text>
-                  </TitleArea>
-                  <TotaisInfo>
-                     <SubArea>
+                setErrorMsg("Existem produtos sem saldo suficiente!");
 
-                        <Text size="12px">Sub-Total: R$ {subTotal.toFixed(2).replace(".", ",")}</Text>
-                        <Text size="12px">Desconto: R$ {parseFloat(descontoTotal).toFixed(2).replace(".", ",")}</Text>
-                        {delivery &&
-                        <Text size="12px">Taxa de Entrega: R$ {parseFloat(taxaEntrega).toFixed(2).replace(".", ",")}</Text>}
-
-                     </SubArea>
-                     <TotalArea>
-                        <Text size="20px" family="Roboto Black">Total: R$ {parseFloat(total).toFixed(2).replace(".", ",")}</Text>
-                     </TotalArea>
-                  </TotaisInfo>
-               </TotaisArea>
-            </BodyArea>
-
-            {delivery &&
-                  <TipoPgto>
-                     <TitleArea>
-                        <Text size="15px" color="#fff" >Tipo de pagamento:</Text>
-                     </TitleArea>
-
-                     <TipoPgtoArea>
-                        <CartaoArea enabled={tipoPgto === 'Cartao' ? true : false} onPress={() => handleTipoPgto('Cartao')} activeOpacity={0.7}>
-                           <IconAwesome name="credit-card" size={20} color="#999" />
-                           <Text size="10px" color='#fff'>Cartão</Text>
-                        </CartaoArea>
-                        <DinheiroArea enabled={tipoPgto === 'Dinheiro' ? true : false} onPress={() => handleTipoPgto('Dinheiro')} activeOpacity={0.7}>
-                           <IconAwesome name="money-bill" size={20} color={p.corSecundaria} />
-                           <Text size="10px" color="#fff">Dinheiro</Text>
-                        </DinheiroArea>
-                        {troco > 0 &&
-                           <>
-                              <TrocoArea>
-                                 <IconAwesome name="coins" size={20} color={'#ff0'} />
-                                 <SubtrocoArea>
-                                    <Text size="10px" color="#fff">Troco para</Text>
-                                    <Text size="10px" color="#fff">R$ {parseFloat(troco).toFixed(2).replace(".", ",")}</Text>
-                                 </SubtrocoArea>
-                              </TrocoArea>
-                           </>
-                        }
-                     </TipoPgtoArea>
-                  </TipoPgto>
-               }
-             {errorMsg != '' &&
-                  <ErrorArea>
-                     <Text size="12px" color="#fff" family="Roboto Regular">{errorMsg}</Text>
-                  </ErrorArea>}
-            <AreaCheckoutButtom>
-               <CheckoutButtom onPress={handleCheckout} activeOpacity={0.7}>
-                  <IconTwo name="cart-arrow-right" size={20} color="#fff" />
-                  <Text color="#fff" size="16px">Concluir Compra</Text>
-               </CheckoutButtom>
-            </AreaCheckoutButtom> 
-            
+            }
 
 
-         </ModalArea>
+        } catch (e) {
+            console.log("Erro: " + JSON.stringify(e))
+        }
+    }
 
-      </Modal>
-   )
+    const handleTipoPgto = (tipo) => {
+        if (tipo === 'Dinheiro') {
+            trocoAction(true);
+            setTipoPgto('Dinheiro')
+        }
+        if (tipo === 'Cartao') {
+            setTipoPgto('Cartao')
+            getTroco(0)
+        }
+
+    }
+
+    return (
+        <Modal
+            visible={visible}
+            visiblieAction={visibleAction}
+            animationType="slide"
+            transparent={false}
+        >
+            <ModalArea>
+                <BodyArea>
+                    <ModalHeader>
+                        <AreaBack>
+                            <Buttom onPress={handleClose}>
+                                <Icon name="arrow-back" size={25} color="#fff" />
+                            </Buttom>
+                        </AreaBack>
+                        <AreaText>
+                            <Text size="17px" color="#fff">Finalizar Compra</Text>
+                        </AreaText>
+                    </ModalHeader>
+
+                    <RevisaoArea>
+
+                        <TitleArea>
+                            <Text size="15px" color="#fff" >Revisão do Pedido:</Text>
+                        </TitleArea>
+                        <ScrollRevisao >
+                            {
+                                cart.map((i, k) => {
+                                    return (
+                                        <ProdutoArea key={k} semSaldo={i.semSaldo}>
+                                            <ImageArea>
+                                                <ProdutoImage source={{ uri: p.URL_FILES + i.image }} />
+                                            </ImageArea>
+                                            <ProdutoInfo>
+                                                <Text size="12px">{i.nome}</Text>
+                                                <Text size="12px">Qtd: {i.qtd}</Text>
+                                                <Text size="15px">R$ {parseFloat(i.preco_vigente).toFixed(2).replace(".", ",")}</Text>
+                                            </ProdutoInfo>
+                                        </ProdutoArea>
+                                    )
+                                })
+                            }
+                        </ScrollRevisao>
+                    </RevisaoArea>
+                    {delivery &&
+
+                        <EnderecoArea>
+                            <TitleEndereco>
+                                <Text size="15px" color="#fff" >Endereço para entrega:</Text>
+                                <AreaButtom onPress={handleAddAddress}>
+                                    <Icon name="add-location" size={15} color={p.corPrincipal} />
+                                    <Text size="10px" family="Roboto Thin">Adicionar</Text>
+                                </AreaButtom>
+                            </TitleEndereco>
+
+                            <ScrollEndereco showsVerticalScrollIndicator={false}>
+                                {addressList.map((i, k) => {
+                                    return (
+                                        <AddressItem key={k} data={i} onDelete={handleDelete} onSelect={setIdAddress} active={idAddress} />
+                                    )
+                                })
+                                }
+                            </ScrollEndereco>
+
+                        </EnderecoArea>
+                    }
+                    <TotaisArea>
+                        <TitleArea>
+                            <Text size="15px" color="#fff" >Totais:</Text>
+                        </TitleArea>
+                        <TotaisInfo>
+                            <SubArea>
+
+                                <Text size="12px">Sub-Total: R$ {subTotal.toFixed(2).replace(".", ",")}</Text>
+                                <Text size="12px">Desconto: R$ {parseFloat(descontoTotal).toFixed(2).replace(".", ",")}</Text>
+                                {delivery &&
+                                    <Text size="12px">Taxa de Entrega: R$ {parseFloat(taxaEntrega).toFixed(2).replace(".", ",")}</Text>}
+
+                            </SubArea>
+                            <TotalArea>
+                                <Text size="20px" family="Roboto Black">Total: R$ {parseFloat(total).toFixed(2).replace(".", ",")}</Text>
+                            </TotalArea>
+                        </TotaisInfo>
+                    </TotaisArea>
+                </BodyArea>
+
+                {delivery &&
+                    <TipoPgto>
+                        <TitleArea>
+                            <Text size="15px" color="#fff" >Tipo de pagamento:</Text>
+                        </TitleArea>
+
+                        <TipoPgtoArea>
+                            <CartaoArea enabled={tipoPgto === 'Cartao' ? true : false} onPress={() => handleTipoPgto('Cartao')} activeOpacity={0.7}>
+                                <IconAwesome name="credit-card" size={20} color="#999" />
+                                <Text size="10px" color='#fff'>Cartão</Text>
+                            </CartaoArea>
+                            <DinheiroArea enabled={tipoPgto === 'Dinheiro' ? true : false} onPress={() => handleTipoPgto('Dinheiro')} activeOpacity={0.7}>
+                                <IconAwesome name="money-bill" size={20} color={p.corSecundaria} />
+                                <Text size="10px" color="#fff">Dinheiro</Text>
+                            </DinheiroArea>
+                            {troco > 0 &&
+                                <>
+                                    <TrocoArea>
+                                        <IconAwesome name="coins" size={20} color={'#ff0'} />
+                                        <SubtrocoArea>
+                                            <Text size="10px" color="#fff">Troco para</Text>
+                                            <Text size="10px" color="#fff">R$ {parseFloat(troco).toFixed(2).replace(".", ",")}</Text>
+                                        </SubtrocoArea>
+                                    </TrocoArea>
+                                </>
+                            }
+                        </TipoPgtoArea>
+                    </TipoPgto>
+                }
+                {errorMsg != '' &&
+                    <ErrorArea>
+                        <Text size="12px" color="#fff" family="Roboto Regular">{errorMsg}</Text>
+                    </ErrorArea>}
+                <AreaCheckoutButtom>
+                    <CheckoutButtom onPress={handleCheckout} activeOpacity={0.7}>
+                        <IconTwo name="cart-arrow-right" size={20} color="#fff" />
+                        <Text color="#fff" size="16px">Concluir Compra</Text>
+                    </CheckoutButtom>
+                </AreaCheckoutButtom>
+
+
+
+            </ModalArea>
+
+        </Modal>
+    )
 
 
 }
 const mapStateToProps = (state) => {
-   return {
-      cart: state.cartReducer.carrinho,
-      total: state.cartReducer.total,
-      token: state.authReducer.token,
-      troco: state.checkoutReducer.troco,
-      endereco: state.checkoutReducer.endereco,
-      taxaEntrega: state.checkoutReducer.taxaEntrega
-   }
+    return {
+        cart: state.cartReducer.carrinho,
+        total: state.cartReducer.total,
+        token: state.authReducer.token,
+        troco: state.checkoutReducer.troco,
+        endereco: state.checkoutReducer.endereco,
+        taxaEntrega: state.checkoutReducer.taxaEntrega
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {
-   return {
-      setAddress: (list) => dispatch({ type: 'SET_ADDRESS', payload: { addressList: list } }),
-      getTroco: (troco) => dispatch({ type: 'SET_TROCO', payload: { troco } }),
+    return {
+        setAddress: (list) => dispatch({ type: 'SET_ADDRESS', payload: { addressList: list } }),
+        getTroco: (troco) => dispatch({ type: 'SET_TROCO', payload: { troco } }),
 
-   }
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalFinalizar);

@@ -18,5 +18,28 @@ const ApiApp = {
         }
     },
 
+    validaCart: async (token, cart) => {
+        try{
+            const resp = await api.post(`verify/reserva`, {cart}, {
+                 headers:{auth:`${bearer} ${token}`}
+            })
+            return resp.data.estoque
+        }catch(e){
+            console.log(e.message)
+        }
+    },
+
+    postReserva: async (token, reserva) => {
+        try{
+            console.log("Vou chamar reserva com: "+JSON.stringify(reserva))
+            const resp = await  api.post(`reserva`, reserva, {
+                headers:{auth:`${bearer} ${token}`}
+            })
+            return resp.data
+        } catch (e){
+            console.log(e.message)
+        }
+    }
+
 }
 export default () => ApiApp;
