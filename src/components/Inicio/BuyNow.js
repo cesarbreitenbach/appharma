@@ -25,7 +25,7 @@ padding:10px;
 export const IconeArea = styled.View`
 width:50px;
 border-radius: 35px;
-background-color:${padrao.corPrincipal || '#3f9168'};
+background-color:${padrao.corSecundaria || '#3f9168'};
 justify-content:center;
 align-items:center;
 margin-left:15px;
@@ -33,7 +33,7 @@ margin-left:15px;
 export const HeaderArea = styled.View`
    width:100%;
    height:40px;
-   background-color:${padrao.corPrincipal || '#3f9168'};
+   background-color:${padrao.corSecundaria || '#3f9168'};
    border-top-left-radius: 15px;
    border-top-right-radius: 15px;
    flex-direction:row;
@@ -47,7 +47,7 @@ export const FooterArea = styled.View`
    height:15px;
    border-bottom-right-radius: 15px;
    border-bottom-left-radius: 15px;
-   background-color:${padrao.corPrincipal || '#3f9168'};
+   background-color:${padrao.corSecundaria || '#3f9168'};
    `
 export const ButtomArea = styled.View`
 justify-content:center;
@@ -64,7 +64,7 @@ export const BuyNowItems = styled.View`
 export const BuyNowButtom = styled.TouchableHighlight`
    width:200px;
    height:50px;
-   background-color:#3f9168;
+   background-color:${padrao.corSecundaria || '#3f9168'};
    justify-content:center;
    align-items:center;
    border-radius:15px;

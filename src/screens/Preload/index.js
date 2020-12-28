@@ -38,7 +38,6 @@ const Preload = (props) => {
     useEffect(() => {
 
         if (!props.token) {
-            console.log("Vou pegar goBest")
             const goBest = async () => {
                 try {
                     const r = await api.get(`promocoes/best`);
@@ -132,9 +131,9 @@ const Preload = (props) => {
 
             {!error &&
                 <>
-                    <Title size="16px" style={{ fontFamily: "Roboto Black" }}>Approach Mobile </Title>
+                    <Title size="17px" style={{ fontFamily: "Roboto Black" }}>Astrofarma </Title>
                     <Logo source={require('../../assets/logo.png')} />
-                    <Title size="14px" style={{ fontFamily: "Roboto Black" }}>Solutions</Title>
+                    <Title size="14px" style={{ fontFamily: "Roboto Black" }}> Approach Mobile Solutions</Title>
                 </>}
 
             {error &&

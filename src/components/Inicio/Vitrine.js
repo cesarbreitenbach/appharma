@@ -21,7 +21,7 @@ const Conteiner = styled.View`
     border-bottom-right-radius: 15px
 `;
 export const HeaderPromo = styled.View`
-   background-color:${padrao.corPrincipal || '#3f9168'};
+   background-color:${padrao.corSecundaria || '#3f9168'};
    width:100%;
    height:30px;
    justify-content:center;
@@ -41,7 +41,7 @@ padding:10px;
 export const IconeArea = styled.View`
 width:40px;
 border-top-left-radius: 35px;
-background-color:${padrao.corPrincipal || '#3f9168'};
+background-color:${padrao.corSecundaria || '#3f9168'};
 justify-content:center;
 align-items:center;
 margin-left:15px;

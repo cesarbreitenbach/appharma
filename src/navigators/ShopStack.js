@@ -22,7 +22,7 @@ const ShopStack = createStackNavigator({
 }, {
       initialRouteName:'Shop',
       defaultNavigationOptions:{
-         headerStyle:{backgroundColor:padroes.corPrincipal, height:80}
+         headerStyle:{backgroundColor:padroes.corSecundaria, height:80}
       },
       
 });

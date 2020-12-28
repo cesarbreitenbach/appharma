@@ -39,7 +39,7 @@ const App = () => {
    return (
 
       <>
-         <StatusBar barStyle="light-content" translucent backgroundColor={padrao.corPrincipal || "#016e66"} />
+         <StatusBar barStyle="light-content" translucent backgroundColor={padrao.corSecundaria || "#016e66"} />
          <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
                <MainStack  />

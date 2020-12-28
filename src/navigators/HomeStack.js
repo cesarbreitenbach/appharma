@@ -19,7 +19,7 @@ const HomeStack = createStackNavigator({
       initialRouteName:'Inicio',
       defaultNavigationOptions:{
          headerShown: true,
-         headerStyle:{backgroundColor:p.corPrincipal, height:80}
+         headerStyle:{backgroundColor:p.corSecundaria, height:80}
       },
 });
 

@@ -53,12 +53,13 @@ font-family:Roboto Bold;
 const ItemVitrine = (props) => {
 
    const handleClick = ({id, tipo}) => {
+      console.log("Id e tipo: "+id+" "+tipo)
       props.navigation.navigate('Produto', {id, tipo})
    }
 
 
    return (
-      <ProductArea underlayColor='#52d191' onPress={() => handleClick(props.data)}>
+      <ProductArea underlayColor='#3f9168' onPress={() => handleClick(props.data)}>
          <>
                {props.data.image && <Item style={{marginTop:5}} radius="60px" resizeMode='cover' width="95px" height="95px" source={{uri:p.URL_FILES+props.data.image}}  />}
                {!props.data.image && <Item style={{marginTop:5}} width="95px" height="95px" source={require('../../assets/nopicture.png')} />}  

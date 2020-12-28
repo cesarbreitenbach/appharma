@@ -14,6 +14,7 @@ export const Title = styled.Text`
 `
 
 export const Logo = styled.Image`
-   width:80px;
-   height:80px;
+   width:125px;
+   height:125px;
+   border-radius:62px;
 `

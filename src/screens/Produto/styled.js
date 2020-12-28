@@ -61,7 +61,7 @@ export const OriginalPriceArea = styled.View`
 `
 
 export const Price = styled.Text`
-   font-family:Ubuntu Bold;
+   font-family:${props=>props.font || 'Ubuntu Bold'};
    font-size:${props=>props.size || '15px'};
    color: ${props=>props.color || '#000'};
    margin:3px;
@@ -69,10 +69,10 @@ export const Price = styled.Text`
 `
 
 export const Off = styled.View`
-   width:30px;
-   height:30px;
-   border-radius:15px;
-   background-color:#0dbf16;
+   width:40px;
+   height:40px;
+   border-radius:20px;
+   background-color:${p.corSecundaria};
    align-items:center;
    justify-content:center;
    margin-top:-20px;

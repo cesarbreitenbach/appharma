@@ -2,7 +2,7 @@ import axios from 'axios'
 import d from '../config/padroes'
 
 const api = axios.create({
-  baseURL:d.API_URL
+    baseURL: d.API_URL
 })
 
 const bearer = 'Bearer';
@@ -11,32 +11,57 @@ const ApiApp = {
 
     getReservas: async (idProduto) => {
         try {
-            const resp = await api.get(`reserva/${idProduto}`, { }, { headers: {} })
+            const resp = await api.get(`reserva/${idProduto}`, {}, { headers: {} })
             return resp.data.total_reservado[0].total_reservado
         } catch (e) {
-            return { error: e}
+            return { error: e }
         }
     },
 
     validaCart: async (token, cart) => {
-        try{
-            const resp = await api.post(`verify/reserva`, {cart}, {
-                 headers:{auth:`${bearer} ${token}`}
+        try {
+            const resp = await api.post(`verify/reserva`, { cart }, {
+                headers: { auth: `${bearer} ${token}` }
             })
             return resp.data.estoque
-        }catch(e){
+        } catch (e) {
             console.log(e.message)
         }
     },
 
     postReserva: async (token, reserva) => {
-        try{
-            console.log("Vou chamar reserva com: "+JSON.stringify(reserva))
-            const resp = await  api.post(`reserva`, reserva, {
-                headers:{auth:`${bearer} ${token}`}
+        try {
+            const resp = await api.post(`reserva`, reserva, {
+                headers: { auth: `${bearer} ${token}` }
             })
             return resp.data
-        } catch (e){
+        } catch (e) {
+            console.log(e.message)
+        }
+    },
+
+    getDestaques: async () => {
+        try {
+            const resp = await api.get('promocoes/destaques')
+            return resp.data
+        } catch (e) {
+            console.log(e.message)
+        }
+    },
+    getMaisVendidos: async () => {
+        try {
+            const resp = await api.get('promocoes/destaques')
+            return resp.data
+        } catch (e) {
+            console.log(e.message)
+        }
+    },
+
+    getValidaMarcacao: async () => {
+        try {
+            const resp = await api.get('/sync/valida')
+            return resp.data[0].desync;
+        } catch (e) {
             console.log(e.message)
         }
     }

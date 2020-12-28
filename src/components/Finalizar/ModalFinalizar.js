@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Modal } from "react-native";
+import { Modal, Linking } from "react-native";
 import styled from 'styled-components/native';
 import p from '../../config/padroes'
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -8,11 +8,7 @@ import IconAwesome from 'react-native-vector-icons/FontAwesome5'
 import AddressItem from './AddressItem'
 import { connect } from 'react-redux'
 import { ErrorArea, Text as TextError } from '../../components/ErrorArea'
-import api from '../../helpers/api'
 import useApi from '../../helpers/apiAppharma'
-
-
-
 
 const ModalArea = styled.KeyboardAvoidingView`
    flex:1;
@@ -20,7 +16,7 @@ const ModalArea = styled.KeyboardAvoidingView`
 `
 const ModalHeader = styled.View`
    flex-direction:row;
-   background-color:${p.corPrincipal || '#ddd'}
+   background-color:${p.corSecundaria || '#ddd'}
    
 `;
 const AreaBack = styled.View`
@@ -269,6 +265,16 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
     }
 
     const handleCheckout = async () => {
+     
+        const marcacaoValida = await appharma.getValidaMarcacao();     
+
+        if (marcacaoValida == 1){
+            const link = 'whatsapp://send?text=Oi, estou com dificuldade para comprar no APP!&phone=+5545999254574'
+            await Linking.openURL(link);
+            setErrorMsg("Venda não disponivel no momento")
+            return
+        }
+        
 
         if (cart.length < 1) {
             setErrorMsg('Você precisa inserir itens ao carrinho!')

@@ -59,7 +59,6 @@ const Produto = (props) => {
         api.get(`/produtos/consulta?id=${changeProduct}`).then(r => {
             console.log("id produto: " + r.data[0].id)
             setTipoProduto(r.data[0].tipo)
-            console.log("Tipo: " + tipoProduto)
             let produtoEscolhido = r.data[0];
 
             const lista = props.cart;
@@ -83,7 +82,6 @@ const Produto = (props) => {
                 setDesconto(Number.parseFloat(novoProduto.produtoEscolhido.discount));
                 console.log("Esse é o novo produto")
                 console.log(JSON.stringify(novoProduto))
-                console.log("esse é o tipo: " + novoProduto.produtoEscolhido.tipo)
                 setProduto(novoProduto)
                 setQtdProduto(novoProduto.qtd)
                 setCarregou(true)
@@ -96,15 +94,16 @@ const Produto = (props) => {
         })
     }, [changeProduct])
 
-    useEffect(() => {
-        if (!tipoProduto) { return }
+    // ATIVAR PARA CARREGAR OS SIMILARES AO PRODUTO
+    // useEffect(() => {
+    //     if (!tipoProduto) { return }
 
-        const carregaSimilar = async () => {
-            const result = await api.get(`/produtos/similars?tipo=${tipoProduto}&id=${idProduto}`);
-            setSimilarList(result.data)
-        }
-        carregaSimilar()
-    }, [tipoProduto])
+    //     const carregaSimilar = async () => {
+    //       //  const result = await api.get(`/produtos/similars?tipo=${tipoProduto}&id=${idProduto}`);
+    //       //  setSimilarList(result.data)
+    //     }
+    //     carregaSimilar()
+    // }, [tipoProduto])
 
     const changeItem = (id) => {
         setChangeProduct(id)
@@ -131,15 +130,15 @@ const Produto = (props) => {
                     <ProdutoScroll>
                         <ProdutoArea>
                             <FuckItem>
-                                <ProdutoImg resizeMode='cover' source={{ uri: p.URL_FILES + produto.produtoEscolhido.image }} />
+                                <ProdutoImg resizeMode='cover' source={{ uri: p.URL_FILES + produto.produtoEscolhido.path }} />
                                 <Title color="#000">{carregou ? produto.produtoEscolhido.nome : 'aguarde...'}</Title>
                             </FuckItem>
                             <PriceInfo>
                                 {(produto.produtoEscolhido.preco_original != produto.produtoEscolhido.preco_vigente) &&
                                     <OriginalPriceArea>
-                                        <Price size="10px" decoration="line-through" color="#ff0000">de R$ {parseFloat(produto.produtoEscolhido.preco_original).toFixed(2).replace(".", ",")}  </Price>
+                                        <Price size="12px" decoration="line-through" color="#ff0000">de R$ {parseFloat(produto.produtoEscolhido.preco_original).toFixed(2).replace(".", ",")}  </Price>
                                         <Off>
-                                            <Price color="#fff" size="9px"  >{desconto.toFixed(0)} %</Price>
+                                            <Price color="#fff" size="14px"  font="Ubuntu Regular">{desconto.toFixed(0)} %</Price>
                                         </Off>
                                     </OriginalPriceArea>
                                 }

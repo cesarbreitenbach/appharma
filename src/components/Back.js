@@ -5,7 +5,7 @@ import d from '../config/padroes'
 
 
 const Conteiner = styled.View`
-    background-color:${d.corPrincipal};
+    background-color:${d.corSecundaria};
     height:40px;
     margin-left:10px;
     margin-top:5px;
