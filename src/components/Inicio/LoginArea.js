@@ -21,7 +21,7 @@ border-top-left-radius: 20px
 export const HeaderArea = styled.View`
    width:100%;
    height:55px;
-   background-color:${padrao.corPrincipal || '#3f9168'};
+   background-color:${padrao.corSecundaria || '#3f9168'};
    border-top-left-radius: 20px;
    flex-direction:row;
    
@@ -29,7 +29,7 @@ export const HeaderArea = styled.View`
 export const IconeArea = styled.View`
 width:50px;
 border-top-left-radius: 20px;
-background-color:${padrao.corPrincipal || '#3f9168'};
+background-color:${padrao.corSecundaria || '#3f9168'};
 justify-content:center;
 align-items:center;
 margin-left:15px;
@@ -60,7 +60,7 @@ align-items:center;
 export const Buttom = styled.TouchableHighlight`
    width:200px;
    height:50px;
-   background-color:#3f9168;
+   background-color:${padrao.corSecundaria || '#3f9168'};
    justify-content:center;
    align-items:center;
    border-radius:15px;
@@ -75,7 +75,7 @@ export const FooterArea = styled.View`
    width:100%; 
    height:15px;
    border-bottom-right-radius: 35px;
-   background-color:${padrao.corPrincipal || '#3f9168'};
+   background-color:${padrao.corSecundaria || '#3f9168'};
    `;
 
 

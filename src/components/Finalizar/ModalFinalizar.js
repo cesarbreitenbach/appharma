@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Modal, Linking } from "react-native";
+import { Modal, Linking, ActivityIndicator } from "react-native";
 import styled from 'styled-components/native';
 import p from '../../config/padroes'
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -9,6 +9,15 @@ import AddressItem from './AddressItem'
 import { connect } from 'react-redux'
 import { ErrorArea, Text as TextError } from '../../components/ErrorArea'
 import useApi from '../../helpers/apiAppharma'
+import api from '../../helpers/api'
+import LoadingModal from '../../components/LoadingModal'
+
+
+export const ActivityArea = styled.View`
+   align-items:center;
+   justify-content:center;
+   flex:1;
+`
 
 const ModalArea = styled.KeyboardAvoidingView`
    flex:1;
@@ -212,13 +221,14 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
     const [subTotal, setSubTotal] = useState(0)
     const [descontoTotal, setDescontoTotal] = useState(0)
     const [tipoPgto, setTipoPgto] = useState(false)
+    const[loading, setLoading] = useState(false)
 
     const appharma = useApi();
 
     useEffect(() => {
         setTimeout(() => {
             setErrorMsg('')
-        }, 1850)
+        }, 1950)
     }, [errorMsg])
 
     useEffect(() => {
@@ -265,28 +275,39 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
     }
 
     const handleCheckout = async () => {
-     
-        const marcacaoValida = await appharma.getValidaMarcacao();     
 
-        if (marcacaoValida == 1){
+        setLoading(true);
+
+        const marcacaoValida = await appharma.getValidaMarcacao();
+        
+        if (marcacaoValida == 1) {
+            setLoading(false);
             const link = 'whatsapp://send?text=Oi, estou com dificuldade para comprar no APP!&phone=+5545999254574'
-            await Linking.openURL(link);
-            setErrorMsg("Venda não disponivel no momento")
+            const supported = await Linking.canOpenURL(link);
+            if (!supported) {
+                alert("Venda não disponivel. Não encontrei o Whatsapp para enviar mensagem!")
+            } else {
+                alert("Venda não disponivel no momento.")
+                await Linking.openURL(link);
+            }
             return
         }
-        
+
 
         if (cart.length < 1) {
+            setLoading(false);
             setErrorMsg('Você precisa inserir itens ao carrinho!')
             return
         }
 
         if (delivery) {
             if (endereco.length < 1) {
+                setLoading(false);
                 setErrorMsg('Selecione um endereço!')
                 return
             }
             if (!tipoPgto) {
+                setLoading(false);
                 setErrorMsg("Selecione um tipo de pagamento!")
                 return
             }
@@ -311,18 +332,17 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                 confirmSuccess(true)
                 const { codigo_venda } = venda.data
                 socketHandler(codigo_venda)
-                
-                cart.map( async (i, k) => {
+
+                cart.map(async (i, k) => {
                     let reserva = {
-                        "chave_venda":codigo_venda,
-                        "id_produto":i.id,
-                        "id_estoque":i.id_estoque,
-                        "qtd_reserva":i.qtd
+                        "chave_venda": codigo_venda,
+                        "id_produto": i.id,
+                        "id_estoque": i.id_estoque,
+                        "qtd_reserva": i.qtd
                     }
                     await appharma.postReserva(token, reserva)
-                
-                })
 
+                })
 
             } else {
                 console.log("Fazer alguma coisa na tela para dizer que existem produtos sem saldo")
@@ -336,14 +356,14 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                         }
                     })
                 })
-
+                setLoading(false);
                 setErrorMsg("Existem produtos sem saldo suficiente!");
-
             }
 
-
+            setLoading(false);
+            
         } catch (e) {
-            console.log("Erro: " + JSON.stringify(e))
+            console.log("Erro: " + e.message)
         }
     }
 
@@ -367,6 +387,8 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
             transparent={false}
         >
             <ModalArea>
+            { !loading &&
+            <>
                 <BodyArea>
                     <ModalHeader>
                         <AreaBack>
@@ -484,10 +506,19 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                         <Text color="#fff" size="16px">Concluir Compra</Text>
                     </CheckoutButtom>
                 </AreaCheckoutButtom>
+                </>
+                }
+
+                { loading && <ActivityArea>
+                    <ActivityIndicator size="large" color="#999" />
+                    <Text size="15px" color="#000">Aguarde, estamos concluindo sua compra!</Text>
+                </ActivityArea>}
 
 
 
             </ModalArea>
+
+            
 
         </Modal>
     )
