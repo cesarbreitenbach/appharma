@@ -14,17 +14,19 @@ import FlashMessage from "react-native-flash-message";
 import { ErrorArea, Text as TextError } from '../../components/ErrorArea'
 import ModalSucesso from '../../components/Finalizar/ModalSucesso'
 import io from 'socket.io-client';
+import useApi from '../../helpers/apiAppharma'
+import {useSelector} from 'react-redux'
 
 
 const Cart = (props) => {
 
    const socket = io('https://approachmobile.company');
 
-
-   console.log('lista no redux: ' + JSON.stringify(props.addressList))
    const [error, setError] = useState(false)
    const [errorMsg, setErrorMsg] = useState("")
    const [qtdCart, setQtdCart] = useState(props.cart.length)
+   const [previsao, setPrevisao] = useState('');
+   const [taxa, setTaxa] = useState('')
    const [modalVisible, setModalVisible] = useState(false)
    const [addressModalVisible, setAddressModalVisible] = useState(false)
    const [radioDelivery, setRadioDelivery] = useState(false)
@@ -32,6 +34,8 @@ const Cart = (props) => {
    const [modalSucessoVisible, setModalSucessoVisible] = useState(false)
    const [checkoutSuccess, setCheckoutSuccess] = useState(false)
    const vTotal = props.total
+   const api = useApi();
+   const token = useSelector( state => state.authReducer.token)
 
    useEffect(() => {
       setTimeout(() => {
@@ -43,7 +47,11 @@ const Cart = (props) => {
       socket.on('connect', () => {
          console.log("Abrindo conexão com socket...")
       })
+
    }, [])
+
+
+
    const ClearCartConfirm = () => {
       Alert.alert(
          'Esvaziar',
@@ -129,6 +137,7 @@ const Cart = (props) => {
             successAction={setModalSucessoVisible}
             confirmSuccess={setCheckoutSuccess}
             socketHandler={socketHandlerConfirmSell}
+            taxaEntrega={taxa}
          />
 
          <TrocoModal
@@ -142,6 +151,7 @@ const Cart = (props) => {
             navigation={props.navigation}
             success={checkoutSuccess}
             confirmSuccess={setCheckoutSuccess}
+            previsao={previsao}
          />
 
          {errorMsg != '' &&
@@ -176,7 +186,7 @@ const Cart = (props) => {
                      <Text color="#000">Receber em casa</Text>
                   </Entrega>
                   <ValorEntregaArea>
-                     <Text color="#000">R$ 8,00</Text>
+                     <Text color="#000">R$ {parseFloat(taxa).toFixed(2)}</Text>
                   </ValorEntregaArea>
                </TipoEntregaArea>
             </>

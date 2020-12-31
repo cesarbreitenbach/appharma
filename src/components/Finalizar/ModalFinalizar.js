@@ -215,6 +215,7 @@ const TipoPgto = styled.View`
 
 const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddress, delivery, cart, total, token, trocoAction, getTroco, troco, endereco, taxaEntrega, successAction, confirmSuccess, socketHandler }) => {
 
+    
     const [addressList, setAddressList] = useState(data)
     const [errorMsg, setErrorMsg] = useState('')
     const [idAddress, setIdAddress] = useState(0)
@@ -282,7 +283,8 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
         
         if (marcacaoValida == 1) {
             setLoading(false);
-            const link = 'whatsapp://send?text=Oi, estou com dificuldade para comprar no APP!&phone=+5545999254574'
+            const configs = await appharma.getConfigs(token)
+            const link = `whatsapp://send?text=Oi, estou com dificuldade para comprar no APP!&phone=+55${configs[0].whatsapp}`
             const supported = await Linking.canOpenURL(link);
             if (!supported) {
                 alert("Venda não disponivel. Não encontrei o Whatsapp para enviar mensagem!")

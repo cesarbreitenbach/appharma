@@ -1,6 +1,7 @@
 const initialState = {
 	carrinho: [],
-	total: 0,
+    total: 0,
+    taxa_entrega:0
 };
 
 const operations = {

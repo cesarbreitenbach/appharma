@@ -40,6 +40,25 @@ const ApiApp = {
         }
     },
 
+    getConfigs: async (token) => {
+        try {
+            const resp = await api.get(`loja`, { headers: {auth:token} })
+            return resp.data
+        } catch (e) {
+            return { error: e }
+        }
+    },
+
+    getPrazoEntrega: async () => {
+        try{
+            const resp = await api.get(`loja/prazo`)
+            return resp.data.prazo
+
+        }catch(e){
+            console.log(e.message)
+        }
+    },
+
     getDestaques: async () => {
         try {
             const resp = await api.get('promocoes/destaques')
