@@ -14,9 +14,7 @@ const App = () => {
       //permissao
       const reqNotifPerm = async () => {
          const authStatus = await messaging().requestPermission()
-         console.log('Permissão: ' + authStatus)
          const token = await messaging().getToken()
-         console.log("token: " + token)
       }
 
       reqNotifPerm()
@@ -29,7 +27,7 @@ const App = () => {
 
          return unsubscribe;
       } catch (e) {
-         console.log('naõ  estou ouvindo notiviacaçõe' + e.message)
+         console.log('não  estou ouvindo notificações ' + e.message)
       }
 
 

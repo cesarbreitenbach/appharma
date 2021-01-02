@@ -6,11 +6,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import IconTwo from 'react-native-vector-icons/MaterialCommunityIcons'
 import IconAwesome from 'react-native-vector-icons/FontAwesome5'
 import AddressItem from './AddressItem'
-import { connect } from 'react-redux'
+import { connect, useSelector} from 'react-redux'
 import { ErrorArea, Text as TextError } from '../../components/ErrorArea'
 import useApi from '../../helpers/apiAppharma'
 import api from '../../helpers/api'
-import LoadingModal from '../../components/LoadingModal'
+
 
 
 export const ActivityArea = styled.View`
@@ -215,6 +215,8 @@ const TipoPgto = styled.View`
 
 const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddress, delivery, cart, total, token, trocoAction, getTroco, troco, endereco, taxaEntrega, successAction, confirmSuccess, socketHandler }) => {
 
+    const whatsapp = useSelector(state => state.cartReducer.whatsapp)
+    const taxa_entrega = useSelector(state => state.cartReducer.taxa_entrega)
     
     const [addressList, setAddressList] = useState(data)
     const [errorMsg, setErrorMsg] = useState('')
@@ -223,6 +225,7 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
     const [descontoTotal, setDescontoTotal] = useState(0)
     const [tipoPgto, setTipoPgto] = useState(false)
     const[loading, setLoading] = useState(false)
+    const [totalGeral, setTotalGeral] = useState(0)
 
     const appharma = useApi();
 
@@ -240,16 +243,20 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
             await cart.map((i, k) => {
                 vSubTotal += parseFloat(i.preco_original) * parseInt(i.qtd)
                 vDesconto += (parseFloat(i.preco_original) * parseInt(i.qtd)) - (parseFloat(i.preco_vigente) * parseInt(i.qtd))
-                console.log(`Preço original: ${i.preco_original} Preco vigente: ${i.preco_vigente}  total desconto: ${vDesconto} subTotal ${vSubTotal}`)
             });
             setSubTotal(vSubTotal)
             setDescontoTotal(vDesconto)
+            let totalAux = vSubTotal - vDesconto;
+            if(delivery){
+                totalAux = totalAux + parseFloat(taxa_entrega);
+            } 
+            setTotalGeral(totalAux)
+
+
         }
         getTotais();
 
-
-
-    }, [])
+    }, [delivery])
 
     useEffect(() => {
         setIdAddress(endereco.id)
@@ -283,8 +290,8 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
         
         if (marcacaoValida == 1) {
             setLoading(false);
-            const configs = await appharma.getConfigs(token)
-            const link = `whatsapp://send?text=Oi, estou com dificuldade para comprar no APP!&phone=+55${configs[0].whatsapp}`
+            
+            const link = `whatsapp://send?text=Oi, estou com dificuldade para comprar no APP!&phone=+55${whatsapp}`
             const supported = await Linking.canOpenURL(link);
             if (!supported) {
                 alert("Venda não disponivel. Não encontrei o Whatsapp para enviar mensagem!")
@@ -347,8 +354,6 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                 })
 
             } else {
-                console.log("Fazer alguma coisa na tela para dizer que existem produtos sem saldo")
-                console.log(JSON.stringify(estoqueSemSaldo))
                 cart.map((i, k) => {
                     estoqueSemSaldo.map((item, key) => {
                         if (i.id == item.id_produto) {
@@ -459,11 +464,11 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                                 <Text size="12px">Sub-Total: R$ {subTotal.toFixed(2).replace(".", ",")}</Text>
                                 <Text size="12px">Desconto: R$ {parseFloat(descontoTotal).toFixed(2).replace(".", ",")}</Text>
                                 {delivery &&
-                                    <Text size="12px">Taxa de Entrega: R$ {parseFloat(taxaEntrega).toFixed(2).replace(".", ",")}</Text>}
+                                    <Text size="12px">Taxa de Entrega: R$ {parseFloat(taxa_entrega).toFixed(2).replace(".", ",")}</Text>}
 
                             </SubArea>
                             <TotalArea>
-                                <Text size="20px" family="Roboto Black">Total: R$ {parseFloat(total).toFixed(2).replace(".", ",")}</Text>
+                                <Text size="20px" family="Roboto Black">Total: R$ {parseFloat(totalGeral).toFixed(2).replace(".", ",")}</Text>
                             </TotalArea>
                         </TotaisInfo>
                     </TotaisArea>

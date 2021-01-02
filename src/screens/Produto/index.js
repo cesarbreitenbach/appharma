@@ -56,6 +56,8 @@ const Produto = (props) => {
 
         setError(false)
 
+        let unmonted = false;
+
         api.get(`/produtos/consulta?id=${changeProduct}`).then(r => {
             console.log("id produto: " + r.data[0].id)
             setTipoProduto(r.data[0].tipo)
@@ -70,21 +72,25 @@ const Produto = (props) => {
                     produtoEscolhido,
                     qtd: lista[index].qtd
                 }
-                setDesconto(Number.parseFloat(novoProduto.produtoEscolhido.discount));
-                setProduto(novoProduto)
-                setQtdProduto(novoProduto.qtd)
-                setCarregou(true)
+                if(!unmonted){
+                    setDesconto(Number.parseFloat(novoProduto.produtoEscolhido.discount));
+                    setProduto(novoProduto)
+                    setQtdProduto(novoProduto.qtd)
+                    setCarregou(true)
+                }
             } else {
                 let novoProduto = {
                     produtoEscolhido,
                     qtd: 0
                 }
-                setDesconto(Number.parseFloat(novoProduto.produtoEscolhido.discount));
-                console.log("Esse é o novo produto")
-                console.log(JSON.stringify(novoProduto))
-                setProduto(novoProduto)
-                setQtdProduto(novoProduto.qtd)
-                setCarregou(true)
+                if(!unmonted){
+                    setDesconto(Number.parseFloat(novoProduto.produtoEscolhido.discount));
+                    console.log("Esse é o novo produto")
+                    console.log(JSON.stringify(novoProduto))
+                    setProduto(novoProduto)
+                    setQtdProduto(novoProduto.qtd)
+                    setCarregou(true)
+                }
             }
 
         }).catch(e => {
@@ -92,6 +98,8 @@ const Produto = (props) => {
             setError(true)
             setErrorMsg(e.message)
         })
+
+        return () => {unmonted = true}
     }, [changeProduct])
 
     // ATIVAR PARA CARREGAR OS SIMILARES AO PRODUTO

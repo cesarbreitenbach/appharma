@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { StackActions, NavigationActions } from 'react-navigation';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import api from '../../helpers/api'
+import useApi from '../../helpers/apiAppharma'
 import { Conteiner, Title, Logo } from './styled'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import messaging from '@react-native-firebase/messaging'
@@ -10,9 +11,11 @@ import TokenHandler from '../../helpers/TokenHandler'
 
 const Preload = (props) => {
 
+    const token = useSelector(state => state.authReducer.token)
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("")
     const dispatch = useDispatch();
+    const appharma = useApi()
 
     const go = () => {
         props.navigation.dispatch(StackActions.reset({
@@ -37,6 +40,28 @@ const Preload = (props) => {
 
     useEffect(() => {
 
+        const getConfigs = async () => {
+            const configs = await appharma.getConf()
+
+            dispatch({
+                type: 'TAXA_ENTREGA',
+                payload: configs[0].taxa_entrega
+            })
+
+
+            dispatch({
+                type: 'WHATSAPP',
+                payload: configs[0].whatsapp
+            }) 
+
+        }
+        getConfigs()
+
+    }, [])
+
+    useEffect(() => {
+
+
         if (!props.token) {
             const goBest = async () => {
                 try {
@@ -44,7 +69,6 @@ const Preload = (props) => {
                     props.setPromocoes(r.data)
                     go()
                 } catch (e) {
-                    console.log(e)
                     setErrorMessage(e.message)
                     setError(true)
                 }
@@ -72,7 +96,6 @@ const Preload = (props) => {
                     props.setAddressList(tmpList.data)
                     go()
                 } catch (e) {
-                    console.log(e.message)
                     setErrorMessage(e.message)
                     setError(true)
                 };
@@ -89,7 +112,7 @@ const Preload = (props) => {
                 try {
                     const resp = await api.post(`fcm`, { token })
                 } catch (e) {
-                    console.log(e.message)
+                    console.log(e.response.data.error)
                 }
 
             }
@@ -100,21 +123,18 @@ const Preload = (props) => {
                 const attIdUserFcmToken = async () => {
                     try {
                         const tokenAux = props.tokenFcmGuest
-                        console.log(`entrei alterar dono o token ${tokenAux}`)
                         const resp = await api.put(`fcm`, { token: tokenAux }, { headers: { auth: props.token } })
                         props.setFcmToken(tokenAux)
-                        console.log('Alterei dono do fcmtoken')
-                    } catch (e) {
+                       } catch (e) {
                         console.log(e.message)
                     }
                 }
                 attIdUserFcmToken()
             } else {
                 const atualizaUltimoAcesso = async () => {
-                    try{
+                    try {
                         await api.post('lastacess', { fcmToken: props.tokenFcmGuest })
-                        console.log("Alterei a data de ultimo acesso do token: " +  props.tokenFcmGuest )
-                    }catch(e){
+                       } catch (e) {
                         console.log(e.mesage)
                     }
                 }

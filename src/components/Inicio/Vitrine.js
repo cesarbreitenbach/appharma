@@ -78,8 +78,6 @@ export const Nodata = styled.View`
 
 const Vitrine = props => {
 
-    console.log(JSON.stringify(props))
-
    let welcome = 'Top ofertas da semana';
 
    if(props.status){

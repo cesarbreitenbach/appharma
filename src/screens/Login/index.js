@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Conteiner, LogoArea, LogoText, Logo, FormArea, InputArea, FormText, ButtomArea, Buttom, MsgError, InternalButtom } from './styled'
+import { ActivityIndicator } from 'react-native'
 import ValidateCpf from '../../helpers/CpfValidator'
 import { TextInputMask } from 'react-native-masked-text'
 import { connect } from 'react-redux'
 import api from '../../helpers/api'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import useApi from '../../helpers/apiAppharma'
 
 
 
@@ -12,7 +14,9 @@ const Login = (props) => {
 
    const [cpfUser, setCpfUser] = useState('');
    const [error, setError] = useState(false);
-   const start =  () => {
+   const appharma = useApi()
+
+   const start =  async () => {
       setError(false)
       if (!ValidateCpf(cpfUser)){
          setError(true)
@@ -22,35 +26,18 @@ const Login = (props) => {
 
       parsedCpf = parsedCpf.replace('.', '').replace('.', '').replace('-', '');
 
-      console.log(`cpf do caboco ${parsedCpf}`)
+      const infoUser = await appharma.getUser(parsedCpf)
 
-      api.get(`usuarios/${parsedCpf}`)
-         .then((r) => {
-            console.log(`Encontrei usuario Id: ${r.data.user.id} Nome ${r.data.user.nome}`)
-
-            props.setName(r.data.user.nome)
-            props.setId(r.data.user.id)
-            props.setCpf(parsedCpf)
-
-         }).catch(async (e) => {
-            console.log("Usuario não existe")
-            try{
-               const cliente = await api.get(`clientes/${parsedCpf}`);
-               
-               console.log(`Existe cliente sem usuario no app: ${cliente.data.cliente.nome}`)
-               props.setName(cliente.data.cliente.nome)
-
-            } catch (e){
-               console.log(e.response.data)
-               props.setName('')
-            }
-
-            props.setCpf(parsedCpf)
-
-         }).finally(() => {
-            console.log("Direcionando para ConfirmPassword ")
-            props.navigation.navigate('ConfirmPassword');
-         })
+      if (infoUser.success) {
+        props.setName(infoUser.user.nome)
+        props.setId(infoUser.user.id)
+        props.setCpf(parsedCpf)
+        props.navigation.navigate('ConfirmPassword');
+    } else {
+        props.setName('')
+        props.setCpf(parsedCpf)
+        props.navigation.navigate('ConfirmPassword');
+    }
 
    }
 
@@ -66,7 +53,7 @@ const Login = (props) => {
             <InputArea>
                <FormText >Digite seu CPF para começar uma experiência incrivel com nossos serviços online</FormText>
                <TextInputMask
-                  style={{ width: 200, height: 40 }}
+                   style={{ width: '100%', height: 40, borderWidth: 1, marginTop: 5, borderRadius: 10, padding: 5 }}
                   autoFocus={true}
                   type={'cpf'}
                   value={cpfUser}

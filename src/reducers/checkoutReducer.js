@@ -16,13 +16,11 @@ export default (state = initialState, action) => {
          break
 
 		case "SET_ENDERECO": {
-         console.log("Alterei endereço do checkout: "+ JSON.stringify(action.payload.endereco))
          return { ...state, endereco: action.payload.endereco }
          break
       }
       
       case "SET_TROCO": {
-         console.log("Vou setar o troco para: "+action.payload.troco)
          return { ...state, troco: action.payload.troco }
          break
       }

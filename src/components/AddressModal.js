@@ -198,7 +198,7 @@ const AddressModal = ({ visible, visibleAction, userId, token, checkoutAction, s
 
    const handleSave = async () => {
 
-      if (rua == '' || numero == '') {
+      if (rua == '' || numero == '' || bairro === '' || cidade=== '' || uf === '') {
          setErrorMsg("Você precisa informar os campos obrigatorios * ")
          return
       }

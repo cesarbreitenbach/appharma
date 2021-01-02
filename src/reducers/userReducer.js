@@ -26,11 +26,9 @@ export default (state = initialState, action) => {
          return { ...state, addressList: action.payload.addressList }
          break;
       case 'SET_FCMTOKEN':
-         console.log("Entrei aqui com o token: " + action.payload.tokenFcm)
          return { ...state, tokenFcm: action.payload.tokenFcm }
          break;
       case 'SET_FCMTOKENGUEST':
-         console.log("Entrei aqui com o token GUEST: " + action.payload.tokenFcmGuest)
          return { ...state, tokenFcmGuest: action.payload.tokenFcmGuest }
          break;
    }

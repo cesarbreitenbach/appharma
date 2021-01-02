@@ -40,9 +40,11 @@ const ApiApp = {
         }
     },
 
-    getConfigs: async (token) => {
+    getConf: async (token) => {
         try {
-            const resp = await api.get(`loja`, { headers: {auth:token} })
+            const resp = await api.get(`loja`,  { 
+                headers: { auth: `${token}` }
+            })
             return resp.data
         } catch (e) {
             return { error: e }
@@ -83,7 +85,36 @@ const ApiApp = {
         } catch (e) {
             console.log(e.message)
         }
+    },
+
+    getUser: async (cpf) =>{
+        try{
+            const resp = await api.get(`usuarios/${cpf}`)
+            return resp.data
+        }catch(e){
+            console.log(e.message)
+        }
+    },
+
+    postUser: async (body) =>{
+        try{
+            const resp = await api.post(`usuarios`, body)
+            return resp.data
+
+        }catch(e){
+           return e.response
+            
+        }
+    },
+
+    getSession: async (body) => {
+        try{
+            const resp = await api.post(`sessions`, body)
+            return resp.data
+        }catch(e){
+            return e.response
+        }
     }
 
 }
-export default () => ApiApp;
+export default () => ApiApp; 

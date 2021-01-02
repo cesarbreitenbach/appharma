@@ -9,7 +9,7 @@ const persistedReducer = persistReducer(
   {
     key: 'root',
     storage: AsyncStorage,
-    whitelist: ['userReducer', 'authReducer'],  //COLOCA AQUI OS REDUCERS QUE DEVEM SER PERSISTIDOS
+    whitelist: ['userReducer', 'authReducer', 'cartReducer'],  //COLOCA AQUI OS REDUCERS QUE DEVEM SER PERSISTIDOS
   },
   Reducers,
 );

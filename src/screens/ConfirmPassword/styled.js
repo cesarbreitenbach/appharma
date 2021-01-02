@@ -55,6 +55,7 @@ export const ItemInput = styled.TextInput`
    border:1px solid #000;
    border-radius:10px;
    margin-top:5px;
+   padding:5px
 `;
 
 export const ButtomArea = styled.View`

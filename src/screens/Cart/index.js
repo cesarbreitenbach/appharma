@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import CheckOut from '../../components/Finalizar/ModalFinalizar'
 import AddressModal from '../../components/AddressModal'
 import TrocoModal from '../../components/TrocoModal'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import FlashMessage from "react-native-flash-message";
 import { ErrorArea, Text as TextError } from '../../components/ErrorArea'
 import ModalSucesso from '../../components/Finalizar/ModalSucesso'
@@ -22,11 +22,10 @@ const Cart = (props) => {
 
    const socket = io('https://approachmobile.company');
 
+   const taxa_entrega = useSelector(state => state.cartReducer.taxa_entrega)
    const [error, setError] = useState(false)
    const [errorMsg, setErrorMsg] = useState("")
    const [qtdCart, setQtdCart] = useState(props.cart.length)
-   const [previsao, setPrevisao] = useState('');
-   const [taxa, setTaxa] = useState('')
    const [modalVisible, setModalVisible] = useState(false)
    const [addressModalVisible, setAddressModalVisible] = useState(false)
    const [radioDelivery, setRadioDelivery] = useState(false)
@@ -36,11 +35,12 @@ const Cart = (props) => {
    const vTotal = props.total
    const api = useApi();
    const token = useSelector( state => state.authReducer.token)
+   const dispatch = useDispatch()
 
    useEffect(() => {
       setTimeout(() => {
          setErrorMsg('')
-      }, 1850)
+      }, 2000)
    }, [errorMsg])
 
    useEffect(() => {
@@ -49,6 +49,26 @@ const Cart = (props) => {
       })
 
    }, [])
+
+   useEffect(() => {
+    const getConfigs = async () => {
+        const configs = await api.getConf()
+
+        console.log("Peguei configs: "+JSON.stringify(configs))
+        dispatch({
+            type: 'TAXA_ENTREGA',
+            payload: configs[0].taxa_entrega
+        })
+
+
+        dispatch({
+            type: 'WHATSAPP',
+            payload: configs[0].whatsapp
+        })
+
+    }
+    getConfigs()
+   })
 
 
 
@@ -137,7 +157,6 @@ const Cart = (props) => {
             successAction={setModalSucessoVisible}
             confirmSuccess={setCheckoutSuccess}
             socketHandler={socketHandlerConfirmSell}
-            taxaEntrega={taxa}
          />
 
          <TrocoModal
@@ -151,7 +170,6 @@ const Cart = (props) => {
             navigation={props.navigation}
             success={checkoutSuccess}
             confirmSuccess={setCheckoutSuccess}
-            previsao={previsao}
          />
 
          {errorMsg != '' &&
@@ -186,7 +204,7 @@ const Cart = (props) => {
                      <Text color="#000">Receber em casa</Text>
                   </Entrega>
                   <ValorEntregaArea>
-                     <Text color="#000">R$ {parseFloat(taxa).toFixed(2)}</Text>
+                     <Text color="#000">R$ {parseFloat(taxa_entrega).toFixed(2).replace('.',',')}</Text>
                   </ValorEntregaArea>
                </TipoEntregaArea>
             </>

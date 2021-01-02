@@ -4,7 +4,6 @@ import styled from 'styled-components/native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { connect } from 'react-redux'
 import useApi from '../../helpers/apiAppharma'
-import {parseISO} from 'date-fns'
 
 
 const Conteiner = styled.View`
@@ -41,6 +40,8 @@ const ModalSucesso = ({ navigation, visibleAction, visible, clearCheckout, clear
 
     useEffect(() => {
 
+        let unmonted = false;
+
         const getPrazo = async () => {
             const prazo = await api.getPrazoEntrega();
             let data = prazo.split(' ')
@@ -53,12 +54,13 @@ const ModalSucesso = ({ navigation, visibleAction, visible, clearCheckout, clear
             let hora = time[0];
             let minuto = time[1];
           
-            setChegada(`${diaAux} às ${hora}:${minuto}`)
+            if(!unmonted){
+                setChegada(`${diaAux} às ${hora}:${minuto}`)
+            }
         }
         getPrazo()
 
-
-
+        return () => {unmonted = true}
     }, [])
 
     const handleBye = () => {

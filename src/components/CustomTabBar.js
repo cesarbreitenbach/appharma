@@ -41,14 +41,12 @@ const TabBall = styled.TouchableHighlight`
 const CustomTabBar = props => {
 
    const go = async (route, icon) => {
-      console.log(`Clicou em: ${icon}`)
       props.setActivePage(icon)
 
       if(icon=='home'){
          await promoRandom(props);
       }
 
-      console.log(`active page: ${props.activePage}`)
       props.navigation.navigate(route);
    }
 

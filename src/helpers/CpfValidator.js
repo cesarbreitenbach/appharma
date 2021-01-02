@@ -1,6 +1,5 @@
 export default function ValidateCpf(cpf) {
       cpf = cpf.replace(/[^\d]+/g,'');	
-      console.log("Vou validar"+cpf)
       if(cpf == '') return false;	
       // Elimina CPFs invalidos conhecidos	
       if (cpf.length != 11 || 
