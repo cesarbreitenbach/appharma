@@ -1,11 +1,9 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, Linking } from 'react-native';
 import styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/MaterialIcons'
-import { connect } from 'react-redux'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { connect, useSelector } from 'react-redux'
 import padrao from '../config/padroes'
-import {promoRandom} from '../services/PromoService'
-
 
 const TabBarArea = styled.SafeAreaView`
     flex-direction:row;
@@ -40,67 +38,75 @@ const TabBall = styled.TouchableHighlight`
 
 const CustomTabBar = props => {
 
-   const go = async (route, icon) => {
-      props.setActivePage(icon)
+    const whatsapp = useSelector(state => state.cartReducer.whatsapp)
 
-      if(icon=='home'){
-         await promoRandom(props);
-      }
+    const go = async (route, icon) => {
+        props.setActivePage(icon)
 
-      props.navigation.navigate(route);
-   }
-
-   let tabs = props.items.map(item => {
-      return (
-         <TabBarItem key={item.route}>
-            {item.type == 'regular' &&
-               <TabRegular underlayColor="transparent" onPress={() => go(item.route, item.icon)}>
-                  <>
-                     <TabImage>
-                        {props.activePage === item.icon ?
-                           <Icon name={item.icon} size={25} color="#fff" /> :
-                           <Icon name={item.icon} size={25} color="rgba(255, 255, 255, 0.6)" />}
-                     </TabImage>
-                     {props.activePage === item.icon ?
-                        <Text style={{ fontFamily: 'Roboto Regular', color: '#fff' }}>{item.text}</Text> :
-                        <Text style={{ fontFamily: 'Roboto Regular', color: "rgba(255, 255, 255, 0.6)" }}>{item.text}</Text>}
-                  </>
-               </TabRegular>
+        if (icon == 'whatsapp') {
+            const link = `whatsapp://send?text=Oi, estou comprando pelo APP e surgiu uma duvida.&phone=+55${whatsapp}`
+            const supported = await Linking.canOpenURL(link);
+            if (!supported) {
+                alert("Não encontrei o aplicativo Whatsapp  para enviar mensagem!")
+            } else {
+                await Linking.openURL(link);
             }
-            {item.type == 'big' &&
-               <>
-                  <TabBall underlayColor="#ddd" onPress={() => go(item.route, item.icon)}>
-                     {props.activePage === item.icon ?
-                        <Icon name={item.icon} size={33} color="#fff" /> :
-                        <Icon name={item.icon} size={33} color="rgba(255, 255, 255, 0.6)" />}
-                  </TabBall>
-                  
-               </>
-            }
-         </TabBarItem>
-      );
-   });
+        }
 
-   return (
-      <TabBarArea>
-         {tabs}
-      </TabBarArea>
-   )
+        props.navigation.navigate(route);
+    }
+
+    let tabs = props.items.map(item => {
+        return (
+            <TabBarItem key={item.route}>
+                {item.type == 'regular' &&
+                    <TabRegular underlayColor="transparent" onPress={() => go(item.route, item.icon)}>
+                        <>
+                            <TabImage>
+                                {props.activePage === item.icon ?
+                                    <Icon name={item.icon} size={25} color="#fff" /> :
+                                    <Icon name={item.icon} size={25} color="rgba(255, 255, 255, 0.6)" />}
+                            </TabImage>
+                            {props.activePage === item.icon ?
+                                <Text style={{ fontSize:12, fontFamily: 'Roboto Regular', color: '#fff' }}>{item.text}</Text> :
+                                <Text style={{ fontSize:12, fontFamily: 'Roboto Regular', color: "rgba(255, 255, 255, 0.6)" }}>{item.text}</Text>}
+                        </>
+                    </TabRegular>
+                }
+                {item.type == 'big' &&
+                    <>
+                        <TabBall underlayColor="#ddd" onPress={() => go(item.route, item.icon)}>
+                            {props.activePage === item.icon ?
+                                <Icon name={item.icon} size={33} color="#fff" /> :
+                                <Icon name={item.icon} size={33} color="rgba(255, 255, 255, 0.6)" />}
+                        </TabBall>
+
+                    </>
+                }
+            </TabBarItem>
+        );
+    });
+
+    return (
+        <TabBarArea>
+            {tabs}
+        </TabBarArea>
+    )
 }
 
 const mapStateToProps = (state) => {
-   return {
-      activePage: state.tabReducer.activePage,
-      token: state.authReducer.token,
-      cpf:state.userReducer.cpf,
-   }
+    return {
+        activePage: state.tabReducer.activePage,
+        token: state.authReducer.token,
+        cpf: state.userReducer.cpf,
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {
-   return {
-      setActivePage: (activePage) => dispatch({ type: 'SET_ACTIVE', payload: { activePage } }),
-      setPromocoes: (promocoes) => dispatch({ type: 'SET_PROMOCOES', payload: { promocoes } })
-   }
+    return {
+        setActivePage: (activePage) => dispatch({ type: 'SET_ACTIVE', payload: { activePage } }),
+        setPromocoes: (promocoes) => dispatch({ type: 'SET_PROMOCOES', payload: { promocoes } })
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomTabBar);
