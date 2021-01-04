@@ -4,7 +4,6 @@ import { ActivityIndicator } from 'react-native'
 import ValidateCpf from '../../helpers/CpfValidator'
 import { TextInputMask } from 'react-native-masked-text'
 import { connect } from 'react-redux'
-import api from '../../helpers/api'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import useApi from '../../helpers/apiAppharma'
 
@@ -32,6 +31,7 @@ const Login = (props) => {
         props.setName(infoUser.user.nome)
         props.setId(infoUser.user.id)
         props.setCpf(parsedCpf)
+        props.setWhats(infoUser.user.whatsapp)
         props.navigation.navigate('ConfirmPassword');
     } else {
         props.setName('')
@@ -90,6 +90,7 @@ const mapStateToProps = (state) => {
       cpf: state.userReducer.cpf,
       id: state.userReducer.id,
       name: state.userReducer.name,
+      whatsapp: state.userReducer.whatsapp
    }
 }
 
@@ -98,6 +99,7 @@ const mapDispatchToProps = (dispatch) => {
       setCpf: (cpf) => dispatch({ type: 'SET_CPF', payload: { cpf } }),
       setName: (name) => dispatch({ type: 'SET_NAME', payload: { name } }),
       setId: (id) => dispatch({ type: 'SET_ID', payload: { id } }),
+      setWhats: (whatsapp) => dispatch({ type: 'SET_USER_WHATS', payload: { whatsapp } }),
 
    }
 }

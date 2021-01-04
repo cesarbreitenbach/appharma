@@ -13,255 +13,275 @@ import { connect, useDispatch } from 'react-redux'
 import FlashMessage from "react-native-flash-message";
 import { ErrorArea, Text as TextError } from '../../components/ErrorArea'
 import ModalSucesso from '../../components/Finalizar/ModalSucesso'
+import WhatsModal from '../../components/WhatsModal'
 import io from 'socket.io-client';
 import useApi from '../../helpers/apiAppharma'
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 
 
 const Cart = (props) => {
 
-   const socket = io('https://approachmobile.company');
+    const socket = io('https://approachmobile.company');
 
-   const taxa_entrega = useSelector(state => state.cartReducer.taxa_entrega)
-   const [error, setError] = useState(false)
-   const [errorMsg, setErrorMsg] = useState("")
-   const [qtdCart, setQtdCart] = useState(props.cart.length)
-   const [modalVisible, setModalVisible] = useState(false)
-   const [addressModalVisible, setAddressModalVisible] = useState(false)
-   const [radioDelivery, setRadioDelivery] = useState(false)
-   const [trocoModalVisible, setTrocoModalVisible] = useState(false)
-   const [modalSucessoVisible, setModalSucessoVisible] = useState(false)
-   const [checkoutSuccess, setCheckoutSuccess] = useState(false)
-   const vTotal = props.total
-   const api = useApi();
-   const token = useSelector( state => state.authReducer.token)
-   const dispatch = useDispatch()
+    
+    const taxa_entrega = useSelector(state => state.cartReducer.taxa_entrega)
+    const [error, setError] = useState(false)
+    const [errorMsg, setErrorMsg] = useState("")
+    const [whatsModalVisible, setWhatsModalVisible] = useState(false)
+    const [qtdCart, setQtdCart] = useState(props.cart.length)
+    const [modalVisible, setModalVisible] = useState(false)
+    const [addressModalVisible, setAddressModalVisible] = useState(false)
+    const [radioDelivery, setRadioDelivery] = useState(false)
+    const [trocoModalVisible, setTrocoModalVisible] = useState(false)
+    const [modalSucessoVisible, setModalSucessoVisible] = useState(false)
+    const [checkoutSuccess, setCheckoutSuccess] = useState(false)
+    const vTotal = props.total
+    const api = useApi();
+    const token = useSelector(state => state.authReducer.token)
+    const dispatch = useDispatch()
+    const whatsapp = useSelector(state => state.userReducer.whatsapp)
 
-   useEffect(() => {
-      setTimeout(() => {
-         setErrorMsg('')
-      }, 2000)
-   }, [errorMsg])
+    useEffect(() => {
+        setTimeout(() => {
+            setErrorMsg('')
+        }, 2000)
+    }, [errorMsg])
 
-   useEffect(() => {
-      socket.on('connect', () => {
-         console.log("Abrindo conexão com socket...")
-      })
-
-   }, [])
-
-   useEffect(() => {
-    const getConfigs = async () => {
-        const configs = await api.getConf()
-
-        console.log("Peguei configs: "+JSON.stringify(configs))
-        dispatch({
-            type: 'TAXA_ENTREGA',
-            payload: configs[0].taxa_entrega
+    useEffect(() => {
+        socket.on('connect', () => {
+            console.log("Abrindo conexão com socket...")
         })
 
+    }, [])
 
-        dispatch({
-            type: 'WHATSAPP',
-            payload: configs[0].whatsapp
-        })
+    useEffect(() => {
+        const getConfigs = async () => {
+            const configs = await api.getConf()
+
+            console.log("Peguei configs: " + JSON.stringify(configs))
+            dispatch({
+                type: 'TAXA_ENTREGA',
+                payload: configs[0].taxa_entrega
+            })
+
+
+            dispatch({
+                type: 'WHATSAPP',
+                payload: configs[0].whatsapp
+            })
+
+        }
+        getConfigs()
+    }, [])
+
+
+
+    const ClearCartConfirm = () => {
+        Alert.alert(
+            'Esvaziar',
+            'Deseja realmente esvaziar o carrinho?',
+            [
+                {
+                    text: 'Confirmar',
+                    onPress: () => {
+                        console.log('Confirmou')
+                        props.clearCart();
+                    }
+                },
+                {
+                    text: 'Cancelar',
+                    onPress: () => {
+                        console.log('Cancel Pressed')
+                    },
+                    style: 'cancel'
+                }
+            ],
+            { cancelable: false }
+        );
+    }
+
+    const goCheckout = async () => {
+
+        if (props.cart.length < 1) {
+            setErrorMsg('Adicione pelo menos 1 item ao carrinho!')
+            return
+        }
+
+        if (!props.status) {
+            props.navigation.navigate('Login')
+        }
+
+
+        if (!radioDelivery) {
+            props.setTroco(0);
+        }
+
+        const count = props.addressList.length;
+
+        if (!whatsapp){
+            setWhatsModalVisible(true)
+            return
+        }
+
+        console.log("O whats do cidadão é: "+whatsapp)
+
+        if (count > 0 || !radioDelivery) {
+            setModalVisible(true)
+        } else {
+            setAddressModalVisible(true)
+        }
+
 
     }
-    getConfigs()
-   })
+
+    const goToShop = () => {
+        props.navigation.navigate('Shop')
+    }
+
+    const goClearCart = () => {
+        ClearCartConfirm()
+    }
+
+    const socketHandlerConfirmSell = (codVenda) => {
+        socket.emit('venda-recebida', codVenda)
+        console.log("Emit uma mensagem ao servidor confirmando uma venda...")
+    }
+
+    return (
+        <Container>
+
+            <AddressModal
+                visible={addressModalVisible}
+                visibleAction={setAddressModalVisible}
+                checkoutAction={setModalVisible}
+                userId={props.userId}
+                token={props.token}
+            />
 
 
 
-   const ClearCartConfirm = () => {
-      Alert.alert(
-         'Esvaziar',
-         'Deseja realmente esvaziar o carrinho?',
-         [
-            {
-               text: 'Confirmar',
-               onPress: () => {
-                  console.log('Confirmou')
-                  props.clearCart();
-               }
-            },
-            {
-               text: 'Cancelar',
-               onPress: () => {
-                  console.log('Cancel Pressed')
-               },
-               style: 'cancel'
+            <CheckOut
+                visible={modalVisible}
+                visibleAction={setModalVisible}
+                addressAction={setAddressModalVisible}
+                delivery={radioDelivery}
+                data={props.addressList}
+                trocoAction={setTrocoModalVisible}
+                successAction={setModalSucessoVisible}
+                confirmSuccess={setCheckoutSuccess}
+                socketHandler={socketHandlerConfirmSell}
+            />
+
+            <WhatsModal
+                visible={whatsModalVisible}
+                visibleAction={setWhatsModalVisible}
+                userId={props.userId}
+                token={props.token}
+            />
+
+            <TrocoModal
+                visible={trocoModalVisible}
+                visibleAction={setTrocoModalVisible}
+            />
+
+            <ModalSucesso
+                visible={modalSucessoVisible}
+                visibleAction={setModalSucessoVisible}
+                navigation={props.navigation}
+                success={checkoutSuccess}
+                confirmSuccess={setCheckoutSuccess}
+            />
+
+            {errorMsg != '' &&
+                <ErrorArea>
+                    <TextError size="12px" color="#fff" family="Roboto Regular">{errorMsg}</TextError>
+                </ErrorArea>}
+            <ItensOnCart
+                showsVerticalScrollIndicator={false}
+                data={props.cart}
+                renderItem={({ item, index }) => <Product data={item} navigation={props.navigation} setQtdProduto={setQtdCart} />}
+                decelerationRate="fast"
+                maxToRenderPerBatch={20}
+                snapToInterval={130}
+                keyExtractor={(item, index) => `${item.nome}-${index}`}
+            />
+
+            {props.cart.length > 0 &&
+                <>
+                    <TipoEntregaArea onPress={() => setRadioDelivery(false)}>
+                        <Entrega>
+                            <RadioButtom enabled={!radioDelivery} />
+                            <Text color="#000">Retirar na loja</Text>
+                        </Entrega>
+                        <ValorEntregaArea>
+                            <Text color="#000">Grátis</Text>
+                        </ValorEntregaArea>
+                    </TipoEntregaArea>
+
+                    <TipoEntregaArea onPress={() => setRadioDelivery(true)} >
+                        <Entrega>
+                            <RadioButtom enabled={radioDelivery} />
+                            <Text color="#000">Receber em casa</Text>
+                        </Entrega>
+                        <ValorEntregaArea>
+                            <Text color="#000">R$ {parseFloat(taxa_entrega).toFixed(2).replace('.', ',')}</Text>
+                        </ValorEntregaArea>
+                    </TipoEntregaArea>
+                </>
             }
-         ],
-         { cancelable: false }
-      );
-   }
-
-   const goCheckout = async () => {
-
-      if (props.cart.length < 1) {
-         setErrorMsg('Adicione pelo menos 1 item ao carrinho!')
-         return
-      }
-
-      if (!props.status) {
-         props.navigation.navigate('Login')
-      }
-
-
-      if (!radioDelivery) {
-         props.setTroco(0);
-      }
-
-      const count = props.addressList.length;
-
-      if (count > 0 || !radioDelivery) {
-         setModalVisible(true)
-      } else {
-         setAddressModalVisible(true)
-      }
-
-
-   }
-
-   const goToShop = () => {
-      props.navigation.navigate('Shop')
-   }
-
-   const goClearCart = () => {
-      ClearCartConfirm()
-   }
-
-   const socketHandlerConfirmSell = (codVenda) => {
-      socket.emit('venda-recebida', codVenda)
-      console.log("Emit uma mensagem ao servidor confirmando uma venda...")
-   }
-
-   return (
-      <Container>
-
-         <AddressModal
-            visible={addressModalVisible}
-            visibleAction={setAddressModalVisible}
-            checkoutAction={setModalVisible}
-            userId={props.userId}
-            token={props.token}
-         />
-
-         <CheckOut
-            visible={modalVisible}
-            visibleAction={setModalVisible}
-            addressAction={setAddressModalVisible}
-            delivery={radioDelivery}
-            data={props.addressList}
-            trocoAction={setTrocoModalVisible}
-            successAction={setModalSucessoVisible}
-            confirmSuccess={setCheckoutSuccess}
-            socketHandler={socketHandlerConfirmSell}
-         />
-
-         <TrocoModal
-            visible={trocoModalVisible}
-            visibleAction={setTrocoModalVisible}
-         />
-
-         <ModalSucesso
-            visible={modalSucessoVisible}
-            visibleAction={setModalSucessoVisible}
-            navigation={props.navigation}
-            success={checkoutSuccess}
-            confirmSuccess={setCheckoutSuccess}
-         />
-
-         {errorMsg != '' &&
-            <ErrorArea>
-               <TextError size="12px" color="#fff" family="Roboto Regular">{errorMsg}</TextError>
-            </ErrorArea>}
-         <ItensOnCart
-            showsVerticalScrollIndicator={false}
-            data={props.cart}
-            renderItem={({ item, index }) => <Product data={item} navigation={props.navigation} setQtdProduto={setQtdCart} />}
-            decelerationRate="fast"
-            maxToRenderPerBatch={20}
-            snapToInterval={130}
-            keyExtractor={(item, index) => `${item.nome}-${index}`}
-         />
-
-         {props.cart.length > 0 &&
-            <>
-               <TipoEntregaArea onPress={() => setRadioDelivery(false)}>
-                  <Entrega>
-                     <RadioButtom enabled={!radioDelivery} />
-                     <Text color="#000">Retirar na loja</Text>
-                  </Entrega>
-                  <ValorEntregaArea>
-                     <Text color="#000">Grátis</Text>
-                  </ValorEntregaArea>
-               </TipoEntregaArea>
-
-               <TipoEntregaArea onPress={() => setRadioDelivery(true)} >
-                  <Entrega>
-                     <RadioButtom enabled={radioDelivery} />
-                     <Text color="#000">Receber em casa</Text>
-                  </Entrega>
-                  <ValorEntregaArea>
-                     <Text color="#000">R$ {parseFloat(taxa_entrega).toFixed(2).replace('.',',')}</Text>
-                  </ValorEntregaArea>
-               </TipoEntregaArea>
-            </>
-         }
 
 
 
-         <InfoArea>
-            <TotalArea>
-               <Text style={{ fontFamily: 'Roboto Black', fontSize: 15, color: '#000' }}>Total:</Text>
-               <Text style={{ fontSize: 19, color: '#000' }}>R$ {vTotal.toFixed(2).replace(".", ",")}</Text>
-            </TotalArea>
-            <Buttom activeOpacity={0.7} onPress={goClearCart}>
-               <Icon name="cart-remove" size={20} color="#fff" />
-               <Text size="12px">Esvaziar</Text>
-            </Buttom>
-            <Buttom activeOpacity={0.7} onPress={goCheckout}>
-               <Icon name="cart-arrow-right" size={20} color="#fff" />
-               <Text size="12px">Finalizar</Text>
-            </Buttom>
-         </InfoArea>
-         <FlashMessage position="top" animated={true} icon="success" titleStyle={{ color: '#fff' }} />
-      </Container>
+            <InfoArea>
+                <TotalArea>
+                    <Text style={{ fontFamily: 'Roboto Black', fontSize: 15, color: '#000' }}>Total:</Text>
+                    <Text style={{ fontSize: 19, color: '#000' }}>R$ {vTotal.toFixed(2).replace(".", ",")}</Text>
+                </TotalArea>
+                <Buttom activeOpacity={0.7} onPress={goClearCart}>
+                    <Icon name="cart-remove" size={20} color="#fff" />
+                    <Text size="12px">Esvaziar</Text>
+                </Buttom>
+                <Buttom activeOpacity={0.7} onPress={goCheckout}>
+                    <Icon name="cart-arrow-right" size={20} color="#fff" />
+                    <Text size="12px">Finalizar</Text>
+                </Buttom>
+            </InfoArea>
+            <FlashMessage position="top" animated={true} icon="success" titleStyle={{ color: '#fff' }} />
+        </Container>
 
 
-   )
+    )
 }
 
 Cart.navigationOptions = ({ navigation }) => {
-   const goCart = () => {
-      navigation.navigate('Cart')
-   }
-   return {
-      headerRight: () => <HeaderCart goCart={goCart} />,
-      headerTitle: () => <HeaderTitle title="Seu Carrinho" />,
-      headerLeft: () => <Back navigation={navigation} />
-   }
+    const goCart = () => {
+        navigation.navigate('Cart')
+    }
+    return {
+        headerRight: () => <HeaderCart goCart={goCart} />,
+        headerTitle: () => <HeaderTitle title="Seu Carrinho" />,
+        headerLeft: () => <Back navigation={navigation} />
+    }
 }
 
 const mapStateToProps = (state) => {
-   return {
-      token: state.authReducer.token,
-      cart: state.cartReducer.carrinho,
-      status: state.authReducer.status,
-      total: state.cartReducer.total,
-      userId: state.userReducer.id,
-      addressList: state.userReducer.addressList
-   }
+    return {
+        token: state.authReducer.token,
+        cart: state.cartReducer.carrinho,
+        status: state.authReducer.status,
+        total: state.cartReducer.total,
+        userId: state.userReducer.id,
+        addressList: state.userReducer.addressList
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {
-   return {
-      addCart: (product) => dispatch({ type: 'ADD_TO_CART', payload: { carrinho: product } }),
-      clearCart: () => dispatch({ type: 'CLEAR_CART' }),
-      setAddressList: (list) => dispatch({ type: 'SET_ADDRESS', payload: { addressList: list } }),
-      setTroco: (troco) => dispatch({ type: 'SET_TROCO', payload: { troco } }),
-   }
+    return {
+        addCart: (product) => dispatch({ type: 'ADD_TO_CART', payload: { carrinho: product } }),
+        clearCart: () => dispatch({ type: 'CLEAR_CART' }),
+        setAddressList: (list) => dispatch({ type: 'SET_ADDRESS', payload: { addressList: list } }),
+        setTroco: (troco) => dispatch({ type: 'SET_TROCO', payload: { troco } }),
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

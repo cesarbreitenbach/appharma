@@ -6,7 +6,7 @@ import useApi from '../../helpers/apiAppharma'
 import { Conteiner, Title, Logo } from './styled'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import messaging from '@react-native-firebase/messaging'
-import TokenHandler from '../../helpers/TokenHandler'
+import useTokenHandler from '../../helpers/TokenHandler'
 
 
 const Preload = (props) => {
@@ -16,6 +16,7 @@ const Preload = (props) => {
     const [errorMessage, setErrorMessage] = useState("")
     const dispatch = useDispatch();
     const appharma = useApi()
+    const tokenHandler = useTokenHandler()
 
     const go = () => {
         props.navigation.dispatch(StackActions.reset({
@@ -77,7 +78,7 @@ const Preload = (props) => {
 
         } else {
             const validaToken = async () => {
-                const validToken = await TokenHandler(props.token)
+                const validToken = await  tokenHandler.testaToken(props.token)
                 if (validToken.expirou) {
                     login();
                 }

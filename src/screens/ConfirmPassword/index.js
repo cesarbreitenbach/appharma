@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import { Conteiner, FormArea, InputArea, FormText, ButtomArea, Buttom, LogoText, ItemInput, LogoArea, Logo, MsgError, InternalButtom } from './styled'
 import { TextInputMask } from 'react-native-masked-text'
 import { connect } from 'react-redux'
-import api from '../../helpers/api'
 import useApi from '../../helpers/apiAppharma'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -15,10 +14,8 @@ const ConfirmPassword = (props) => {
     const [errorMsg, setErrorMsg] = useState('');
     const [name, setName] = useState(props.nome);
     const appharma = useApi()
-
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
-    const whatsappRef = useRef();
 
     const start = async () => {
         setError(false)
@@ -28,6 +25,20 @@ const ConfirmPassword = (props) => {
             setError(true);
             return;
         }
+
+        if (whatsapp == ''){
+            setErrorMsg("Numero do celular obrigatório.");
+            setError(true);
+            return;
+        }
+
+        if(whatsapp.length < 15){
+            setErrorMsg("Numero do celular obrigatório.");
+            setError(true);
+            return;
+        }
+
+       
 
         let parsedWhats = whatsapp;
         parsedWhats = parsedWhats.replace(/[^0-9]+/g, "")
@@ -94,18 +105,14 @@ const ConfirmPassword = (props) => {
                         blurOnSubmit={false}
                         returnKeyType="go"
                         autoFocus={true}
-                        onSubmitEditing={() => {
-                            whatsappRef.current.focus();
-                        }}
                     />}
 
 
 
-                    {!props.id &&
+                    {!props.whatsapp &&
                         <TextInputMask
                             style={{ width: '100%', height: 40, borderWidth: 1, marginTop: 5, borderRadius: 10, padding: 5 }}
                             placeholder="(45) 9999-9999"
-                            ref={whatsappRef}
                             type={'cel-phone'}
                             options={{
                                 maskType: 'BRL',
@@ -171,7 +178,8 @@ const mapStateToProps = (state) => {
         id: state.userReducer.id,
         nome: state.userReducer.name,
         admin: state.authReducer.admin,
-        status: state.authReducer.status
+        status: state.authReducer.status,
+        whatsapp: state.userReducer.status
     }
 }
 
@@ -181,6 +189,7 @@ const mapDispatchToProps = (dispatch) => {
         setToken: (token) => dispatch({ type: 'SET_TOKEN', payload: { token } }),
         setAdmin: (admin) => dispatch({ type: 'SET_ADMIN', payload: { admin } }),
         setStatus: (status) => dispatch({ type: 'SET_STATUS', payload: { status } }),
+        setWhats: (whatsapp) => dispatch({type: 'SET_USER_WHATS', payload: {whatsapp}}),
         setId: (id) => dispatch({ type: 'SET_ID', payload: { id } })
     }
 }

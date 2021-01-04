@@ -114,6 +114,17 @@ const ApiApp = {
         }catch(e){
             return e.response
         }
+    },
+
+    putUser: async (token, body) =>{
+        try{
+            console.log("cheguei aqui com token e body: "+JSON.stringify(body)+" "+token)
+            const resp = await api.put(`usuarios`, body , {
+                headers: { auth: `${token}` }
+            })
+        }catch(e){
+            console.log(e.response)
+        }
     }
 
 }

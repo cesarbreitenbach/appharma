@@ -95,23 +95,14 @@ const Produto = (props) => {
 
         }).catch(e => {
             console.log(e)
-            setError(true)
-            setErrorMsg(e.message)
+            if(!unmonted){
+                setError(true)
+                setErrorMsg(e.message)
+            }
         })
 
         return () => {unmonted = true}
     }, [changeProduct])
-
-    // ATIVAR PARA CARREGAR OS SIMILARES AO PRODUTO
-    // useEffect(() => {
-    //     if (!tipoProduto) { return }
-
-    //     const carregaSimilar = async () => {
-    //       //  const result = await api.get(`/produtos/similars?tipo=${tipoProduto}&id=${idProduto}`);
-    //       //  setSimilarList(result.data)
-    //     }
-    //     carregaSimilar()
-    // }, [tipoProduto])
 
     const changeItem = (id) => {
         setChangeProduct(id)
