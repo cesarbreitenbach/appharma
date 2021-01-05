@@ -1,12 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { Conteiner, FormArea, InputArea, FormText, ButtomArea, Buttom, LogoText, ItemInput, LogoArea, Logo, MsgError, InternalButtom } from './styled'
 import { TextInputMask } from 'react-native-masked-text'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import useApi from '../../helpers/apiAppharma'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const ConfirmPassword = (props) => {
 
+    const logo = useSelector(state => state.shopReducer.logo)
+    const telefone = useSelector(state => state.userReducer.whatsapp)
     const [password, setPassword] = useState('');
     const [whatsapp, setWhatsapp] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -26,13 +28,13 @@ const ConfirmPassword = (props) => {
             return;
         }
 
-        if (whatsapp == ''){
+        if (whatsapp == ''  && !telefone){
             setErrorMsg("Numero do celular obrigatório.");
             setError(true);
             return;
         }
 
-        if(whatsapp.length < 15){
+        if(whatsapp.length < 15  && !telefone){
             setErrorMsg("Numero do celular obrigatório.");
             setError(true);
             return;
@@ -91,7 +93,7 @@ const ConfirmPassword = (props) => {
     return (
         <Conteiner>
             <LogoArea>
-                <Logo source={require('../../assets/logo.png')} />
+                <Logo source={{uri:logo}} />
             </LogoArea>
             {error && <MsgError>  {errorMsg} </MsgError>}
             <FormArea>
@@ -109,7 +111,7 @@ const ConfirmPassword = (props) => {
 
 
 
-                    {!props.whatsapp &&
+                    {!telefone &&
                         <TextInputMask
                             style={{ width: '100%', height: 40, borderWidth: 1, marginTop: 5, borderRadius: 10, padding: 5 }}
                             placeholder="(45) 9999-9999"

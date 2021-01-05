@@ -215,8 +215,8 @@ const TipoPgto = styled.View`
 
 const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddress, delivery, cart, total, token, trocoAction, getTroco, troco, endereco, taxaEntrega, successAction, confirmSuccess, socketHandler }) => {
 
-    const whatsapp = useSelector(state => state.cartReducer.whatsapp)
-    const taxa_entrega = useSelector(state => state.cartReducer.taxa_entrega)
+    const whatsapp = useSelector(state => state.shopReducer.whatsapp)
+    const taxa_entrega = useSelector(state => state.shopReducer.taxa_entrega)
     
     const [addressList, setAddressList] = useState(data)
     const [errorMsg, setErrorMsg] = useState('')

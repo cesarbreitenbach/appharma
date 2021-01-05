@@ -6,6 +6,7 @@ import authReducer from './authReducer';
 import vitrineReducer from './vitrineReducer';
 import cartReducer from './cartReducer'
 import checkoutReducer from './checkoutReducer'
+import shopReducer from './shopReducer'
 
 export default combineReducers({
   userReducer,
@@ -13,5 +14,6 @@ export default combineReducers({
   authReducer,
   vitrineReducer,
   cartReducer,
-  checkoutReducer
+  checkoutReducer,
+  shopReducer
 });

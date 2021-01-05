@@ -1,8 +1,8 @@
+import d from '../config/padroes'
+
 const initialState = {
     carrinho: [],
     total: 0,
-    taxa_entrega: 0,
-    whatsapp: ''
 };
 
 const operations = {
@@ -36,12 +36,6 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case "CLEAR_CART":
             return initialState;
-
-        case "TAXA_ENTREGA":
-            return { ...state, taxa_entrega: action.payload }
-
-        case "WHATSAPP":
-            return { ...state, whatsapp: action.payload }
 
         case "ADD_TO_CART": {
             const product_index = getProductIndexFromCart(

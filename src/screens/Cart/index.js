@@ -24,7 +24,7 @@ const Cart = (props) => {
     const socket = io('https://approachmobile.company');
 
     
-    const taxa_entrega = useSelector(state => state.cartReducer.taxa_entrega)
+    const taxa_entrega = useSelector(state => state.shopReducer.taxa_entrega)
     const [error, setError] = useState(false)
     const [errorMsg, setErrorMsg] = useState("")
     const [whatsModalVisible, setWhatsModalVisible] = useState(false)
