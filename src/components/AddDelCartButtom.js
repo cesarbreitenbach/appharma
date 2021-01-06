@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import p from '../config/padroes'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import useApi from '../helpers/apiAppharma'
-import { ErrorArea, Text as TextError } from '../components/ErrorArea'
+
 
 export const AreaButtom = styled.View`
 padding:25px;
@@ -43,6 +42,7 @@ const AddDelCartButtom = (props) => {
     const [idProduto, setIdProduto] = useState(props.product.id)
     const [qtdEstoque, setQtdEstoque] = useState(props.product.qtd_estoque)
     const api = useApi();
+    const corPrincipal = useSelector(state => state.shopReducer.cor_primaria)
 
 
 
@@ -54,7 +54,6 @@ const AddDelCartButtom = (props) => {
 
         let disponivel = qtdEstoque - reserva;
 
-        console.log("Vou add e no carrinho: " + novaQtd + " no estoque " + qtdEstoque + " e tenho de reseva: " + JSON.stringify(reserva) + " dispoinvel: " + disponivel);
 
 
         if (novaQtd > disponivel) {
@@ -82,14 +81,14 @@ const AddDelCartButtom = (props) => {
     return (
         <AreaButtom>
             <AddToCart activeOpacity={0.7} onPress={() => delProduct(props.product)}>
-                <Icon name="minus" size={25} color={p.corPrincipal} />
+                <Icon name="minus" size={25} color={corPrincipal} />
             </AddToCart>
             <IconArea activeOpacity={0.7} onPress={props.goCart}>
                 <Icon name="cart-arrow-down" size={25} style={{ marginBottom: 3 }} color='#999' />
                 <Title size="13px" color="#000"> {qtdAtual} </Title>
             </IconArea>
             <AddToCart activeOpacity={0.7} onPress={() => addProduct(props.product)}>
-                <Icon name="plus-thick" size={25} color={p.corPrincipal} />
+                <Icon name="plus-thick" size={25} color={corPrincipal} />
             </AddToCart>
         </AreaButtom>
     );

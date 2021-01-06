@@ -11,6 +11,7 @@ import { ErrorArea, Text as TextError } from '../../components/ErrorArea'
 const WhatsappModal = ({ visible, visibleAction }) => {
 
     const [whatsapp, setWhatsapp] = useState('')
+    const corPrincipal = useSelector(state => state.shopReducer.cor_primaria)
 
     const token = useSelector(state => state.authReducer.token)
     const idUser = useSelector(state => state.userReducer.id)
@@ -66,7 +67,7 @@ const WhatsappModal = ({ visible, visibleAction }) => {
             transparent={true}
         >
             <ModalArea >
-                <ModalHeader>
+                <ModalHeader cor={corPrincipal}>
                     <AreaBack>
                         <Buttom onPress={handleClose}>
                             <Icon name="arrow-back" size={25} color="#fff" />

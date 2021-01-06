@@ -1,8 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import Item from '../../Items'
-import d from '../../../config/padroes'
 import { Conteiner, Title, Off, Preco, PrecoPromo } from './styled'
+import {URL_FILES} from '@env'
 
 const ItemProduct = props => {
 
@@ -16,7 +16,7 @@ const ItemProduct = props => {
 
    return (
          <Conteiner activeOpacity={0.7} onPress={()=>handleClick(props.data.id)}>
-               <Item style={{marginBottom:20}}   resizeMode='stretch' width={props.imgWidth || "80px"} height={props.imgHeight || "80px"} source={{uri:d.URL_FILES+props.data.image}}  />
+               <Item style={{marginBottom:20}}   resizeMode='stretch' width={props.imgWidth || "80px"} height={props.imgHeight || "80px"} source={{uri:URL_FILES+props.data.image}}  />
                <Title>{props.data.nome}</Title>
                { props.data.preco_vigente !== props.data.preco_original &&
                <>

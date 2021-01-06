@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Alert } from 'react-native'
 import styled from 'styled-components/native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import p from '../../config/padroes'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import api from '../../helpers/api'
 
 const ContentAddressArea = styled.View`
@@ -45,11 +44,13 @@ const RadioButtom = styled.View`
    height:15px;
    margin-right:5px;
    border-radius:8px
-   border: 2px solid ${p.corPrincipal}
-   background-color: ${props => props.enabled ? p.corPrincipal : '#fff'}
+   border: 2px solid ${props => props.cor || '#999'}
+   background-color: ${props => props.enabled ? props.cor : '#fff'}
 `
 const AddressItem = ({ data, token, onDelete, onSelect, active, setEndereco }) => {
 
+    const corPrincipal = useSelector(state => state.shopReducer.cor_primaria)
+    const corSecundaria = useSelector(state => state.shopReducer.cor_secundaria)
    const [radioEnable, setRadioEnable] = useState(false)
 
    useEffect(() => {
@@ -111,7 +112,7 @@ const AddressItem = ({ data, token, onDelete, onSelect, active, setEndereco }) =
       <ContentAddressArea>
          <TextArea onPress={handleSelect}>
             <RadioArea>
-               <RadioButtom  enabled={radioEnable} />
+               <RadioButtom  enabled={radioEnable} cor={corPrincipal} />
             </RadioArea>
             <SubTextArea>
                <Text size="12px" >Rua {data.rua} nº {data.numero} {data.complemento}, {data.bairro} </Text>
@@ -120,7 +121,7 @@ const AddressItem = ({ data, token, onDelete, onSelect, active, setEndereco }) =
             </SubTextArea>
          </TextArea>
          <AreaButtom onPress={handleDeleteAddress}>
-            <Icon name="delete" size={15} color={p.corPrincipal} />
+            <Icon name="delete" size={15} color={corPrincipal} />
             <Text size="9px" family="Roboto Regular">Remover</Text>
          </AreaButtom>
       </ContentAddressArea>

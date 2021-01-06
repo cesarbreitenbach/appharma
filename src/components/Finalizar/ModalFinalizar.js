@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Modal, Linking, ActivityIndicator } from "react-native";
 import styled from 'styled-components/native';
-import p from '../../config/padroes'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import IconTwo from 'react-native-vector-icons/MaterialCommunityIcons'
 import IconAwesome from 'react-native-vector-icons/FontAwesome5'
@@ -10,6 +9,7 @@ import { connect, useSelector} from 'react-redux'
 import { ErrorArea, Text as TextError } from '../../components/ErrorArea'
 import useApi from '../../helpers/apiAppharma'
 import api from '../../helpers/api'
+import {URL_FILES} from '@env'
 
 
 
@@ -25,7 +25,7 @@ const ModalArea = styled.KeyboardAvoidingView`
 `
 const ModalHeader = styled.View`
    flex-direction:row;
-   background-color:${p.corSecundaria || '#ddd'}
+   background-color:${props => props.cor || '#ddd'}
    
 `;
 const AreaBack = styled.View`
@@ -60,7 +60,7 @@ const TitleArea = styled.View`
    justify-content:space-between
    align-items:center;
    padding:5px
-   background-color:${p.corSecundaria}
+   background-color:${props => props.cor || '#ddd'}
 `
 
 const TitleEndereco = styled.View`
@@ -68,7 +68,7 @@ const TitleEndereco = styled.View`
    justify-content:space-between
    align-items:center;
    padding:3px
-   background-color:${p.corSecundaria}
+   background-color:${props => props.cor || '#ddd'}
 `
 
 const AreaButtom = styled.TouchableOpacity`
@@ -126,7 +126,7 @@ const TotaisInfo = styled.View`
 
 const AreaCheckoutButtom = styled.View`
    height:60px
-   background-color:${p.corPrincipal}
+   background-color:${props => props.cor || '#ddd'}
    justify-content:center;
    align-items:center;
 `
@@ -163,11 +163,11 @@ justify-content:center;
 align-items:center;
 width:90px;
 height:60px;
-background-color:${p.corPrincipal}
+background-color:${props => props.cor || '#3f9168'};
 
 border-radius:5px
 
-border-color:${props => props.enabled ? p.corSelecionado : p.corPrincipal}
+border-color:${props => props.enabled ? '#326ded'  : props.cor}
 border-width:2px
 `
 const DinheiroArea = styled.TouchableOpacity`
@@ -176,10 +176,10 @@ justify-content:center;
 align-items:center;
 width:90px;
 height:60px;
-background-color:${p.corPrincipal}
+background-color:${props=>props.cor||'#ddd'}
 
 border-radius:5px
-border-color:${props => props.enabled ? p.corSelecionado : p.corPrincipal}
+border-color:${props => props.enabled ? '#326ded' : props.cor}
 border-width:2px
 `
 const TrocoArea = styled.View`
@@ -188,7 +188,7 @@ justify-content:center;
 align-items:center;
 width:100px;
 height:60px;
-background-color:${p.corPrincipal}
+background-color:${props=>props.cor||'#ddd'}
 border-radius:7px
 flex-direction:row
 `
@@ -217,7 +217,9 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
 
     const whatsapp = useSelector(state => state.shopReducer.whatsapp)
     const taxa_entrega = useSelector(state => state.shopReducer.taxa_entrega)
-    
+    const corPrincipal = useSelector(state => state.shopReducer.cor_primaria)
+    const corSecundaria = useSelector(state => state.shopReducer.cor_secundaria)
+
     const [addressList, setAddressList] = useState(data)
     const [errorMsg, setErrorMsg] = useState('')
     const [idAddress, setIdAddress] = useState(0)
@@ -397,7 +399,7 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
             { !loading &&
             <>
                 <BodyArea>
-                    <ModalHeader>
+                    <ModalHeader cor={corPrincipal} >
                         <AreaBack>
                             <Buttom onPress={handleClose}>
                                 <Icon name="arrow-back" size={25} color="#fff" />
@@ -410,7 +412,7 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
 
                     <RevisaoArea>
 
-                        <TitleArea>
+                        <TitleArea cor={corSecundaria}>
                             <Text size="15px" color="#fff" >Revisão do Pedido:</Text>
                         </TitleArea>
                         <ScrollRevisao >
@@ -419,7 +421,7 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                                     return (
                                         <ProdutoArea key={k} semSaldo={i.semSaldo}>
                                             <ImageArea>
-                                                <ProdutoImage source={{ uri: p.URL_FILES + i.image }} />
+                                                <ProdutoImage source={{ uri: URL_FILES + i.path }} />
                                             </ImageArea>
                                             <ProdutoInfo>
                                                 <Text size="12px">{i.nome}</Text>
@@ -435,10 +437,10 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                     {delivery &&
 
                         <EnderecoArea>
-                            <TitleEndereco>
+                            <TitleEndereco cor={corSecundaria}>
                                 <Text size="15px" color="#fff" >Endereço para entrega:</Text>
                                 <AreaButtom onPress={handleAddAddress}>
-                                    <Icon name="add-location" size={15} color={p.corPrincipal} />
+                                    <Icon name="add-location" size={15} color={corPrincipal} />
                                     <Text size="10px" family="Roboto Thin">Adicionar</Text>
                                 </AreaButtom>
                             </TitleEndereco>
@@ -455,7 +457,7 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                         </EnderecoArea>
                     }
                     <TotaisArea>
-                        <TitleArea>
+                        <TitleArea cor={corSecundaria}>
                             <Text size="15px" color="#fff" >Totais:</Text>
                         </TitleArea>
                         <TotaisInfo>
@@ -476,22 +478,22 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
 
                 {delivery &&
                     <TipoPgto>
-                        <TitleArea>
+                        <TitleArea cor={corPrincipal}>
                             <Text size="15px" color="#fff" >Tipo de pagamento:</Text>
                         </TitleArea>
 
                         <TipoPgtoArea>
-                            <CartaoArea enabled={tipoPgto === 'Cartao' ? true : false} onPress={() => handleTipoPgto('Cartao')} activeOpacity={0.7}>
+                            <CartaoArea cor={corPrincipal} enabled={tipoPgto === 'Cartao' ? true : false} onPress={() => handleTipoPgto('Cartao')} activeOpacity={0.7}>
                                 <IconAwesome name="credit-card" size={20} color="#999" />
                                 <Text size="10px" color='#fff'>Cartão</Text>
                             </CartaoArea>
-                            <DinheiroArea enabled={tipoPgto === 'Dinheiro' ? true : false} onPress={() => handleTipoPgto('Dinheiro')} activeOpacity={0.7}>
-                                <IconAwesome name="money-bill" size={20} color={p.corSecundaria} />
+                            <DinheiroArea cor={corPrincipal} enabled={tipoPgto === 'Dinheiro' ? true : false} onPress={() => handleTipoPgto('Dinheiro')} activeOpacity={0.7}>
+                                <IconAwesome name="money-bill" size={20} color={corSecundaria} />
                                 <Text size="10px" color="#fff">Dinheiro</Text>
                             </DinheiroArea>
                             {troco > 0 &&
                                 <>
-                                    <TrocoArea>
+                                    <TrocoArea cor={corPrincipal}>
                                         <IconAwesome name="coins" size={20} color={'#ff0'} />
                                         <SubtrocoArea>
                                             <Text size="10px" color="#fff">Troco para</Text>
@@ -507,7 +509,7 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                     <ErrorArea>
                         <Text size="12px" color="#fff" family="Roboto Regular">{errorMsg}</Text>
                     </ErrorArea>}
-                <AreaCheckoutButtom>
+                <AreaCheckoutButtom cor={corPrincipal}>
                     <CheckoutButtom onPress={handleCheckout} activeOpacity={0.7}>
                         <IconTwo name="cart-arrow-right" size={20} color="#fff" />
                         <Text color="#fff" size="16px">Concluir Compra</Text>

@@ -11,8 +11,6 @@ import useTokenHandler from '../../helpers/TokenHandler'
 
 const Preload = (props) => {
 
-    const token = useSelector(state => state.authReducer.token)
-    const logo = useSelector(state => state.shopReducer.logo)
     const descricao = useSelector(state => state.shopReducer.descricao)
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("")
@@ -64,6 +62,16 @@ const Preload = (props) => {
             dispatch({
                 type: 'SET_DESCRICAO',
                 payload: configs[0].descricao
+            }) 
+
+            dispatch({
+                type: 'SET_COR_PRIMARIA',
+                payload: configs[0].cor_primaria
+            }) 
+
+            dispatch({
+                type: 'SET_COR_SECUNDARIA',
+                payload: configs[0].cor_secundaria
             }) 
 
         }
@@ -164,7 +172,7 @@ const Preload = (props) => {
             {!error &&
                 <>
                     <Title size="17px" style={{ fontFamily: "Roboto Black" }}> {descricao} </Title>
-                    <Logo source={{uri:logo}} />
+                    <Logo source={require('../../assets/logo.png')} />
                     <Title size="14px" style={{ fontFamily: "Roboto Black" }}> Approach Mobile Solutions</Title>
                 </>}
 

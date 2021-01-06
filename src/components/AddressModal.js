@@ -1,13 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Modal } from "react-native";
 import styled from 'styled-components/native';
-import p from '../config/padroes'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { TextInputMask } from 'react-native-masked-text'
 import axios from 'axios'
 import api from '../helpers/api'
 import { showMessage } from "react-native-flash-message"
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import {ErrorArea, Text as Text2} from '../components/ErrorArea'
 
 
@@ -21,7 +20,7 @@ const ModalArea = styled.SafeAreaView`
 
 const ModalHeader = styled.View`
    flex-direction:row;
-   background-color:${p.corPrincipal || '#ddd'}
+   background-color:${props => props.cor || '#ddd'};
    height:50px;
 `;
 const AreaBack = styled.View`
@@ -127,6 +126,9 @@ let timer;
 
 
 const AddressModal = ({ visible, visibleAction, userId, token, checkoutAction, setAddressList, addressList }) => {
+
+    const corPrincipal = useSelector(state => state.shopReducer.cor_principal)
+    const corSecundaria = useSelector(state => state.shopReducer.cor_secundaria)
 
    const [cepUser, setCepUser] = useState('')
    const [rua, setRua] = useState('')
@@ -242,7 +244,7 @@ const AddressModal = ({ visible, visibleAction, userId, token, checkoutAction, s
          transparent={true}
       >
          <ModalArea >
-            <ModalHeader>
+            <ModalHeader cor={corSecundaria}>
                <AreaBack>
                   <Buttom onPress={handleClose}>
                      <Icon name="arrow-back" size={25} color="#fff" />
@@ -350,7 +352,7 @@ const AddressModal = ({ visible, visibleAction, userId, token, checkoutAction, s
                   </UfArea>
                   <BotaoArea>
                      <ButtonAddDel onPress={handleSave}>
-                        <Icon name="add-location" size={25} color={p.corPrincipal} />
+                        <Icon name="add-location" size={25} color={corPrincipal} />
                         <Text size="13px">Salvar</Text>
                      </ButtonAddDel>
                   </BotaoArea>

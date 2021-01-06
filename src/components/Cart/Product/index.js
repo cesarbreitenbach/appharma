@@ -1,10 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import Item from '../../Items'
-import d from '../../../config/padroes'
 import { Conteiner, Title, Preco, PrecoArea, TagArea, TagText} from './styled'
 import AddDelCartButtom from '../../AddDelCartButtom'
 import Icon from 'react-native-vector-icons/Entypo'
+import {URL_FILES} from '@env'
 
 const ItemProduct = props => {
 
@@ -19,13 +19,14 @@ const ItemProduct = props => {
    }
 
    const goCart = () => {
-      console.log("Vou pro carrinho...")
+       console.log(JSON.stringify(props.data))
+      console.log("Vou pro carrinho... "+ URL_FILES+props.data.image)
       props.navigation.navigate('Cart')
    }
    
    return (
          <Conteiner  activeOpacity={0.7} onPress={()=>handleClick(props.data.id)}>
-               <Item style={{marginBottom:20}}  radius="50px" resizeMode='stretch' width={props.imgWidth || "100px"} height={props.imgHeight || "100px"} source={{uri:d.URL_FILES+props.data.image}}  />
+               <Item style={{marginBottom:20}}  radius="50px" resizeMode='stretch' width={props.imgWidth || "100px"} height={props.imgHeight || "100px"} source={{uri:URL_FILES+props.data.path}}  />
                <PrecoArea>
                   <Title >{props.data.nome}</Title>
                   <Preco>R$ {parseFloat(props.data.preco_vigente).toFixed(2).replace(".", ",")}</Preco>
@@ -36,7 +37,7 @@ const ItemProduct = props => {
                   <Icon name="price-tag" size={50} color='#19ad11'/>
                   <TagText size="12px" color="#fff" >{desconto.toFixed(0)} % </TagText>
                </TagArea>}
-
+ 
          </Conteiner>
    )
 }

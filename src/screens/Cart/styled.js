@@ -1,12 +1,11 @@
 import styled from 'styled-components/native';
-import d from '../../config/padroes'
 
 export const Container = styled.SafeAreaView`
    flex:1; 
 `;
 
 export const Header = styled.View`
-   background-color:${d.corPrincipal}
+   background-color:${props => props.cor || '#ddd'}
    margin-top:20px;
    padding-top: 8px;
    padding-bottom: 5px;
@@ -32,7 +31,7 @@ export const ItensOnCart = styled.FlatList`
 
 export const InfoArea = styled.View`
    height:70px;
-   background-color:${d.corPrincipal}
+   background-color:${props => props.cor || '#ddd'}
    flex-direction:row;
    justify-content: center
    align-items:flex-start;

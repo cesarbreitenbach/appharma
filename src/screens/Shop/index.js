@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Conteiner, ScrollArea, ContentArea, Title, ItemList } from './styled'
-import api from '../../helpers/api'
 import ItemCategoria from '../../components/Shop/ItemCategoria'
 import ItemDestaque from '../../components/Shop/ItemDestaque'
 import ItemProduct from '../../components/Shop/ItemProduct'

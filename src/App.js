@@ -3,12 +3,26 @@ import { StatusBar } from 'react-native'
 import { Provider, connect } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { store, persistor } from './store';
-import padrao from './config/padroes'
 import MainStack from './navigators/MainStack';
 import CodePush from 'react-native-code-push'
 import messaging from '@react-native-firebase/messaging'
 
+import conf from './config/configurador'
+
 const App = () => {
+
+    const [corPrincipal, setCorPrincipal] = useState('')
+    const [corSecundaria, setCorSecundaria] = useState('')
+
+  useEffect(()=>{
+    const getConfigurador = async() =>{
+        const resp = await conf();
+        console.log(JSON.stringify(resp))
+        setCorPrincipal(resp[0].cor_principal)
+        setCorSecundaria(resp[0].cor_secundaria)
+    }
+    getConfigurador()
+  }, [])
 
    useEffect(() => {
       //permissao
@@ -37,7 +51,7 @@ const App = () => {
    return (
 
       <>
-         <StatusBar barStyle="light-content" translucent backgroundColor={padrao.corSecundaria || "#016e66"} />
+         <StatusBar barStyle="light-content" translucent backgroundColor={corSecundaria || "#016e66"} />
          <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
                <MainStack  />

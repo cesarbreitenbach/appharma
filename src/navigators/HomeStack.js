@@ -2,7 +2,8 @@ import { createStackNavigator } from 'react-navigation-stack';
 import Inicio from '../screens/Home'
 import Login from '../screens/Login'
 import ConfirmPassword from '../screens/ConfirmPassword'
-import p from '../config/padroes'
+import{CORSECUNDARIA} from '@env'
+
 
 
 const HomeStack = createStackNavigator({
@@ -19,7 +20,7 @@ const HomeStack = createStackNavigator({
       initialRouteName:'Inicio',
       defaultNavigationOptions:{
          headerShown: true,
-         headerStyle:{backgroundColor:p.corSecundaria, height:80}
+         headerStyle:{backgroundColor:CORSECUNDARIA, height:80}
       },
 });
 

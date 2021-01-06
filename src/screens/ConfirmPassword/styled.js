@@ -13,11 +13,13 @@ export const LogoArea = styled.View`
    justify-content:center;
    align-items:center;
    margin-bottom:20px;
+   
 `;
 
 export const LogoText  = styled.Text`
    font-size:${props => props.size || "14px"};
    margin-bottom:10px;
+
 `;
 
 export const FormText  = styled.Text`
@@ -28,6 +30,7 @@ export const FormText  = styled.Text`
 export const Logo = styled.Image`
    width:70px;
    height:70px;
+   border-radius:45px
 `
 
 export const FormArea = styled.View`

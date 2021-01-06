@@ -1,13 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Text, Linking } from 'react-native';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { connect, useSelector } from 'react-redux'
-import padrao from '../config/padroes'
 
 const TabBarArea = styled.SafeAreaView`
     flex-direction:row;
-    background-color:${padrao.corPrincipal || '#3f9168'};
+    background-color:${ props => props.cor || '#3f9168'};
    
 `;
 const TabBarItem = styled.View`
@@ -27,7 +26,7 @@ const TabRegular = styled.TouchableHighlight`
 const TabBall = styled.TouchableHighlight`
     width:57px;
     height:57px;
-    background-color:${padrao.corPrincipal || '#3f9168'};
+    background-color:${props => props.cor || '#3f9168'};
     border-radius:45px;
     justify-content:center;
     align-items:center;
@@ -39,6 +38,8 @@ const TabBall = styled.TouchableHighlight`
 const CustomTabBar = props => {
 
     const whatsapp = useSelector(state => state.cartReducer.whatsapp)
+    const cor_primaria = useSelector(state => state.shopReducer.cor_primaria)
+    const cor_secundaria = useSelector(state => state.shopReducer.cor_secundaria)
 
     const go = async (route, icon) => {
         props.setActivePage(icon)
@@ -75,7 +76,7 @@ const CustomTabBar = props => {
                 }
                 {item.type == 'big' &&
                     <>
-                        <TabBall underlayColor="#ddd" onPress={() => go(item.route, item.icon)}>
+                        <TabBall underlayColor="#ddd" cor = {cor_secundaria} onPress={() => go(item.route, item.icon)}>
                             {props.activePage === item.icon ?
                                 <Icon name={item.icon} size={33} color="#fff" /> :
                                 <Icon name={item.icon} size={33} color="rgba(255, 255, 255, 0.6)" />}
@@ -88,7 +89,7 @@ const CustomTabBar = props => {
     });
 
     return (
-        <TabBarArea>
+        <TabBarArea cor = {cor_primaria}>
             {tabs}
         </TabBarArea>
     )

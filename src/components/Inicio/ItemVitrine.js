@@ -2,7 +2,7 @@ import React from 'react'
 import Item from '../../components/Items'
 import styled from 'styled-components/native';
 import StrCaptalize from '../../helpers/StrCaptalize'
-import p from '../../config/padroes'
+import {URL_FILES} from '@env'
 
 export const ProductArea = styled.TouchableHighlight`
    height:100%;
@@ -61,7 +61,7 @@ const ItemVitrine = (props) => {
    return (
       <ProductArea underlayColor='#3f9168' onPress={() => handleClick(props.data)}>
          <>
-               {props.data.image && <Item style={{marginTop:5}} radius="60px" resizeMode='cover' width="95px" height="95px" source={{uri:p.URL_FILES+props.data.image}}  />}
+               {props.data.image && <Item style={{marginTop:5}} radius="60px" resizeMode='cover' width="95px" height="95px" source={{uri:URL_FILES+props.data.image}}  />}
                {!props.data.image && <Item style={{marginTop:5}} width="95px" height="95px" source={require('../../assets/nopicture.png')} />}  
          
                <ProductTitle >{StrCaptalize(props.data.nome)}</ProductTitle>

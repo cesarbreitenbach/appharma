@@ -1,5 +1,3 @@
-import d from '../config/padroes'
-
 const initialState = {
     carrinho: [],
     total: 0,

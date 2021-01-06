@@ -3,9 +3,8 @@ import { createStackNavigator } from 'react-navigation-stack';
 import Shop from '../screens/Shop'
 import Produto from '../screens/Produto'
 import Cart from '../screens/Cart'
-import padroes from '../config/padroes'
 import Search from '../screens/Search'
-
+import { CORSECUNDARIA } from "@env";
 const ShopStack = createStackNavigator({
    Shop:{
       screen: Shop,
@@ -22,7 +21,7 @@ const ShopStack = createStackNavigator({
 }, {
       initialRouteName:'Shop',
       defaultNavigationOptions:{
-         headerStyle:{backgroundColor:padroes.corSecundaria, height:80}
+         headerStyle:{backgroundColor:CORSECUNDARIA, height:80}
       },
       
 });

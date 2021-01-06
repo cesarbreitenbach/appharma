@@ -24,6 +24,7 @@ const Cart = (props) => {
     const socket = io('https://approachmobile.company');
 
     
+    const corPrincipal = useSelector(state => state.shopReducer.cor_primaria)
     const taxa_entrega = useSelector(state => state.shopReducer.taxa_entrega)
     const [error, setError] = useState(false)
     const [errorMsg, setErrorMsg] = useState("")
@@ -232,8 +233,8 @@ const Cart = (props) => {
 
 
 
-            <InfoArea>
-                <TotalArea>
+            <InfoArea cor = {corPrincipal}>
+                <TotalArea >
                     <Text style={{ fontFamily: 'Roboto Black', fontSize: 15, color: '#000' }}>Total:</Text>
                     <Text style={{ fontSize: 19, color: '#000' }}>R$ {vTotal.toFixed(2).replace(".", ",")}</Text>
                 </TotalArea>

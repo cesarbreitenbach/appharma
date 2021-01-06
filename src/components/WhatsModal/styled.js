@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import p from '../../config/padroes'
 
 export const ModalArea = styled.SafeAreaView`
    width:100%;
@@ -10,7 +9,7 @@ export const ModalArea = styled.SafeAreaView`
 
 export const ModalHeader = styled.View`
    flex-direction:row;
-   background-color:${p.corPrincipal || '#ddd'}
+   background-color:${props => props.cor  || '#ddd'}
    height:50px;
 `;
 export const AreaBack = styled.View`

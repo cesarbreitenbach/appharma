@@ -1,6 +1,5 @@
 import styled from 'styled-components/native';
 import { Animated } from 'react-native'
-import p from '../../config/padroes'
 
 export const Container = styled.SafeAreaView`
    flex:1; 
@@ -38,7 +37,7 @@ background-color:#eee
 `
 export const ActionArea = styled.View`
 
-   background-color:${p.corPrincipal};
+   background-color:${props => props.cor || '#999'}
    flex-direction:row;
    justify-content:space-around;
 
@@ -72,7 +71,7 @@ export const Off = styled.View`
    width:40px;
    height:40px;
    border-radius:20px;
-   background-color:${p.corSecundaria};
+   background-color:${props => props.cor || '#999'}
    align-items:center;
    justify-content:center;
    margin-top:-20px;

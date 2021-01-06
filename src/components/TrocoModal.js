@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Modal } from "react-native";
 import styled from 'styled-components/native';
-import p from '../config/padroes'
 import Icon from 'react-native-vector-icons/FontAwesome5'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 
 
 const ModalArea = styled.SafeAreaView`
@@ -16,8 +15,8 @@ const ModalArea = styled.SafeAreaView`
 const TrocoArea = styled.View`
    width:280px;
    height:160px;
-   background-color:${p.corModal}
-   justify-content:center;
+   background-color:${props => props.cor || '#3f9168'};
+   justify-content:center; 
    align-items:center;
    border-radius:7px;
    
@@ -34,7 +33,7 @@ const IconeArea = styled.TouchableOpacity`
    margin:10px
    height:70px;
    width:80px;
-   background-color:${p.corPrincipal}
+   background-color:${props => props.cor || '#3f9168'};
    justify-content: center;
    align-items:center;
    border-radius: 5px
@@ -53,6 +52,9 @@ const TrocoModal = ({ visible, visibleAction, getTroco }) => {
 
    const [troco, setTroco] = useState('')
 
+   const corPrincipal = useSelector(state => state.shopReducer.cor_principal)
+
+   const corSecundaria = useSelector(state => state.shopReducer.cor_secundaria)
 
    const handleClick = () =>{
 
@@ -68,11 +70,11 @@ const TrocoModal = ({ visible, visibleAction, getTroco }) => {
          transparent={true}
       >
          <ModalArea >
-            <TrocoArea>
+            <TrocoArea cor={corSecundaria}>
                <Text size="19px" style={{margin:5}}>Você precisa de troco?</Text>
  
                <Input placeholder="R$ 50,00" keyboardType="number-pad" onChangeText={(t)=>setTroco(t)} value={troco} />
-               <IconeArea activeOpacity={0.7} onPress={ handleClick }>
+               <IconeArea cor={corPrincipal} activeOpacity={0.7} onPress={ handleClick }>
                   <Icon name="coins" size={20} color='#e3e02d'/>
                   <Text> Pronto </Text>
                </IconeArea>

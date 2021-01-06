@@ -2,9 +2,8 @@ import React from 'react';
 import styled from 'styled-components/native';
 import Items from '../Items'
 import {Text} from 'react-native'
-import padrao from '../../config/padroes'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import {connect} from 'react-redux'
+import {connect, useSelector} from 'react-redux'
 
 export const BuyNowArea = styled.View`
    width:100%;
@@ -25,7 +24,7 @@ padding:10px;
 export const IconeArea = styled.View`
 width:50px;
 border-radius: 35px;
-background-color:${padrao.corSecundaria || '#3f9168'};
+background-color:${props => props.cor || '#3f9168'};
 justify-content:center;
 align-items:center;
 margin-left:15px;
@@ -33,7 +32,7 @@ margin-left:15px;
 export const HeaderArea = styled.View`
    width:100%;
    height:40px;
-   background-color:${padrao.corSecundaria || '#3f9168'};
+   background-color:${props => props.cor || '#3f9168'};
    border-top-left-radius: 15px;
    border-top-right-radius: 15px;
    flex-direction:row;
@@ -47,7 +46,7 @@ export const FooterArea = styled.View`
    height:15px;
    border-bottom-right-radius: 15px;
    border-bottom-left-radius: 15px;
-   background-color:${padrao.corSecundaria || '#3f9168'};
+   background-color:${props => props.cor || '#3f9168'};
    `
 export const ButtomArea = styled.View`
 justify-content:center;
@@ -64,7 +63,7 @@ export const BuyNowItems = styled.View`
 export const BuyNowButtom = styled.TouchableHighlight`
    width:200px;
    height:50px;
-   background-color:${padrao.corSecundaria || '#3f9168'};
+   background-color:${props => props.cor || '#3f9168'};
    justify-content:center;
    align-items:center;
    border-radius:15px;
@@ -87,6 +86,8 @@ export const ViewButtom = styled.View`
 
 const BuyNow = (props) => {
 
+    const corSecundaria = useSelector(state => state.shopReducer.cor_secundaria)
+
    const handleGoShop = (iconTab) =>{
       props.setActivePage(iconTab)
       props.navigation.navigate('ShopStack')
@@ -94,8 +95,8 @@ const BuyNow = (props) => {
 
     return (
       <BuyNowArea >
-               <HeaderArea>
-                  <IconeArea><Items width="30px" height="30px" source={require('../../assets/ecommerce.png')} /></IconeArea>
+               <HeaderArea cor={corSecundaria} >
+                  <IconeArea cor={corSecundaria}><Items width="30px" height="30px" source={require('../../assets/ecommerce.png')} /></IconeArea>
                   <HeaderTextArea>
                      <HeaderText style={{marginTop:15}}>Compre pelo aplicativo </HeaderText>
                      <HeaderText size="14px">Receba em casa ou retire na loja! </HeaderText>
@@ -103,7 +104,7 @@ const BuyNow = (props) => {
                </HeaderArea>
                <ImageArea source={require('../../assets/loja.jpg')} >
                   <ButtomArea>
-                     <BuyNowButtom underlayColor="#52d191" onPress={() => handleGoShop('shopping-cart')}>
+                     <BuyNowButtom cor={corSecundaria} underlayColor="#52d191" onPress={() => handleGoShop('shopping-cart')}>
                         <ViewButtom>
                            <Icon name='shopping-cart' size={25} color="#fff" style={{marginRight:5}}/>
                            <Text style={{ fontFamily:'Roboto Bold', fontSize:15, color: '#fff' }}>Ir às Compras</Text>
@@ -112,7 +113,7 @@ const BuyNow = (props) => {
 
                   </ButtomArea>
                </ImageArea>
-               <FooterArea />
+               <FooterArea  cor={corSecundaria} />
             </BuyNowArea>
     )
 }

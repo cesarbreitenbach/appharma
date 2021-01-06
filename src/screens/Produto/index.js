@@ -9,15 +9,17 @@ import Search from '../../components/SearchBar'
 import Cart from '../../components/Cart'
 import AddDelCartButtom from '../../components/AddDelCartButtom'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import p from '../../config/padroes'
 import api from '../../helpers/api'
 import { Animated } from 'react-native'
 import ItemSimilar from '../../components/Shop/ItemSimilar'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { ErrorArea, Text } from '../../components/ErrorArea'
+import {URL_FILES} from '@env'
 
 const Produto = (props) => {
 
+    const corPrincipal = useSelector(state => state.shopReducer.cor_primaria)
+    const corSecundaria = useSelector( state => state.shopReducer.cor_secundaria)
     const [heightAnim] = useState(new Animated.Value(40))
     const [isOpen, setIsOpen] = useState(false)
     const [similarList, setSimilarList] = useState([])
@@ -129,14 +131,14 @@ const Produto = (props) => {
                     <ProdutoScroll>
                         <ProdutoArea>
                             <FuckItem>
-                                <ProdutoImg resizeMode='cover' source={{ uri: p.URL_FILES + produto.produtoEscolhido.path }} />
+                                <ProdutoImg resizeMode='cover' source={{ uri: URL_FILES + produto.produtoEscolhido.path }} />
                                 <Title color="#000">{carregou ? produto.produtoEscolhido.nome : 'aguarde...'}</Title>
                             </FuckItem>
                             <PriceInfo>
                                 {(produto.produtoEscolhido.preco_original != produto.produtoEscolhido.preco_vigente) &&
                                     <OriginalPriceArea>
                                         <Price size="12px" decoration="line-through" color="#ff0000">de R$ {parseFloat(produto.produtoEscolhido.preco_original).toFixed(2).replace(".", ",")}  </Price>
-                                        <Off>
+                                        <Off cor={corSecundaria}>
                                             <Price color="#fff" size="14px"  font="Ubuntu Regular">{desconto.toFixed(0)} %</Price>
                                         </Off>
                                     </OriginalPriceArea>
@@ -180,7 +182,7 @@ const Produto = (props) => {
 
                     </ProdutoScroll>
 
-                    <ActionArea>
+                    <ActionArea cor = {corPrincipal}>
                         <SubtotalArea>
                             <Price size="14px">Subtotal: </Price>
                             <Price size="18px">R$ {parseFloat(props.total).toFixed(2).replace(".", ",")}</Price>

@@ -4,8 +4,7 @@ import { Text } from 'react-native'
 import styled from 'styled-components/native'
 import ItemVitrine from '../../components/Inicio/ItemVitrine'
 import Items from '../Items'
-import padrao from '../../config/padroes'
-import {connect} from 'react-redux'
+import {connect, useSelector} from 'react-redux'
 import {ActivityIndicator} from 'react-native'
 
 
@@ -21,7 +20,7 @@ const Conteiner = styled.View`
     border-bottom-right-radius: 15px
 `;
 export const HeaderPromo = styled.View`
-   background-color:${padrao.corSecundaria || '#3f9168'};
+   background-color:${props => props.cor || '#3f9168'};
    width:100%;
    height:30px;
    justify-content:center;
@@ -41,7 +40,7 @@ padding:10px;
 export const IconeArea = styled.View`
 width:40px;
 border-top-left-radius: 35px;
-background-color:${padrao.corSecundaria || '#3f9168'};
+background-color:${props => props.cor || '#3f9168'};
 justify-content:center;
 align-items:center;
 margin-left:15px;
@@ -79,6 +78,7 @@ export const Nodata = styled.View`
 const Vitrine = props => {
 
    let welcome = 'Top ofertas da semana';
+   const corSecundaria = useSelector(state => state.shopReducer.cor_secundaria)
 
    if(props.status){
       welcome = 'Ofertas especias para você';
@@ -86,8 +86,8 @@ const Vitrine = props => {
 
    return (
       <>
-         <HeaderPromo>
-            <IconeArea><Items width="25px" height="25px" source={require('../../assets/offinicial.png')} /></IconeArea>
+         <HeaderPromo cor={corSecundaria}>
+            <IconeArea cor={corSecundaria}><Items width="25px" height="25px" source={require('../../assets/offinicial.png')} /></IconeArea>
             <Text style={{ fontSize: 18, color: '#fff', fontFamily:'Roboto Medium' }}>{welcome}</Text>
          </HeaderPromo>
          <Conteiner>
