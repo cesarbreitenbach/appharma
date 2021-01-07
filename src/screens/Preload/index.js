@@ -18,6 +18,7 @@ const Preload = (props) => {
     const appharma = useApi()
     const tokenHandler = useTokenHandler()
 
+
     const go = () => {
         props.navigation.dispatch(StackActions.reset({
             index: 0,
@@ -43,6 +44,8 @@ const Preload = (props) => {
 
         const getConfigs = async () => {
             const configs = await appharma.getConf()
+
+            console.log("Peguei o getConfigs: "+JSON.stringify(configs))
 
             dispatch({
                 type: 'TAXA_ENTREGA',

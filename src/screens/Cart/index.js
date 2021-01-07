@@ -14,16 +14,17 @@ import FlashMessage from "react-native-flash-message";
 import { ErrorArea, Text as TextError } from '../../components/ErrorArea'
 import ModalSucesso from '../../components/Finalizar/ModalSucesso'
 import WhatsModal from '../../components/WhatsModal'
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import useApi from '../../helpers/apiAppharma'
 import { useSelector } from 'react-redux'
 
 
 const Cart = (props) => {
 
-    const socket = io('https://approachmobile.company');
+  //  const socket = io('https://approachmobile.company');
 
-    
+
+
     const corPrincipal = useSelector(state => state.shopReducer.cor_primaria)
     const taxa_entrega = useSelector(state => state.shopReducer.taxa_entrega)
     const [error, setError] = useState(false)
@@ -37,9 +38,6 @@ const Cart = (props) => {
     const [modalSucessoVisible, setModalSucessoVisible] = useState(false)
     const [checkoutSuccess, setCheckoutSuccess] = useState(false)
     const vTotal = props.total
-    const api = useApi();
-    const token = useSelector(state => state.authReducer.token)
-    const dispatch = useDispatch()
     const whatsapp = useSelector(state => state.userReducer.whatsapp)
 
     useEffect(() => {
@@ -48,33 +46,12 @@ const Cart = (props) => {
         }, 2000)
     }, [errorMsg])
 
-    useEffect(() => {
-        socket.on('connect', () => {
-            console.log("Abrindo conexão com socket...")
-        })
+    // useEffect(() => {
+    //     socket.on('connect', () => {
+    //         console.log("Abrindo conexão com socket...")
+    //     })
 
-    }, [])
-
-    useEffect(() => {
-        const getConfigs = async () => {
-            const configs = await api.getConf()
-
-            console.log("Peguei configs: " + JSON.stringify(configs))
-            dispatch({
-                type: 'TAXA_ENTREGA',
-                payload: configs[0].taxa_entrega
-            })
-
-
-            dispatch({
-                type: 'WHATSAPP',
-                payload: configs[0].whatsapp
-            })
-
-        }
-        getConfigs()
-    }, [])
-
+    // }, [codVendaSucesso])
 
 
     const ClearCartConfirm = () => {
@@ -119,12 +96,10 @@ const Cart = (props) => {
 
         const count = props.addressList.length;
 
-        if (!whatsapp){
+        if (!whatsapp) {
             setWhatsModalVisible(true)
             return
         }
-
-        console.log("O whats do cidadão é: "+whatsapp)
 
         if (count > 0 || !radioDelivery) {
             setModalVisible(true)
@@ -143,10 +118,11 @@ const Cart = (props) => {
         ClearCartConfirm()
     }
 
-    const socketHandlerConfirmSell = (codVenda) => {
-        socket.emit('venda-recebida', codVenda)
-        console.log("Emit uma mensagem ao servidor confirmando uma venda...")
-    }
+    // const socketHandlerConfirmSell = (codVenda) => {
+    //     setCodVendaSucesso(codVenda)
+    //     socket.emit('venda-recebida', codVenda)
+    //     console.log("Emit uma mensagem ao servidor confirmando uma venda...")
+    // }
 
     return (
         <Container>
@@ -170,7 +146,6 @@ const Cart = (props) => {
                 trocoAction={setTrocoModalVisible}
                 successAction={setModalSucessoVisible}
                 confirmSuccess={setCheckoutSuccess}
-                socketHandler={socketHandlerConfirmSell}
             />
 
             <WhatsModal
@@ -233,7 +208,7 @@ const Cart = (props) => {
 
 
 
-            <InfoArea cor = {corPrincipal}>
+            <InfoArea cor={corPrincipal}>
                 <TotalArea >
                     <Text style={{ fontFamily: 'Roboto Black', fontSize: 15, color: '#000' }}>Total:</Text>
                     <Text style={{ fontSize: 19, color: '#000' }}>R$ {vTotal.toFixed(2).replace(".", ",")}</Text>

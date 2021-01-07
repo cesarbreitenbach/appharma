@@ -3,6 +3,7 @@ import styled from 'styled-components/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { connect, useSelector } from 'react-redux'
 import useApi from '../helpers/apiAppharma'
+import LoadingModal from '../components/LoadingModal'
 
 
 export const AreaButtom = styled.View`
@@ -43,14 +44,22 @@ const AddDelCartButtom = (props) => {
     const [qtdEstoque, setQtdEstoque] = useState(props.product.qtd_estoque)
     const api = useApi();
     const corPrincipal = useSelector(state => state.shopReducer.cor_primaria)
+    const [loading, setLoading] = useState(false)
+    const [acao, setAcao] = useState('')
 
 
 
     const addProduct = async (product) => {
+
+        console.log("Cliquei em adicionar")
         let novaQtd = qtdAtual;
         novaQtd++;
 
+        setLoading(true)
+        setAcao('Adicionando ao carrinho')
         const reserva = await api.getReservas(idProduto)
+        setLoading(false)
+        setAcao('')
 
         let disponivel = qtdEstoque - reserva;
 
@@ -80,6 +89,7 @@ const AddDelCartButtom = (props) => {
 
     return (
         <AreaButtom>
+            <LoadingModal visible={loading} visibleAction={setLoading} descAcao={acao} />
             <AddToCart activeOpacity={0.7} onPress={() => delProduct(props.product)}>
                 <Icon name="minus" size={25} color={corPrincipal} />
             </AddToCart>

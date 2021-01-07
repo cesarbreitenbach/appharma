@@ -1,6 +1,7 @@
 const initialState = {
     carrinho: [],
     total: 0,
+    id_ultima_compra: 0,
 };
 
 const operations = {
@@ -34,6 +35,10 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case "CLEAR_CART":
             return initialState;
+
+        case 'SET_ULTIMA_COMPRA':
+            return { ...state, id_ultima_compra: action.payload }
+            break;
 
         case "ADD_TO_CART": {
             const product_index = getProductIndexFromCart(

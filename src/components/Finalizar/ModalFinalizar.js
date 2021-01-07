@@ -5,11 +5,15 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import IconTwo from 'react-native-vector-icons/MaterialCommunityIcons'
 import IconAwesome from 'react-native-vector-icons/FontAwesome5'
 import AddressItem from './AddressItem'
-import { connect, useSelector} from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { ErrorArea, Text as TextError } from '../../components/ErrorArea'
 import useApi from '../../helpers/apiAppharma'
 import api from '../../helpers/api'
-import {URL_FILES} from '@env'
+import { URL_FILES } from '@env'
+import io from 'socket.io-client';
+
+
+const socket = io('https://approachmobile.company');
 
 
 
@@ -167,7 +171,7 @@ background-color:${props => props.cor || '#3f9168'};
 
 border-radius:5px
 
-border-color:${props => props.enabled ? '#326ded'  : props.cor}
+border-color:${props => props.enabled ? '#326ded' : props.cor}
 border-width:2px
 `
 const DinheiroArea = styled.TouchableOpacity`
@@ -176,7 +180,7 @@ justify-content:center;
 align-items:center;
 width:90px;
 height:60px;
-background-color:${props=>props.cor||'#ddd'}
+background-color:${props => props.cor || '#ddd'}
 
 border-radius:5px
 border-color:${props => props.enabled ? '#326ded' : props.cor}
@@ -188,7 +192,7 @@ justify-content:center;
 align-items:center;
 width:100px;
 height:60px;
-background-color:${props=>props.cor||'#ddd'}
+background-color:${props => props.cor || '#ddd'}
 border-radius:7px
 flex-direction:row
 `
@@ -226,8 +230,10 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
     const [subTotal, setSubTotal] = useState(0)
     const [descontoTotal, setDescontoTotal] = useState(0)
     const [tipoPgto, setTipoPgto] = useState(false)
-    const[loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [totalGeral, setTotalGeral] = useState(0)
+
+    const [codVendaSucesso, setCodVendaSucesso] = useState(0)
 
     const appharma = useApi();
 
@@ -236,6 +242,14 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
             setErrorMsg('')
         }, 1950)
     }, [errorMsg])
+
+    const socketHandlerConfirmSell = (codVenda) => {
+        socket.on('connect', () => {
+            console.log("Abrindo conexão com socket...")
+        })
+        socket.emit('venda-recebida', codVenda)
+        console.log("Emit uma mensagem ao servidor confirmando uma venda...")
+    }
 
     useEffect(() => {
         let vSubTotal = 0;
@@ -249,9 +263,9 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
             setSubTotal(vSubTotal)
             setDescontoTotal(vDesconto)
             let totalAux = vSubTotal - vDesconto;
-            if(delivery){
+            if (delivery) {
                 totalAux = totalAux + parseFloat(taxa_entrega);
-            } 
+            }
             setTotalGeral(totalAux)
 
 
@@ -289,10 +303,10 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
         setLoading(true);
 
         const marcacaoValida = await appharma.getValidaMarcacao();
-        
+
         if (marcacaoValida == 1) {
             setLoading(false);
-            
+
             const link = `whatsapp://send?text=Oi, estou com dificuldade para comprar no APP!&phone=+55${whatsapp}`
             const supported = await Linking.canOpenURL(link);
             if (!supported) {
@@ -342,7 +356,7 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                 successAction(true)
                 confirmSuccess(true)
                 const { codigo_venda } = venda.data
-                socketHandler(codigo_venda)
+                socketHandlerConfirmSell(codigo_venda)
 
                 cart.map(async (i, k) => {
                     let reserva = {
@@ -370,7 +384,13 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
             }
 
             setLoading(false);
-            
+
+            return () => {
+                setSubTotal(0);
+                setTotalGeral(0);
+                setDescontoTotal(0);
+            }
+
         } catch (e) {
             console.log("Erro: " + e.message)
         }
@@ -396,129 +416,129 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
             transparent={false}
         >
             <ModalArea>
-            { !loading &&
-            <>
-                <BodyArea>
-                    <ModalHeader cor={corPrincipal} >
-                        <AreaBack>
-                            <Buttom onPress={handleClose}>
-                                <Icon name="arrow-back" size={25} color="#fff" />
-                            </Buttom>
-                        </AreaBack>
-                        <AreaText>
-                            <Text size="17px" color="#fff">Finalizar Compra</Text>
-                        </AreaText>
-                    </ModalHeader>
+                {!loading &&
+                    <>
+                        <BodyArea>
+                            <ModalHeader cor={corPrincipal} >
+                                <AreaBack>
+                                    <Buttom onPress={handleClose}>
+                                        <Icon name="arrow-back" size={25} color="#fff" />
+                                    </Buttom>
+                                </AreaBack>
+                                <AreaText>
+                                    <Text size="17px" color="#fff">Finalizar Compra</Text>
+                                </AreaText>
+                            </ModalHeader>
 
-                    <RevisaoArea>
+                            <RevisaoArea>
 
-                        <TitleArea cor={corSecundaria}>
-                            <Text size="15px" color="#fff" >Revisão do Pedido:</Text>
-                        </TitleArea>
-                        <ScrollRevisao >
-                            {
-                                cart.map((i, k) => {
-                                    return (
-                                        <ProdutoArea key={k} semSaldo={i.semSaldo}>
-                                            <ImageArea>
-                                                <ProdutoImage source={{ uri: URL_FILES + i.path }} />
-                                            </ImageArea>
-                                            <ProdutoInfo>
-                                                <Text size="12px">{i.nome}</Text>
-                                                <Text size="12px">Qtd: {i.qtd}</Text>
-                                                <Text size="15px">R$ {parseFloat(i.preco_vigente).toFixed(2).replace(".", ",")}</Text>
-                                            </ProdutoInfo>
-                                        </ProdutoArea>
-                                    )
-                                })
+                                <TitleArea cor={corSecundaria}>
+                                    <Text size="15px" color="#fff" >Revisão do Pedido:</Text>
+                                </TitleArea>
+                                <ScrollRevisao >
+                                    {
+                                        cart.map((i, k) => {
+                                            return (
+                                                <ProdutoArea key={k} semSaldo={i.semSaldo}>
+                                                    <ImageArea>
+                                                        <ProdutoImage source={{ uri: URL_FILES + i.path }} />
+                                                    </ImageArea>
+                                                    <ProdutoInfo>
+                                                        <Text size="12px">{i.nome}</Text>
+                                                        <Text size="12px">Qtd: {i.qtd}</Text>
+                                                        <Text size="15px">R$ {parseFloat(i.preco_vigente).toFixed(2).replace(".", ",")}</Text>
+                                                    </ProdutoInfo>
+                                                </ProdutoArea>
+                                            )
+                                        })
+                                    }
+                                </ScrollRevisao>
+                            </RevisaoArea>
+                            {delivery &&
+
+                                <EnderecoArea>
+                                    <TitleEndereco cor={corSecundaria}>
+                                        <Text size="15px" color="#fff" >Endereço para entrega:</Text>
+                                        <AreaButtom onPress={handleAddAddress}>
+                                            <Icon name="add-location" size={15} color={corPrincipal} />
+                                            <Text size="10px" family="Roboto Thin">Adicionar</Text>
+                                        </AreaButtom>
+                                    </TitleEndereco>
+
+                                    <ScrollEndereco showsVerticalScrollIndicator={false}>
+                                        {addressList.map((i, k) => {
+                                            return (
+                                                <AddressItem key={k} data={i} onDelete={handleDelete} onSelect={setIdAddress} active={idAddress} />
+                                            )
+                                        })
+                                        }
+                                    </ScrollEndereco>
+
+                                </EnderecoArea>
                             }
-                        </ScrollRevisao>
-                    </RevisaoArea>
-                    {delivery &&
+                            <TotaisArea>
+                                <TitleArea cor={corSecundaria}>
+                                    <Text size="15px" color="#fff" >Totais:</Text>
+                                </TitleArea>
+                                <TotaisInfo>
+                                    <SubArea>
 
-                        <EnderecoArea>
-                            <TitleEndereco cor={corSecundaria}>
-                                <Text size="15px" color="#fff" >Endereço para entrega:</Text>
-                                <AreaButtom onPress={handleAddAddress}>
-                                    <Icon name="add-location" size={15} color={corPrincipal} />
-                                    <Text size="10px" family="Roboto Thin">Adicionar</Text>
-                                </AreaButtom>
-                            </TitleEndereco>
+                                        <Text size="12px">Sub-Total: R$ {subTotal.toFixed(2).replace(".", ",")}</Text>
+                                        <Text size="12px">Desconto: R$ {parseFloat(descontoTotal).toFixed(2).replace(".", ",")}</Text>
+                                        {delivery &&
+                                            <Text size="12px">Taxa de Entrega: R$ {parseFloat(taxa_entrega).toFixed(2).replace(".", ",")}</Text>}
 
-                            <ScrollEndereco showsVerticalScrollIndicator={false}>
-                                {addressList.map((i, k) => {
-                                    return (
-                                        <AddressItem key={k} data={i} onDelete={handleDelete} onSelect={setIdAddress} active={idAddress} />
-                                    )
-                                })
-                                }
-                            </ScrollEndereco>
+                                    </SubArea>
+                                    <TotalArea>
+                                        <Text size="20px" family="Roboto Black">Total: R$ {parseFloat(totalGeral).toFixed(2).replace(".", ",")}</Text>
+                                    </TotalArea>
+                                </TotaisInfo>
+                            </TotaisArea>
+                        </BodyArea>
 
-                        </EnderecoArea>
-                    }
-                    <TotaisArea>
-                        <TitleArea cor={corSecundaria}>
-                            <Text size="15px" color="#fff" >Totais:</Text>
-                        </TitleArea>
-                        <TotaisInfo>
-                            <SubArea>
+                        {delivery &&
+                            <TipoPgto>
+                                <TitleArea cor={corPrincipal}>
+                                    <Text size="15px" color="#fff" >Tipo de pagamento:</Text>
+                                </TitleArea>
 
-                                <Text size="12px">Sub-Total: R$ {subTotal.toFixed(2).replace(".", ",")}</Text>
-                                <Text size="12px">Desconto: R$ {parseFloat(descontoTotal).toFixed(2).replace(".", ",")}</Text>
-                                {delivery &&
-                                    <Text size="12px">Taxa de Entrega: R$ {parseFloat(taxa_entrega).toFixed(2).replace(".", ",")}</Text>}
-
-                            </SubArea>
-                            <TotalArea>
-                                <Text size="20px" family="Roboto Black">Total: R$ {parseFloat(totalGeral).toFixed(2).replace(".", ",")}</Text>
-                            </TotalArea>
-                        </TotaisInfo>
-                    </TotaisArea>
-                </BodyArea>
-
-                {delivery &&
-                    <TipoPgto>
-                        <TitleArea cor={corPrincipal}>
-                            <Text size="15px" color="#fff" >Tipo de pagamento:</Text>
-                        </TitleArea>
-
-                        <TipoPgtoArea>
-                            <CartaoArea cor={corPrincipal} enabled={tipoPgto === 'Cartao' ? true : false} onPress={() => handleTipoPgto('Cartao')} activeOpacity={0.7}>
-                                <IconAwesome name="credit-card" size={20} color="#999" />
-                                <Text size="10px" color='#fff'>Cartão</Text>
-                            </CartaoArea>
-                            <DinheiroArea cor={corPrincipal} enabled={tipoPgto === 'Dinheiro' ? true : false} onPress={() => handleTipoPgto('Dinheiro')} activeOpacity={0.7}>
-                                <IconAwesome name="money-bill" size={20} color={corSecundaria} />
-                                <Text size="10px" color="#fff">Dinheiro</Text>
-                            </DinheiroArea>
-                            {troco > 0 &&
-                                <>
-                                    <TrocoArea cor={corPrincipal}>
-                                        <IconAwesome name="coins" size={20} color={'#ff0'} />
-                                        <SubtrocoArea>
-                                            <Text size="10px" color="#fff">Troco para</Text>
-                                            <Text size="10px" color="#fff">R$ {parseFloat(troco).toFixed(2).replace(".", ",")}</Text>
-                                        </SubtrocoArea>
-                                    </TrocoArea>
-                                </>
-                            }
-                        </TipoPgtoArea>
-                    </TipoPgto>
-                }
-                {errorMsg != '' &&
-                    <ErrorArea>
-                        <Text size="12px" color="#fff" family="Roboto Regular">{errorMsg}</Text>
-                    </ErrorArea>}
-                <AreaCheckoutButtom cor={corPrincipal}>
-                    <CheckoutButtom onPress={handleCheckout} activeOpacity={0.7}>
-                        <IconTwo name="cart-arrow-right" size={20} color="#fff" />
-                        <Text color="#fff" size="16px">Concluir Compra</Text>
-                    </CheckoutButtom>
-                </AreaCheckoutButtom>
-                </>
+                                <TipoPgtoArea>
+                                    <CartaoArea cor={corPrincipal} enabled={tipoPgto === 'Cartao' ? true : false} onPress={() => handleTipoPgto('Cartao')} activeOpacity={0.7}>
+                                        <IconAwesome name="credit-card" size={20} color="#999" />
+                                        <Text size="10px" color='#fff'>Cartão</Text>
+                                    </CartaoArea>
+                                    <DinheiroArea cor={corPrincipal} enabled={tipoPgto === 'Dinheiro' ? true : false} onPress={() => handleTipoPgto('Dinheiro')} activeOpacity={0.7}>
+                                        <IconAwesome name="money-bill" size={20} color={corSecundaria} />
+                                        <Text size="10px" color="#fff">Dinheiro</Text>
+                                    </DinheiroArea>
+                                    {troco > 0 &&
+                                        <>
+                                            <TrocoArea cor={corPrincipal}>
+                                                <IconAwesome name="coins" size={20} color={'#ff0'} />
+                                                <SubtrocoArea>
+                                                    <Text size="10px" color="#fff">Troco para</Text>
+                                                    <Text size="10px" color="#fff">R$ {parseFloat(troco).toFixed(2).replace(".", ",")}</Text>
+                                                </SubtrocoArea>
+                                            </TrocoArea>
+                                        </>
+                                    }
+                                </TipoPgtoArea>
+                            </TipoPgto>
+                        }
+                        {errorMsg != '' &&
+                            <ErrorArea>
+                                <Text size="12px" color="#fff" family="Roboto Regular">{errorMsg}</Text>
+                            </ErrorArea>}
+                        <AreaCheckoutButtom cor={corPrincipal}>
+                            <CheckoutButtom onPress={handleCheckout} activeOpacity={0.7}>
+                                <IconTwo name="cart-arrow-right" size={20} color="#fff" />
+                                <Text color="#fff" size="16px">Concluir Compra</Text>
+                            </CheckoutButtom>
+                        </AreaCheckoutButtom>
+                    </>
                 }
 
-                { loading && <ActivityArea>
+                {loading && <ActivityArea>
                     <ActivityIndicator size="large" color="#999" />
                     <Text size="15px" color="#000">Aguarde, estamos concluindo sua compra!</Text>
                 </ActivityArea>}
@@ -527,7 +547,7 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
 
             </ModalArea>
 
-            
+
 
         </Modal>
     )

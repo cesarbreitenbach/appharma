@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, ActivityIndicator } from "react-native";
+import { Modal, ActivityIndicator, Text } from "react-native";
 import styled from 'styled-components/native';
 
 
@@ -17,7 +17,7 @@ export const ActivityArea = styled.View`
 `
 
 
-const LoadingModal = ({ visible, visibleAction }) => {
+const LoadingModal = ({ visible, visibleAction, descAcao }) => {
 
 
     return (
@@ -30,6 +30,7 @@ const LoadingModal = ({ visible, visibleAction }) => {
             <ModalArea >
                 <ActivityArea>
                     <ActivityIndicator size="large" color="#999" />
+                    <Text style={{fontSize:12, fontWeight:'bold', color:'#fff'}}>{descAcao}</Text>
                 </ActivityArea>
             </ModalArea>
 
