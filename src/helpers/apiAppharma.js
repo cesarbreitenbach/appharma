@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {IDLOJA, TOKEN} from '@env'
 
 const api = axios.create({
     baseURL: "https://approachmobile.company/api/"
@@ -41,7 +42,7 @@ const ApiApp = {
 
     getConf: async (token) => {
         try {
-            const resp = await api.get(`loja`,  { 
+            const resp = await api.get(`/loja/${IDLOJA}`,  { 
                 headers: { auth: `${token}` }
             })
             return resp.data

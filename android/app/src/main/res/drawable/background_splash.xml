@@ -3,6 +3,6 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@color/primary" />
 
-    <item android:height="90dp" android:width="90dp" android:drawable="@drawable/icon" android:gravity="center" />
+    <item android:height="90dp" android:width="90dp" android:drawable="@drawable/approach" android:gravity="center" />
 
 </layer-list>
