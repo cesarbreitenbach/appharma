@@ -11,6 +11,8 @@ import conf from './config/configurador'
 
 const App = () => {
 
+ // TESTE
+
     const [corPrincipal, setCorPrincipal] = useState('')
     const [corSecundaria, setCorSecundaria] = useState('')
 
