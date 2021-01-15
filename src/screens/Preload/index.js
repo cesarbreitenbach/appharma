@@ -21,12 +21,14 @@ const Preload = (props) => {
 
 
     const go = () => {
-        props.navigation.dispatch(StackActions.reset({
-            index: 0,
-            actions: [
-                NavigationActions.navigate({ routeName: 'AppTab' }),
-            ],
-        }));
+        setTimeout(() => {
+            props.navigation.dispatch(StackActions.reset({
+                index: 0,
+                actions: [
+                    NavigationActions.navigate({ routeName: 'AppTab' }),
+                ],
+            }));
+        }, 2000)
     }
     const login = () => {
         dispatch({
@@ -45,8 +47,6 @@ const Preload = (props) => {
 
         const getConfigs = async () => {
             const configs = await appharma.getConf()
-
-            console.log("Peguei o getConfigs: "+JSON.stringify(configs))
 
             dispatch({
                 type: 'TAXA_ENTREGA',
@@ -177,7 +177,7 @@ const Preload = (props) => {
                 <>
                     <Title size="17px" style={{ fontFamily: "Roboto Black" }}> {descricao} </Title>
                      <Logo source={require('../../assets/logo.png')} /> 
-                    <Title size="14px" style={{ fontFamily: "Roboto Black" }}> Approach Mobile Solutions</Title>
+                    <Title size="12px" style={{ fontFamily: "Roboto Black" }}> Approach Mobile Company</Title>
                 </>}
 
             {error &&
