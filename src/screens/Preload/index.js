@@ -48,6 +48,8 @@ const Preload = (props) => {
         const getConfigs = async () => {
             const configs = await appharma.getConf()
 
+            console.log("No preload peguei config: "+JSON.stringify(configs))
+
             dispatch({
                 type: 'TAXA_ENTREGA',
                 payload: configs[0].taxa_entrega
@@ -93,6 +95,7 @@ const Preload = (props) => {
                     props.setPromocoes(r.data)
                     go()
                 } catch (e) {
+                    console.log("Catch do promocoes/best"+JSON.stringify(e))
                     setErrorMessage(e.message)
                     setError(true)
                 }

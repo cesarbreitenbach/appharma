@@ -1,8 +1,8 @@
 import axios from 'axios'
-import {IDLOJA, TOKEN} from '@env'
+import {IDLOJA, API_URL} from '@env'
 
 const api = axios.create({
-    baseURL: "https://approachmobile.company/api/"
+    baseURL: API_URL
 })
 
 const bearer = 'Bearer';

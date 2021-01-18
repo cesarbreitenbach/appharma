@@ -10,11 +10,6 @@ import { ErrorArea, Text as TextError } from '../../components/ErrorArea'
 import useApi from '../../helpers/apiAppharma'
 import api from '../../helpers/api'
 import { URL_FILES } from '@env'
-import io from 'socket.io-client';
-
-
-const socket = io('https://approachmobile.company');
-
 
 
 export const ActivityArea = styled.View`
@@ -233,7 +228,6 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
     const [loading, setLoading] = useState(false)
     const [totalGeral, setTotalGeral] = useState(0)
 
-    const [codVendaSucesso, setCodVendaSucesso] = useState(0)
 
     const appharma = useApi();
 
@@ -242,14 +236,6 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
             setErrorMsg('')
         }, 1950)
     }, [errorMsg])
-
-    const socketHandlerConfirmSell = (codVenda) => {
-        socket.on('connect', () => {
-            console.log("Abrindo conexão com socket...")
-        })
-        socket.emit('venda-recebida', codVenda)
-        console.log("Emit uma mensagem ao servidor confirmando uma venda...")
-    }
 
     useEffect(() => {
         let vSubTotal = 0;
@@ -356,7 +342,6 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
                 successAction(true)
                 confirmSuccess(true)
                 const { codigo_venda } = venda.data
-                socketHandlerConfirmSell(codigo_venda)
 
                 cart.map(async (i, k) => {
                     let reserva = {

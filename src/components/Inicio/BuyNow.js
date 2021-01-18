@@ -93,6 +93,12 @@ const BuyNow = (props) => {
       props.navigation.navigate('ShopStack')
    }
 
+   const handleFire = async () => {
+        const reference = database().refFromURL('https://astrofarma-7dbf8-default-rtdb.firebaseio.com/');
+        console.log(JSON.stringify(reference))
+       console.log("other: "+JSON.stringify(other))
+   }
+
     return (
       <BuyNowArea >
                <HeaderArea cor={corSecundaria} >
@@ -110,7 +116,6 @@ const BuyNow = (props) => {
                            <Text style={{ fontFamily:'Roboto Bold', fontSize:15, color: '#fff' }}>Ir às Compras</Text>
                         </ViewButtom>
                      </BuyNowButtom>
-
                   </ButtomArea>
                </ImageArea>
                <FooterArea  cor={corSecundaria} />
