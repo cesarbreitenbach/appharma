@@ -6,7 +6,7 @@ import { connect, useSelector } from 'react-redux'
 
 const TabBarArea = styled.SafeAreaView`
     flex-direction:row;
-    background-color:${ props => props.cor || '#3f9168'};
+    background-color:${ props => props.cor || state.shopReducer.cor_secundaria};
    
 `;
 const TabBarItem = styled.View`
@@ -26,7 +26,7 @@ const TabRegular = styled.TouchableHighlight`
 const TabBall = styled.TouchableHighlight`
     width:57px;
     height:57px;
-    background-color:${props => props.cor || '#3f9168'};
+    background-color: ${props => props.cor || state.shopReducer.cor_secundaria};
     border-radius:45px;
     justify-content:center;
     align-items:center;
@@ -40,6 +40,7 @@ const CustomTabBar = props => {
     const whatsapp = useSelector(state => state.shopReducer.whatsapp)
     const cor_primaria = useSelector(state => state.shopReducer.cor_primaria)
     const cor_secundaria = useSelector(state => state.shopReducer.cor_secundaria)
+    console.log("Está é a cor secundaria: "+cor_secundaria)
 
     const go = async (route, icon) => {
         props.setActivePage(icon)
