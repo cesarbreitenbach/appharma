@@ -37,7 +37,7 @@ const TabBall = styled.TouchableHighlight`
 
 const CustomTabBar = props => {
 
-    const whatsapp = useSelector(state => state.cartReducer.whatsapp)
+    const whatsapp = useSelector(state => state.shopReducer.whatsapp)
     const cor_primaria = useSelector(state => state.shopReducer.cor_primaria)
     const cor_secundaria = useSelector(state => state.shopReducer.cor_secundaria)
 
@@ -45,6 +45,7 @@ const CustomTabBar = props => {
         props.setActivePage(icon)
 
         if (icon == 'whatsapp') {
+            console.log("eu estou passando esse whats: "+whatsapp)
             const link = `whatsapp://send?text=Oi, estou comprando pelo APP e surgiu uma duvida.&phone=+55${whatsapp}`
             const supported = await Linking.canOpenURL(link);
             if (!supported) {

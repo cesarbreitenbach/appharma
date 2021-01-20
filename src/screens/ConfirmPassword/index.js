@@ -93,7 +93,7 @@ const ConfirmPassword = (props) => {
     return (
         <Conteiner>
             <LogoArea>
-                <Logo source={{uri:logo}} />
+                <Logo source={require('../../assets/logo.png')} />
             </LogoArea>
             {error && <MsgError>  {errorMsg} </MsgError>}
             <FormArea>

@@ -28,9 +28,8 @@ export const FormText  = styled.Text`
 `;
 
 export const Logo = styled.Image`
-   width:70px;
-   height:70px;
-   border-radius:45px
+   width:80px;
+   height:80px;
 `
 
 export const FormArea = styled.View`

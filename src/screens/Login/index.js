@@ -44,9 +44,8 @@ const Login = (props) => {
    return (
       <Conteiner>
          <LogoArea>
-            <LogoText size="16px">Approach Mobile</LogoText>
             <Logo source={require('../../assets/logo.png')} />
-            <LogoText >Soluções</LogoText>
+            <LogoText size="12px" >Farmácia On Pocket</LogoText>
          </LogoArea>
 
          <FormArea>
