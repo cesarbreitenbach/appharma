@@ -16,20 +16,28 @@ const Page = (props) => {
     const appharma = useApi();
 
     useEffect(() => {
-    
-        const carregaDestaque = async () =>{
+
+        const carregaDestaque = async () => {
             const respDestaques = await appharma.getDestaques();
             setDestaques(respDestaques)
         }
         carregaDestaque()
+    }, [])
 
-        const carregaMaisVendidos = async () =>{
+    useEffect(() => {
+        const carregaMaisVendidos = async () => {
             const respMaisVendidos = await appharma.getMaisVendidos();
             setTopSellers(respMaisVendidos)
         }
         carregaMaisVendidos()
-        
-        
+    }, [])
+
+    useEffect(() => {
+        const carregaCategorias = async () =>{
+            const restCategorias = await appharma.getCategorias();
+            setCategorias(restCategorias)
+        }
+        carregaCategorias()
     }, [])
 
     return (
@@ -48,8 +56,8 @@ const Page = (props) => {
                         snapToInterval={130}
                     />
                 </ContentArea>
-                <ContentArea height="100px" >
-                    <Title>Categorias </Title>
+                <ContentArea height="145px" >
+                    <Title>Busca por Categorias </Title>
                     <ItemList
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
@@ -57,7 +65,6 @@ const Page = (props) => {
                         renderItem={({ item }) => <ItemCategoria navigation={props.navigation} data={item} />}
                         keyExtractor={(item) => item.id.toString()}
                         decelerationRate="fast"
-                        maxToRenderPerBatch={10}
                         snapToInterval={130}
                     />
                 </ContentArea>

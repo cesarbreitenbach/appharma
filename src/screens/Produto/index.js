@@ -35,7 +35,6 @@ const Produto = (props) => {
 
     const [tipoProduto, setTipoProduto] = useState(props.navigation.getParam('tipo'))
 
-
     const animarBox = () => {
 
         if (!isOpen) {
@@ -61,7 +60,7 @@ const Produto = (props) => {
         let unmonted = false;
 
         api.get(`/produtos/consulta?id=${changeProduct}`).then(r => {
-            console.log("id produto: " + r.data[0].id)
+
             setTipoProduto(r.data[0].tipo)
             let produtoEscolhido = r.data[0];
 

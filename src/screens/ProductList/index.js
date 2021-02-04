@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { ActivityIndicator } from 'react-native'
-import { Container, ItensOnSearch, IndicatorArea } from './styled'
-import SearchBar from '../../components/Search/SearchBar'
-import Cart from '../../components/Cart'
+import { Container, ItensOnSearch, IndicatorArea, Texto } from './styled'
 import api from '../../helpers/api'
-import { connect } from 'react-redux'
 import Product from '../../components/Cart/Product'
 import { format } from 'date-fns'
+import {useSelector} from 'react-redux'
+import { ErrorArea, Text } from '../../components/ErrorArea'
+import Cart from '../../components/Cart'
 
-const Search = (props) => {
+const Page = ({navigation}) => {
 
     function getDate() {
         const date = new Date()
@@ -18,24 +18,29 @@ const Search = (props) => {
         return parsedDate
     }
 
-    const [nomeProduto, setNomeProduto] = useState(props.navigation.getParam('busca'));
     const [qtdProduto, setQtdProduto] = useState(0)
     const [nrPages, setNrPages] = useState(1)
     const [listaProdutos, setListaProdutos] = useState([])
     const [carregou, setCarregou] = useState(false)
+    const [errorMsg, setErrorMsg] = useState('')
+    const cart = useSelector(state => state.cartReducer.carrinho)
+    
+  
 
     useEffect(() => {
 
-        const getSearch = async () => {
+        let idSubCategoria = navigation.getParam('idsubcategoria') ;
+
+        const getProducts = async () => {
             setCarregou(false)
             const data = getDate()
-            const res = await api.get(`/produtos/search?name=${nomeProduto}&data=${data}`)
+            const res = await api.get(`/produtos/subcategorias?id=${idSubCategoria}&data=${data}`)
             const { produtos, paginas } = res.data;
 
             produtos.map((item, index) => {
-                const ind = props.cart.findIndex((i) => i.id == item.id)
+                const ind = cart.findIndex((i) => i.id == item.id)
                 if (ind >= 0) {
-                    item.qtd = props.cart[ind].qtd;
+                    item.qtd = cart[ind].qtd;
                 }
             })
 
@@ -46,20 +51,23 @@ const Search = (props) => {
 
 
 
-        getSearch()
-        props.navigation.setParams({ setNomeProduto })
+        getProducts()
 
 
-    }, [nomeProduto])
+    }, [])
 
 
     return (
         <Container>
+             {errorMsg != '' &&
+                    <ErrorArea>
+                        <Text size="12px" color="#fff" family="Roboto Regular">{errorMsg}</Text>
+                    </ErrorArea>}
             {carregou &&
                 <ItensOnSearch
                     showsVerticalScrollIndicator={false}
                     data={listaProdutos}
-                    renderItem={({ item, index }) => <Product data={item} navigation={props.navigation} setQtdProduto={setQtdProduto} qtd={qtdProduto} />}
+                    renderItem={({ item, index }) => <Product data={item} navigation={navigation} setQtdProduto={setQtdProduto} qtd={qtdProduto} setErrorMsg={setErrorMsg} />}
                     decelerationRate="fast"
                     maxToRenderPerBatch={20}
                     snapToInterval={130}
@@ -75,31 +83,17 @@ const Search = (props) => {
     );
 }
 
-Search.navigationOptions = ({ navigation }) => {
+Page.navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state
     const goCart = () => {
         navigation.navigate('Cart')
     }
     return {
         headerRight: () => <Cart goCart={goCart} />,
-        headerTitle: () => <SearchBar setNomeBusca={params.setNomeProduto} />,
-        headerTintColor: '#fff'
+        headerTitle: () => <Texto> {params.nomeSub} </Texto>,
+        headerTintColor: '#fff',
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        cart: state.cartReducer.carrinho,
-        status: state.authReducer.status,
-        total: state.cartReducer.total
-    }
-}
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addCart: (product) => dispatch({ type: 'ADD_TO_CART', payload: { carrinho: product } }),
-        clearCart: () => dispatch({ type: 'CLEAR_CART' })
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default Page;

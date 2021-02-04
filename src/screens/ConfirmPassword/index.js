@@ -28,23 +28,23 @@ const ConfirmPassword = (props) => {
             return;
         }
 
-        if (whatsapp == ''  && !telefone){
+        if (whatsapp == '' && !telefone) {
             setErrorMsg("Numero do celular obrigatório.");
             setError(true);
             return;
         }
 
-        if(whatsapp.length < 15  && !telefone){
+        if (whatsapp.length < 15 && !telefone) {
             setErrorMsg("Numero do celular obrigatório.");
             setError(true);
             return;
         }
 
-       
+
 
         let parsedWhats = whatsapp;
         parsedWhats = parsedWhats.replace(/[^0-9]+/g, "")
-        
+
         //Se não tiver ID cadastra se não faz login, pede apenas a senha
         if (!props.id) {
 
@@ -93,6 +93,7 @@ const ConfirmPassword = (props) => {
     return (
         <Conteiner>
             <LogoArea>
+                <LogoText size="12px" >Farmácias Online</LogoText>
                 <Logo source={require('../../assets/logo.png')} />
             </LogoArea>
             {error && <MsgError>  {errorMsg} </MsgError>}
@@ -191,7 +192,7 @@ const mapDispatchToProps = (dispatch) => {
         setToken: (token) => dispatch({ type: 'SET_TOKEN', payload: { token } }),
         setAdmin: (admin) => dispatch({ type: 'SET_ADMIN', payload: { admin } }),
         setStatus: (status) => dispatch({ type: 'SET_STATUS', payload: { status } }),
-        setWhats: (whatsapp) => dispatch({type: 'SET_USER_WHATS', payload: {whatsapp}}),
+        setWhats: (whatsapp) => dispatch({ type: 'SET_USER_WHATS', payload: { whatsapp } }),
         setId: (id) => dispatch({ type: 'SET_ID', payload: { id } })
     }
 }

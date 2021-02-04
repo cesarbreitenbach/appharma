@@ -489,7 +489,7 @@ const ModalFinalizar = ({ data, visible, visibleAction, addressAction, setAddres
 
                                 <TipoPgtoArea>
                                     <CartaoArea cor={corPrincipal} enabled={tipoPgto === 'Cartao' ? true : false} onPress={() => handleTipoPgto('Cartao')} activeOpacity={0.7}>
-                                        <IconAwesome name="credit-card" size={20} color="#999" />
+                                        <IconAwesome name="credit-card" size={20} color='#000'/>
                                         <Text size="10px" color='#fff'>Cartão</Text>
                                     </CartaoArea>
                                     <DinheiroArea cor={corPrincipal} enabled={tipoPgto === 'Dinheiro' ? true : false} onPress={() => handleTipoPgto('Dinheiro')} activeOpacity={0.7}>

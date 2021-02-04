@@ -94,7 +94,7 @@ const AddDelCartButtom = (props) => {
                 <Icon name="minus" size={25} color={corPrincipal} />
             </AddToCart>
             <IconArea activeOpacity={0.7} onPress={props.goCart}>
-                <Icon name="cart-arrow-down" size={25} style={{ marginBottom: 3 }} color='#999' />
+                <Icon name="cart-arrow-down" size={25} style={{ marginBottom: 3 }} color='#000' />
                 <Title size="13px" color="#000"> {qtdAtual} </Title>
             </IconArea>
             <AddToCart activeOpacity={0.7} onPress={() => addProduct(props.product)}>

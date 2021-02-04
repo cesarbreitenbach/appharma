@@ -1,43 +1,45 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import {connect} from 'react-redux'
-import {ActivityIndicator} from 'react-native'
 import Item from '../../components/Items'
 
 const Conteiner = styled.TouchableOpacity`
    flex:1;
-    background-color: #eee
-    border:1px solid #ddd
-    width: 70px ;
-    height: 70px ;
-    margin:5px;
-    padding-left:5px;
-    padding-right:5px;
+    border:1px solid #eee
+    background-color: rgba(59, 163, 94, 0.8);
+    width: 150px ;
+    height: 100px ;
     border-radius:10px;
     justify-content:center;
     align-items:center;
+    margin-left: 5px;
+    margin-right:5px;
+    margin-top:10px;
 `;
 
-const Title = styled.Text`
-   color:#000;
-   font-size:10px;
-   text-align:center;
-   font-family:Ubuntu Light Italic;
+const Titulo = styled.Text`
+    font-family: Roboto Black;
+
+
 `
 
-const ItemCategoria = props => {
+const ItemCategoria = ({data, navigation}) => {
+
+    const handleClick = () => {
+        let id = data.id;
+        console.log("vou manar o id: "+id)
+        navigation.navigate('SubCategories', {id_categoria:id, nomeCat:data.descricao})
+        
+    }
+
+
    return (
-         <Conteiner activeOpacity={0.7}>
-               <Item style={{marginTop:5}} radius="15px" resizeMode='cover' width="30px" height="30px" source={{uri:props.data.image.url}}  />
-               <Title>{props.data.descricao}</Title>
+         <Conteiner activeOpacity={0.7}  onPress={() => handleClick()}>
+               <Item  width="50px" height="50px" source={{uri:data.image.url}}  />
+               <Titulo>{data.descricao}</Titulo>
          </Conteiner>
    )
 }
 
-const mapStateToProps = (state) => {
-   return {
-      status: state.authReducer.status
-   };
-};
 
-export default connect(mapStateToProps)(ItemCategoria);
+
+export default  ItemCategoria

@@ -125,7 +125,27 @@ const ApiApp = {
         }catch(e){
             console.log(e.response)
         }
-    }
+    }, 
+
+    getCategorias: async () => {
+        try{
+            const resp = await api.get(`categorias`)
+            return resp.data
+        }catch(e){
+            return e.response
+        }
+    },
+    getSubCategorias: async (id_categoria) =>{
+        try{
+            console.log("Esse éo id categoria qeu veio: "+id_categoria)
+            const resp = await api.get(`subcategorias/${id_categoria}`)
+            return resp.data
+        }catch(e){
+            console.log(e.message)
+        }
+    },
+
+
 
 }
 export default () => ApiApp; 

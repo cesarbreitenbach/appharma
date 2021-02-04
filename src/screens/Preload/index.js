@@ -12,6 +12,7 @@ import useTokenHandler from '../../helpers/TokenHandler'
 const Preload = (props) => {
 
     const descricao = useSelector(state => state.shopReducer.descricao)
+    const cor_primaria = useSelector(state => state.shopReducer.cor_primaria)
     const logo = useSelector(state => state.shopReducer.logo)
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("")
@@ -178,7 +179,7 @@ const Preload = (props) => {
 
             {!error &&
                 <>
-                    <Title size="17px" style={{ fontFamily: "Roboto Black" }}> {descricao} </Title>
+                    <Title size="17px" color={cor_primaria} style={{ fontFamily: "Roboto Black" }}> {descricao} </Title>
                      <Logo source={require('../../assets/logo.png')} /> 
                     <Title size="12px" style={{ fontFamily: "Roboto Black" }}> Approach Mobile Company</Title>
                 </>}

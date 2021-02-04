@@ -10,16 +10,14 @@ export const Conteiner = styled.KeyboardAvoidingView`
 
 export const LogoArea = styled.View`
    width:100%;
+   height:80px;
    justify-content:center;
    align-items:center;
-   margin-bottom:20px;
-   
+   margin-bottom:30px;
 `;
 
 export const LogoText  = styled.Text`
-   font-size:${props => props.size || "14px"};
-   margin-bottom:10px;
-
+   font-size:${props => props.size || "14px"}
 `;
 
 export const FormText  = styled.Text`

@@ -1,10 +1,12 @@
-import React from 'react'
 import { createStackNavigator } from 'react-navigation-stack';
 import Shop from '../screens/Shop'
 import Produto from '../screens/Produto'
+import ProductList from '../screens/ProductList'
 import Cart from '../screens/Cart'
 import Search from '../screens/Search'
+import SubCategories from '../screens/SubCategorias'
 import { CORSECUNDARIA } from "@env";
+
 const ShopStack = createStackNavigator({
    Shop:{
       screen: Shop,
@@ -17,6 +19,12 @@ const ShopStack = createStackNavigator({
    },
    Search:{
       screen:Search,
+   },
+   SubCategories:{
+       screen:SubCategories,
+   },
+   ProductList:{
+       screen:ProductList,
    }
 }, {
       initialRouteName:'Shop',
