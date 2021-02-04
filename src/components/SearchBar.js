@@ -56,7 +56,7 @@ const SearchBar = (props) => {
    return (
       <Conteiner>
          <SearchArea>
-            <InputSearch placeholder="O que você procura?" onChangeText={(t) => setBusca(t)} onSubmitEditing={() => goSearch()} />
+            <InputSearch placeholder="Digite o nome do produto?" onChangeText={(t) => setBusca(t)} onSubmitEditing={() => goSearch()} />
             <ButtonSearch activeOpacity={0.7} onPress={() => goSearch()}>
                <Icon name="search" size={20} style={{ marginLeft: 3, color: '#999' }} />
             </ButtonSearch>
