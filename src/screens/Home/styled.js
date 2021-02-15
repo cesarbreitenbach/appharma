@@ -7,11 +7,10 @@ export const Conteiner = styled.SafeAreaView`
 `;
 
 export const ConteinerArea = styled.View`
-
+    margin:10px;
+    margin-top:0px;
+   
 `
 export const ScrollArea = styled.ScrollView`
-   width:100%;
-   height:100%;
-   padding:5px;
-   margin-bottom:10px;
+  
 `;

@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react'
-import { Dimensions } from 'react-native'
 import { Text } from 'react-native'
 import styled from 'styled-components/native'
 import ItemVitrine from '../../components/Inicio/ItemVitrine'
@@ -11,9 +10,8 @@ import {ActivityIndicator} from 'react-native'
 
 const Conteiner = styled.View` 
     background-color:#eee;
-    border:1px solid #ddd
-    width:100%;
-    height:250px;
+    border:1px solid #ddd;
+    height:370px;
     margin-bottom:5px;
     padding:5px;
     border-bottom-left-radius: 15px
@@ -62,7 +60,6 @@ text-align:center;
 `;
 export const ProductScroll = styled.FlatList`
    background-color:#eee;
-   opacity:0.8;
    flex:1
 `;
 export const Nodata = styled.View`

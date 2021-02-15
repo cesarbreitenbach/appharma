@@ -38,7 +38,7 @@ const ItemProduct = props => {
                     <Text size="12px" color="#fff" family="Roboto Regular">{errorMsg}</Text>
                 </ErrorArea>}
             <Conteiner activeOpacity={0.7} onPress={() => handleClick(props.data.id)}>
-                <Item style={{ marginBottom: 20 }} radius="50px" resizeMode='stretch' width={props.imgWidth || "100px"} height={props.imgHeight || "100px"} source={{ uri: URL_FILES + props.data.path }} />
+                <Item style={{ marginBottom: 20 }} radius="10px" resizeMode='stretch' width={props.imgWidth || "110px"} height={props.imgHeight || "110px"} source={{ uri: URL_FILES + props.data.path }} />
                 <PrecoArea>
                     <Title >{props.data.nome}</Title>
                     <Preco>R$ {parseFloat(props.data.preco_vigente).toFixed(2).replace(".", ",")}</Preco>

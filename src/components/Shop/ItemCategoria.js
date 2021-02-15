@@ -5,9 +5,9 @@ import Item from '../../components/Items'
 const Conteiner = styled.TouchableOpacity`
    flex:1;
     border:1px solid #eee
-    background-color: rgba(59, 163, 94, 0.8);
+    background-color: #ddd;
     width: 150px ;
-    height: 100px ;
+    height: 125px ;
     border-radius:10px;
     justify-content:center;
     align-items:center;
@@ -18,6 +18,7 @@ const Conteiner = styled.TouchableOpacity`
 
 const Titulo = styled.Text`
     font-family: Roboto Black;
+    text-align: center;
 
 
 `

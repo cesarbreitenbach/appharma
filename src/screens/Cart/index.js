@@ -210,8 +210,8 @@ const Cart = (props) => {
 
             <InfoArea cor={corPrincipal}>
                 <TotalArea >
-                    <Text style={{ fontFamily: 'Roboto Black', fontSize: 15, color: '#000' }}>Total:</Text>
-                    <Text style={{ fontSize: 19, color: '#000' }}>R$ {vTotal.toFixed(2).replace(".", ",")}</Text>
+                    <Text style={{ fontFamily: 'Roboto Black', fontSize: 18, color: '#000' }}>Total:</Text>
+                    <Text style={{ fontSize: 28, color: '#000' }}>R$ {vTotal.toFixed(2).replace(".", ",")}</Text>
                 </TotalArea>
                 <Buttom activeOpacity={0.7} onPress={goClearCart}>
                     <Icon name="cart-remove" size={20} color="#fff" />

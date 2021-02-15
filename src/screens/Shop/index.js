@@ -43,7 +43,7 @@ const Page = (props) => {
     return (
         <Conteiner>
             <ScrollArea showsVerticalScrollIndicator={false}>
-                <ContentArea height="300px"  >
+                <ContentArea height="350px"  >
                     <Title>Destaques </Title>
                     <ItemList
                         horizontal={true}
@@ -56,16 +56,17 @@ const Page = (props) => {
                         snapToInterval={130}
                     />
                 </ContentArea>
-                <ContentArea height="145px" >
+                <ContentArea height="450px" >
                     <Title>Busca por Categorias </Title>
                     <ItemList
-                        horizontal={true}
+                        horizontal={false}
                         showsHorizontalScrollIndicator={false}
                         data={categorias}
                         renderItem={({ item }) => <ItemCategoria navigation={props.navigation} data={item} />}
                         keyExtractor={(item) => item.id.toString()}
                         decelerationRate="fast"
                         snapToInterval={130}
+                        numColumns={3}
                     />
                 </ContentArea>
                 <ContentArea height="285px" >

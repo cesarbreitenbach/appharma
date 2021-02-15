@@ -25,12 +25,12 @@ export const IconCartArea = styled.View`
 `
 
 export const ItensOnCart = styled.FlatList`
-   background-color:#ddd
+   background-color:#eee
 
 ` 
 
 export const InfoArea = styled.View`
-   height:70px;
+   height:85px;
    background-color:${props => props.cor || '#ddd'}
    flex-direction:row;
    justify-content: center
@@ -45,8 +45,8 @@ export const TotalArea = styled.View`
 `
 
 export const Buttom = styled.TouchableOpacity`
-   width:80px;
-   height:40px;
+   width:70px;
+   height:55px;
    align-items:center;
    justify-content:center;
    background-color:#00524f;

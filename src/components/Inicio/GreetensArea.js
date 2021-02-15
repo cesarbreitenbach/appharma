@@ -4,9 +4,7 @@ import styled from 'styled-components/native'
 import { Text } from 'react-native'
 
 export const Conteiner = styled.View`
-width:100%;
-height:8%;
-padding:20px;
+margin-top:20px;
 margin-bottom:20px;
 `;
 

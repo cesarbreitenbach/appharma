@@ -6,8 +6,8 @@ import {URL_FILES} from '@env'
 const Conteiner = styled.TouchableOpacity`
     flex:1;
     border:1px solid #ddd
-    width: ${ props=> props.width ||  '165px'}  ;
-    height: ${ props=> props.height ||  '270px'} ;
+    width: ${ props=> props.width ||  '230px'}  ;
+    height: ${ props=> props.height ||  '310px'} ;
     margin:5px;
     padding-left:5px;
     padding-right:5px;
@@ -33,10 +33,11 @@ text-align:center;
 `
 const PrecoOriginal = styled.Text`
 text-decoration: ${props=>props.decoration || 'none'}
-color:#ff0000
+color:#ff0000;
+font-size:20px;
 `
 const PrecoPromo = styled.Text`
-
+    font-size:26px;
 `
 
 

@@ -5,9 +5,8 @@ import StrCaptalize from '../../helpers/StrCaptalize'
 import {URL_FILES} from '@env'
 
 export const ProductArea = styled.TouchableHighlight`
-   height:100%;
-   width:130px;
-   padding:5px;
+   width:250px;
+   padding:2px;
    margin-left:5px;
    background-color:#fff;
    border-radius: 5px;
@@ -21,32 +20,34 @@ export const BadgeText = styled.Text`
    margin-bottom:5px;
 `;
 export const ProductTitle = styled.Text`
-   font-size:15px;
+   font-size:13px;
    text-align:center;
    margin-bottom:5px;
    margin-top:5px;
-   font-family:'Ubuntu Medium';
+   font-family:'Roboto Medium';
+   max-width: 200px;
+   
 `;
 export const BadgeArea = styled.View`
    flex-direction:row;
    
 `
 export const OriginalPrice = styled.Text`
-   font-size:12px;
+   font-size:20px;
    text-align:center;
    text-decoration: line-through;
    margin-bottom:1px;
    margin-top:1px;
    color:#ff0000;
-   font-family:Roboto Medium;
+   font-family:Roboto Black;
 `;
 export const PromoPrice = styled.Text`
-font-size:15px;
+font-size:28px;
 text-align:center;
 margin-bottom:5px;
 margin-top:5px;
 color:#282e29;
-font-family:Roboto Bold;
+font-family:Roboto Black;
 `;
 
 
@@ -59,10 +60,10 @@ const ItemVitrine = (props) => {
 
 
    return (
-      <ProductArea underlayColor='#3f9168' onPress={() => handleClick(props.data)}>
+      <ProductArea underlayColor='#ddd' onPress={() => handleClick(props.data)}>
          <>
-               {props.data.image && <Item style={{marginTop:5}} radius="60px" resizeMode='cover' width="95px" height="95px" source={{uri:URL_FILES+props.data.image}}  />}
-               {!props.data.image && <Item style={{marginTop:5}} width="95px" height="95px" source={require('../../assets/nopicture.png')} />}  
+               {props.data.image && <Item style={{marginTop:5, borderRadius: 5}}  width="200px" height="200px" source={{uri:URL_FILES+props.data.image}}  />}
+               {!props.data.image && <Item style={{marginTop:5}} width="200px" height="200px" source={require('../../assets/nopicture.png')} />}  
          
                <ProductTitle >{StrCaptalize(props.data.nome)}</ProductTitle>
                <OriginalPrice>de {parseFloat(props.data.preco_venda).toFixed(2).replace(".", ",")}</OriginalPrice>

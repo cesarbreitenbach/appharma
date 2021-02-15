@@ -3,6 +3,7 @@ import { Animated } from 'react-native'
 
 export const Container = styled.SafeAreaView`
    flex:1; 
+   background-color:#fff;
 `;
 
 export const ActivityArea = styled.View`
@@ -13,27 +14,27 @@ export const ActivityArea = styled.View`
 
 
 export const Title = styled.Text`
-   font-family:Roboto Black;
+   font-family:Roboto Bold;
+   max-width: 250px;
    font-size:${props=>props.size || '15px'};
    color: ${props=>props.color || '#999'};
+   text-align:${props=>props.align || 'left'};
 `
 
 export const ProdutoArea = styled.View`
    justify-content:center;
    align-items:center;
-   height:240px;
-   background-color:#fff
-   flex-direction:row
+   height:400px;
 
 `
 export const ProdutoImg = styled.Image`
-   width:120px;
-   height:120px;
-   margin-top:10px;
+   width:280px;
+   height:280px;
+   margin: 10px;
 `
 
 export const ProdutoScroll = styled.ScrollView`
-background-color:#eee
+background-color:#fff
 `
 export const ActionArea = styled.View`
 
@@ -46,17 +47,17 @@ export const ActionArea = styled.View`
 export const PriceInfo = styled.View`
 justify-content:center;
 align-items:center;
-z-index:5
-margin-left:-90px
-margin-top:-100px
-transform: rotate(-25deg);
-margin-right:15px
-
+border-style: solid;
+width:100%;
+    border-bottom-width: 1px;
+    margin-bottom:10px;
+    padding-bottom:10px;
+    border-color:#ddd;
 `
 
 export const OriginalPriceArea = styled.View`
-   flex-direction:row;
-
+    flex-direction:row;
+ 
 `
 
 export const Price = styled.Text`
@@ -104,7 +105,7 @@ export const ExpandButtom = styled.TouchableOpacity`
 export const ContentArea = styled.View`
       
       justify-content:center;
-      height:${props => props.height || '125px'};
+      height:${props => props.height || '200px'};
       background-color:#fff;
       border-bottom-width:1px;
       border-bottom-color:#ddd;
@@ -112,7 +113,7 @@ export const ContentArea = styled.View`
       margin-bottom:5px;
    `
 export const TitleProduct = styled.Text`
-   font-family:Ubuntu Medium;
+   font-family:Roboto Bold;
    margin-left:5px;
    margin-right:5px;  
    margin-top:10px;
@@ -123,15 +124,19 @@ export const ItemList = styled.FlatList`
 
 `
 export const SubtotalArea = styled.View`
-
    flex:2
    align-items:center;
    justify-content:center
 `
 
 export const FuckItem = styled.View`
-   background-color:#fff
-   flex:2
-   align-items:center
-   margin-left:15px
+    width:100%;
+   align-items:center;
+    border-style: solid;
+    border-bottom-width: 1px;
+    margin-bottom:10px;
+    padding-bottom:10px;
+    border-color:#ddd;
+`
+export const InfoArea = styled.View`
 `
