@@ -9,8 +9,6 @@ import { ErrorArea, Text } from '../../ErrorArea'
 
 const ItemProduct = props => {
 
-    let desconto = Number.parseFloat(props.data.discount);
-
     const [errorMsg, setErrorMsg] = useState('')
 
 
@@ -44,10 +42,10 @@ const ItemProduct = props => {
                     <Preco>R$ {parseFloat(props.data.preco_vigente).toFixed(2).replace(".", ",")}</Preco>
                     <AddDelCartButtom product={props.data} qtd={props.data.qtd} setQtdProduto={props.setQtdProduto} goCart={goCart} setErrorMsg={setErrorMsg} />
                 </PrecoArea>
-                {desconto > 0 &&
+                {Number.parseFloat(props.data.discount) > 0 &&
                     <TagArea>
                         <Icon name="price-tag" size={50} color='#19ad11' />
-                        <TagText size="12px" color="#fff" >{desconto.toFixed(0)} % </TagText>
+                        <TagText size="12px" color="#fff" >{Number.parseFloat(props.data.discount).toFixed(0)} % </TagText>
                     </TagArea>}
 
             </Conteiner>

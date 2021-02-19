@@ -30,9 +30,10 @@ export const PrecoArea = styled.View`
 export const TagArea = styled.View`
    height:60px;
    width:60px;
+   margin-left:-70px;
    justify-content:center;
    align-items:center;
-   margin-top:-130px
+   margin-top:-80px
 `
 
 export const TagOff = styled.ImageBackground`

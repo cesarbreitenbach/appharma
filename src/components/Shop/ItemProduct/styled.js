@@ -37,3 +37,21 @@ font-family:Roboto Medium;
 font-size:20px;
 margin-bottom:3px;
 ` 
+export const TagArea = styled.View`
+   height:60px;
+   width:60px;
+   margin-left: -60px;
+   justify-content:center;
+   align-items:center;
+   margin-top:0px
+`
+
+export const TagText = styled.Text`
+   color:${props => props.color || '#000'};
+   font-size:${props => props.size ||'14px'};
+   font-family:Ubuntu Bold Italic;
+   transform: rotate(325deg);
+   z-index:10;
+   margin-top:-35px
+   margin-left:-7px;
+`
