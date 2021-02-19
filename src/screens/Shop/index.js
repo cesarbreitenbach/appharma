@@ -56,17 +56,16 @@ const Page = (props) => {
                         snapToInterval={130}
                     />
                 </ContentArea>
-                <ContentArea height="450px" >
+                <ContentArea height="170px" >
                     <Title>Busca por Categorias </Title>
                     <ItemList
-                        horizontal={false}
+                        horizontal={true}
                         showsHorizontalScrollIndicator={false}
                         data={categorias}
                         renderItem={({ item }) => <ItemCategoria navigation={props.navigation} data={item} />}
                         keyExtractor={(item) => item.id.toString()}
                         decelerationRate="fast"
                         snapToInterval={130}
-                        numColumns={3}
                     />
                 </ContentArea>
                 <ContentArea height="285px" >

@@ -137,13 +137,21 @@ const ApiApp = {
     },
     getSubCategorias: async (id_categoria) =>{
         try{
-            console.log("Esse éo id categoria qeu veio: "+id_categoria)
             const resp = await api.get(`subcategorias/${id_categoria}`)
             return resp.data
         }catch(e){
             console.log(e.message)
         }
     },
+    getMensagensRdc: async (id_produto) => {
+        try{
+            const resp = await api.get(`mensagemrdc/${id_produto}`);
+            return resp.data
+
+        } catch(e){
+            console.log(JSON.stringify(e))
+        }
+    }
 
 
 

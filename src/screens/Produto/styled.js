@@ -15,7 +15,7 @@ export const ActivityArea = styled.View`
 
 export const Title = styled.Text`
    font-family:Roboto Bold;
-   max-width: 250px;
+   max-width: 360px;
    font-size:${props=>props.size || '15px'};
    color: ${props=>props.color || '#999'};
    text-align:${props=>props.align || 'left'};
@@ -82,8 +82,8 @@ export const Off = styled.View`
 
 
 export const DescricaoArea = styled(Animated.View) `
-   background-color:#fff
-   padding:5px;
+background-color:#fff
+padding:5px;
 `
 
 export const HeaderArea = styled.View`

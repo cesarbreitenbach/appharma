@@ -5,15 +5,16 @@ import Item from '../../components/Items'
 const Conteiner = styled.TouchableOpacity`
    flex:1;
     border:1px solid #eee
-    background-color: #ddd;
-    width: 150px ;
-    height: 125px ;
+    background-color: rgba(173, 199, 183, 0.6);
+    width: 127px ;
+    height: 130px ;
     border-radius:10px;
     justify-content:center;
     align-items:center;
     margin-left: 5px;
     margin-right:5px;
     margin-top:10px;
+    padding:10px;
 `;
 
 const Titulo = styled.Text`

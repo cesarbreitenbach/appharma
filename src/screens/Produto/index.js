@@ -5,12 +5,13 @@ import {
     ContentArea, TitleProduct, ItemList, ActivityArea, FuckItem, SubtotalArea, InfoArea
 } from './styled.js';
 import { ActivityIndicator } from 'react-native'
-import {View} from 'react-native'
+import { View } from 'react-native'
 import Search from '../../components/SearchBar'
 import Cart from '../../components/Cart'
 import AddDelCartButtom from '../../components/AddDelCartButtom'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import api from '../../helpers/api'
+import useApi from '../../helpers/apiAppharma'
 import { Animated } from 'react-native'
 import ItemSimilar from '../../components/Shop/ItemSimilar'
 import { connect, useSelector } from 'react-redux'
@@ -21,6 +22,7 @@ const Produto = (props) => {
 
     const corPrincipal = useSelector(state => state.shopReducer.cor_primaria)
     const corSecundaria = useSelector(state => state.shopReducer.cor_secundaria)
+    const [msgRdc, setMsgRdc] = useState([])
     const [heightAnim] = useState(new Animated.Value(40))
     const [isOpen, setIsOpen] = useState(false)
     const [similarList, setSimilarList] = useState([])
@@ -34,13 +36,15 @@ const Produto = (props) => {
     let idProduto = props.navigation.getParam('id')
     const [changeProduct, setChangeProduct] = useState(idProduto)
 
+    const appApi = useApi();
+
     const [tipoProduto, setTipoProduto] = useState(props.navigation.getParam('tipo'))
 
     const animarBox = () => {
 
         if (!isOpen) {
             Animated.timing(heightAnim, {
-                toValue: 200,
+                toValue: 300,
                 duration: 200,
                 useNativeDriver: false
             }).start()
@@ -106,6 +110,15 @@ const Produto = (props) => {
         return () => { unmonted = true }
     }, [changeProduct])
 
+    useEffect(() => {
+        carregaMsgRdc(idProduto)
+    }, [idProduto])
+
+    const carregaMsgRdc = async (id) => {
+        const resp = await appApi.getMensagensRdc(id)
+        setMsgRdc(resp)
+    }
+
     const changeItem = (id) => {
         setChangeProduct(id)
     }
@@ -145,8 +158,8 @@ const Produto = (props) => {
                             </PriceInfo>
                         </ProdutoArea>
 
-                        <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center', marginLeft:10, marginRight:10, marginTop:5, marginBottom:5}}>
-                            <InfoArea>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginLeft: 10, marginRight: 10, marginTop: 5, marginBottom: 5 }}>
+                            <InfoArea style={{width:250}}>
                                 <Title style={{ padding: 5 }}>Principio ativo</Title>
                                 <Title size="14px" color="#000" style={{ fontFamily: "Roboto Regular", margin: 5 }}>{carregou ? produto.produtoEscolhido.principio : '...'}</Title>
                             </InfoArea>
@@ -155,7 +168,7 @@ const Produto = (props) => {
                                 <Title size="14px" color="#000" style={{ fontFamily: "Roboto Regular", margin: 5 }}>{carregou ? produto.produtoEscolhido.registroms : '...'}</Title>
                             </InfoArea>
                         </View>
-                        <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center', marginLeft:10, marginRight:10, marginTop:5, marginBottom:5}}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginLeft: 10, marginRight: 10, marginTop: 5, marginBottom: 5 }}>
                             <InfoArea>
                                 <Title style={{ padding: 5 }}>Fabricante</Title>
                                 <Title size="14px" color="#000" style={{ fontFamily: "Roboto Regular", margin: 5 }}>{carregou ? produto.produtoEscolhido.fabricante : '...'}</Title>
@@ -172,7 +185,12 @@ const Produto = (props) => {
                                     }
                                 </ExpandButtom>
                             </HeaderArea>
-                            <Title size="16px" color="#000" style={{ fontFamily: "Roboto Regular", margin: 5, marginTop: 10, marginBottom: 15 }}>{carregou ? produto.produtoEscolhido.descricao : '...'}</Title>
+                            <Title size="16px" color="#000" style={{ fontFamily: "Roboto Regular", margin: 5, marginTop: 5, marginBottom: 5, color:"#000" }}>{carregou ? produto.produtoEscolhido.descricao : '...'}</Title>
+                            {msgRdc.map((item, key) => {
+                                return (
+                                    <Title key={item.id} style={{ padding: 5, fontFamily: 'Roboto Regular', color:"#7a0000" }}> - {item.mensagem}</Title>
+                                )
+                            })}
 
 
                         </DescricaoArea>

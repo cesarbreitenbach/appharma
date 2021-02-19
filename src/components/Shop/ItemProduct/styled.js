@@ -1,7 +1,7 @@
 import styled from 'styled-components/native'
 
 export const Conteiner = styled.TouchableOpacity`
-    width:170px;
+    width:125px;
     height:235px
     background-color: #fff
     border:1px solid #ddd
@@ -16,7 +16,7 @@ export const Conteiner = styled.TouchableOpacity`
 export const Title = styled.Text`
    color:#000;
    text-align:center;
-   font-size:12px;
+   font-size:10px;
    font-family:Roboto Bold;
    margin-bottom:3px;
 `

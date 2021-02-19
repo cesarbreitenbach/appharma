@@ -5,7 +5,7 @@ import StrCaptalize from '../../helpers/StrCaptalize'
 import {URL_FILES} from '@env'
 
 export const ProductArea = styled.TouchableHighlight`
-   width:250px;
+   width:180px;
    padding:2px;
    margin-left:5px;
    background-color:#fff;
@@ -62,7 +62,7 @@ const ItemVitrine = (props) => {
    return (
       <ProductArea underlayColor='#ddd' onPress={() => handleClick(props.data)}>
          <>
-               {props.data.image && <Item style={{marginTop:5, borderRadius: 5}}  width="200px" height="200px" source={{uri:URL_FILES+props.data.image}}  />}
+               {props.data.image && <Item style={{marginTop:5, borderRadius: 5}}  width="165px" height="200px" source={{uri:URL_FILES+props.data.image}}  />}
                {!props.data.image && <Item style={{marginTop:5}} width="200px" height="200px" source={require('../../assets/nopicture.png')} />}  
          
                <ProductTitle >{StrCaptalize(props.data.nome)}</ProductTitle>
