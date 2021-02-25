@@ -146,6 +146,7 @@ const Produto = (props) => {
                             <FuckItem>
                                 <ProdutoImg source={{ uri: URL_FILES + produto.produtoEscolhido.path }} />
                                 <Title color="#000" align="center">{carregou ? produto.produtoEscolhido.nome : 'aguarde...'}</Title>
+                                <Title size='12px'  align="center">{carregou ? `Ean: ${produto.produtoEscolhido.codigo_barras}` : 'aguarde...'}</Title>
                             </FuckItem>
                             <PriceInfo>
                                 {(produto.produtoEscolhido.preco_original != produto.produtoEscolhido.preco_vigente) &&
