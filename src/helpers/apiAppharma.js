@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {IDLOJA, API_URL} from '@env'
+import { IDLOJA, API_URL } from '@env'
 
 const api = axios.create({
     baseURL: API_URL
@@ -42,7 +42,7 @@ const ApiApp = {
 
     getConf: async (token) => {
         try {
-            const resp = await api.get(`/loja/${IDLOJA}`,  { 
+            const resp = await api.get(`/loja/${IDLOJA}`, {
                 headers: { auth: `${token}` }
             })
             return resp.data
@@ -52,11 +52,11 @@ const ApiApp = {
     },
 
     getPrazoEntrega: async () => {
-        try{
+        try {
             const resp = await api.get(`loja/prazo`)
             return resp.data.prazo
 
-        }catch(e){
+        } catch (e) {
             console.log(e.message)
         }
     },
@@ -87,69 +87,81 @@ const ApiApp = {
         }
     },
 
-    getUser: async (cpf) =>{
-        try{
+    getUser: async (cpf) => {
+        try {
             const resp = await api.get(`usuarios/${cpf}`)
             return resp.data
-        }catch(e){
+        } catch (e) {
             console.log(e.message)
         }
     },
 
-    postUser: async (body) =>{
-        try{
+    postUser: async (body) => {
+        try {
             const resp = await api.post(`usuarios`, body)
             return resp.data
 
-        }catch(e){
-           return e.response
-            
+        } catch (e) {
+            return e.response
+
         }
     },
 
     getSession: async (body) => {
-        try{
+        try {
             const resp = await api.post(`sessions`, body)
             return resp.data
-        }catch(e){
+        } catch (e) {
             return e.response
         }
     },
 
-    putUser: async (token, body) =>{
-        try{
-            console.log("cheguei aqui com token e body: "+JSON.stringify(body)+" "+token)
-            const resp = await api.put(`usuarios`, body , {
+    putUser: async (token, body) => {
+        try {
+            console.log("cheguei aqui com token e body: " + JSON.stringify(body) + " " + token)
+            const resp = await api.put(`usuarios`, body, {
                 headers: { auth: `${token}` }
             })
-        }catch(e){
+        } catch (e) {
             console.log(e.response)
         }
-    }, 
+    },
 
     getCategorias: async () => {
-        try{
+        try {
             const resp = await api.get(`categorias`)
             return resp.data
-        }catch(e){
+        } catch (e) {
             return e.response
         }
     },
-    getSubCategorias: async (id_categoria) =>{
-        try{
+    getSubCategorias: async (id_categoria) => {
+        try {
             const resp = await api.get(`subcategorias/${id_categoria}`)
             return resp.data
-        }catch(e){
+        } catch (e) {
             console.log(e.message)
         }
     },
     getMensagensRdc: async (id_produto) => {
-        try{
+        try {
             const resp = await api.get(`mensagemrdc/${id_produto}`);
             return resp.data
 
-        } catch(e){
+        } catch (e) {
             console.log(JSON.stringify(e))
+        }
+    },
+    getStatus: async (id, token) => {
+        try {
+            const resp = await api.get(`status?id=${id}`, {
+                headers: { auth: `${token}` }
+            });
+            return resp.data
+
+        } catch (e) {
+            console.log(JSON.stringify(e))
+
         }
     }
 

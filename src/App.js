@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native'
-import { Provider, connect } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { store, persistor } from './store';
 import MainStack from './navigators/MainStack';
@@ -11,59 +11,61 @@ import conf from './config/configurador'
 
 const App = () => {
 
- // TESTE
-
     const [corPrincipal, setCorPrincipal] = useState('')
     const [corSecundaria, setCorSecundaria] = useState('')
 
-  useEffect(()=>{
-    const getConfigurador = async() =>{
-        const resp = await conf();
-        console.log(JSON.stringify(resp))
-        setCorPrincipal(resp[0].cor_principal)
-        setCorSecundaria(resp[0].cor_secundaria)
-    }
-    getConfigurador()
-  }, [])
 
-   useEffect(() => {
-      //permissao
-      const reqNotifPerm = async () => {
-         const authStatus = await messaging().requestPermission()
-         const token = await messaging().getToken()
-      }
+    useEffect(() => {
+        const getConfigurador = async () => {
+            const resp = await conf();
+            console.log(JSON.stringify(resp))
+            setCorPrincipal(resp[0].cor_principal)
+            setCorSecundaria(resp[0].cor_secundaria)
+        }
+        getConfigurador()
+    }, [])
 
-      reqNotifPerm()
+    useEffect(() => {
+        //permissao
+        const reqNotifPerm = async () => {
+            const authStatus = await messaging().requestPermission()
+            const token = await messaging().getToken()
+        }
 
-      //recebendo notificação app aberto
-      try {
-         const unsubscribe = messaging().onMessage(async remoteMessage => {
-            console.log('Recebido com app aberto: ' + JSON.stringify(remoteMessage.notification.body));
-         });
+        reqNotifPerm()
 
-         return unsubscribe;
-      } catch (e) {
-         console.log('não  estou ouvindo notificações ' + e.message)
-      }
+        //recebendo notificação app aberto
+        try {
+            const unsubscribe = messaging().onMessage(async remoteMessage => {
+                console.log('Recebido com app aberto: ' + JSON.stringify(remoteMessage.data));
+
+            });
 
 
-   }, [])
+
+            return unsubscribe;
+        } catch (e) {
+            console.log('não  estou ouvindo notificações ' + e.message)
+        }
 
 
-   return (
+    }, [])
 
-      <>
-         <StatusBar barStyle="light-content" translucent backgroundColor={corSecundaria || "#016e66"} />
-         <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-               <MainStack  />
-            </PersistGate>
-         </Provider>
 
-      </>
-   );
+    return (
+
+        <>
+            <StatusBar barStyle="light-content" translucent backgroundColor={corSecundaria || "#016e66"} />
+            <Provider store={store}>
+                <PersistGate loading={null} persistor={persistor} >
+                    <MainStack  />
+                </PersistGate>
+            </Provider>
+
+        </>
+    );
 };
 
 export default CodePush({
-   checkFrequency: CodePush.CheckFrequency.ON_APP_RESUME,
+    checkFrequency: CodePush.CheckFrequency.ON_APP_RESUME,
 })(App)  

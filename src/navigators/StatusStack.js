@@ -1,4 +1,5 @@
 import { createStackNavigator } from 'react-navigation-stack';
+import{CORSECUNDARIA} from '@env'
 
 import Status from '../screens/Status'
 
@@ -9,8 +10,10 @@ const StatusStack = createStackNavigator({
 }, {
       initialRouteName:'Status',
       defaultNavigationOptions:{
-         headerShown: false
-      },
+        headerShown: true,
+        headerStyle:{backgroundColor:CORSECUNDARIA, height:80}
+     },
+      
 });
 
 export default StatusStack;

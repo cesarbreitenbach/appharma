@@ -1,8 +1,9 @@
-import { createAppContainer } from 'react-navigation';
+import { createAppContainer, NavigationActions, StackActions } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
 import Preload from '../screens/Preload';
 import AppTab from '../navigators/AppTab';
+import StatusScreen from '../screens/Status';
 
 const config = {
    animation: 'spring',
@@ -16,6 +17,7 @@ const config = {
    },
  };
 
+
 const MainStack = createStackNavigator({
    Preload:{
       screen: Preload,
@@ -23,6 +25,9 @@ const MainStack = createStackNavigator({
    AppTab:{
       screen:AppTab,
    },
+   Status:{
+       screen: StatusScreen,
+   }
 }, {
       initialRouteName:'Preload',
       navigationOptions:{

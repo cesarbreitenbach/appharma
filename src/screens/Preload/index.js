@@ -9,7 +9,7 @@ import messaging from '@react-native-firebase/messaging'
 import useTokenHandler from '../../helpers/TokenHandler'
 
 
-const Preload = (props) => {
+const Preload = (props, {idvenda, tipo}) => {
 
     const descricao = useSelector(state => state.shopReducer.descricao)
     const cor_primaria = useSelector(state => state.shopReducer.cor_primaria)
@@ -31,6 +31,15 @@ const Preload = (props) => {
             }));
         }, 2000)
     }
+
+    const goMsg = (remoteMessage) => {
+        dispatch({
+            type: 'SET_REMOTEMESSAGE',
+            payload: remoteMessage
+        })
+        console.log("Coloquei o remote message no reducer")
+    }
+
     const login = () => {
         dispatch({
             type: 'CLEAR_AUTH',
@@ -43,6 +52,53 @@ const Preload = (props) => {
             ],
         }));
     }
+
+
+    const handleOpenMgm = (remoteMessage) => {
+
+
+        if(remoteMessage){
+
+            switch (remoteMessage.data.tipo) {
+                case 'Broadcast':
+                    console.log("Recebi um broadcast e não vou fazer nada")
+                    break;
+                default:
+                    console.log('Mandou outro tipo de mensagem')
+                    goMsg(remoteMessage)
+                    break;
+            }
+
+        }
+
+
+    }
+
+    useEffect(() => {
+        //permissao
+        const reqNotifPerm = async () => {
+            const authStatus = await messaging().requestPermission()
+            const token = await messaging().getToken()
+        }
+
+        reqNotifPerm()
+
+        //recebendo notificação app aberto
+        try {
+
+            messaging().onNotificationOpenedApp(handleOpenMgm);
+
+            messaging().getInitialNotification().then(handleOpenMgm)
+
+
+        } catch (e) {
+            console.log('não  estou ouvindo notificações ' + e.message)
+        }
+
+
+    }, [])
+
+
 
     useEffect(() => {
 
@@ -85,6 +141,8 @@ const Preload = (props) => {
     }, [])
 
     useEffect(() => {
+
+        
 
 
         if (!props.token) {
@@ -171,6 +229,17 @@ const Preload = (props) => {
 
     }, [])
 
+    useEffect(() => {
+        if(!tipo){
+            return;
+        }
+        if(!idvenda){
+            return;
+        }
+
+        console.log(`Esse é o tipo: ${tipo} e essa é a venda: ${idvenda}`)
+
+    }, [])
 
     return (
         <Conteiner>
