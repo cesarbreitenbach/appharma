@@ -157,6 +157,7 @@ const ApiApp = {
             const resp = await api.get(`status?id=${id}`, {
                 headers: { auth: `${token}` }
             });
+            console.log("Peguei api", resp.data)
             return resp.data
 
         } catch (e) {

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { Text, Linking } from 'react-native';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import { connect, useSelector } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 
 const TabBarArea = styled.SafeAreaView`
     flex-direction:row;
@@ -40,7 +40,7 @@ const CustomTabBar = props => {
     const whatsapp = useSelector(state => state.shopReducer.whatsapp)
     const cor_primaria = useSelector(state => state.shopReducer.cor_primaria)
     const cor_secundaria = useSelector(state => state.shopReducer.cor_secundaria)
-    console.log("Está é a cor secundaria: "+cor_secundaria)
+    const dispatch = useDispatch()
 
     const go = async (route, icon) => {
         props.setActivePage(icon)
@@ -55,6 +55,7 @@ const CustomTabBar = props => {
                 await Linking.openURL(link);
             }
         }
+            
 
         props.navigation.navigate(route);
     }

@@ -89,10 +89,20 @@ const Preload = (props, { idvenda, tipo }) => {
         //recebendo notificação app aberto
         try {
 
+            const unsubscribe = messaging().onMessage(async remoteMessage => {
+                console.log("Mudando o tipo do reducer")
+                dispatch({
+                    type: 'SET_MSGTIPO',
+                    payload: remoteMessage.data.tipo
+                })
+
+            });
+
             messaging().onNotificationOpenedApp(handleOpenMgm);
 
             messaging().getInitialNotification().then(handleOpenMgm)
 
+        
 
         } catch (e) {
             console.log('não  estou ouvindo notificações ' + e.message)

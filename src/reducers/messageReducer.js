@@ -2,7 +2,8 @@
 const initialState = {
     idvenda: '',
     tipo: '',
-    remoteMessage: ''
+    remoteMessage: '',
+    gambi: ''
 };
 
 export default (state = initialState, action) => {
@@ -11,11 +12,12 @@ export default (state = initialState, action) => {
             return initialState
             break
         case 'SET_IDVENDA':
-            return { ...state, idvenda: action.payload.idvenda };
+            return { ...state, idvenda: action.payload };
             break;
         case 'SET_MSGTIPO':
-            return { ...state, tipo: action.payload.tipo }
+            return { ...state, tipo: action.payload }
             break;
+
         case 'SET_REMOTEMESSAGE':
             console.log("Vou colocar o remote no reducer", action.payload)
             return { ...state, remoteMessage: action.payload }

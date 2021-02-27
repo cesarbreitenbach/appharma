@@ -5,6 +5,7 @@ import HeaderTitle from '../../components/HeaderTitle'
 import Back from '../../components/Back'
 import BarraProgresso from '../../components/status/BarraProgresso'
 import useApi from '../../helpers/apiAppharma'
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const Page = () => {
 
@@ -20,6 +21,7 @@ const Page = () => {
 
     useEffect(() => {
         getStatus()
+
     }, [])
 
     const remoteMessage = useSelector(state => state.messageReducer.remoteMessage)
@@ -29,9 +31,9 @@ const Page = () => {
     }
     return (
         <Conteiner>
-            {( typeof(listaPedidos) !== 'undefined' && listaPedidos.length > 0) &&
+            {(typeof(listaPedidos) !== 'undefined' && listaPedidos.length > 0) &&
                 <>
-                    <DescText size="14px" >Qualquer duvida com seu pedido entre em contato no WhatsApp!</DescText>
+                    <DescText size={hp('2.2%')} >Qualquer duvida com seu pedido entre em contato no WhatsApp!</DescText>
 
                     <Lista
                         showsVerticalScrollIndicator={false}
@@ -45,8 +47,8 @@ const Page = () => {
                 </>
             }
 
-            {( typeof(listaPedidos) === 'undefined' ) &&
-                <DescText size="14px" >Ops, você ainda não possui pedidos. Vamos às compras ? </DescText>
+            {(typeof (listaPedidos) === 'undefined') &&
+                <DescText size={hp('2.45%')} >Ops, você ainda não possui pedidos. Vamos às compras ? </DescText>
             }
 
         </Conteiner>
