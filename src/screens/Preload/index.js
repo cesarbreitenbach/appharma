@@ -7,9 +7,10 @@ import { Conteiner, Title, Logo } from './styled'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import messaging from '@react-native-firebase/messaging'
 import useTokenHandler from '../../helpers/TokenHandler'
+import { getVersion } from 'react-native-device-info'
 
 
-const Preload = (props, {idvenda, tipo}) => {
+const Preload = (props, { idvenda, tipo }) => {
 
     const descricao = useSelector(state => state.shopReducer.descricao)
     const cor_primaria = useSelector(state => state.shopReducer.cor_primaria)
@@ -21,7 +22,9 @@ const Preload = (props, {idvenda, tipo}) => {
     const tokenHandler = useTokenHandler()
 
 
+
     const go = () => {
+
         setTimeout(() => {
             props.navigation.dispatch(StackActions.reset({
                 index: 0,
@@ -57,7 +60,7 @@ const Preload = (props, {idvenda, tipo}) => {
     const handleOpenMgm = (remoteMessage) => {
 
 
-        if(remoteMessage){
+        if (remoteMessage) {
 
             switch (remoteMessage.data.tipo) {
                 case 'Broadcast':
@@ -113,127 +116,141 @@ const Preload = (props, {idvenda, tipo}) => {
             dispatch({
                 type: 'WHATSAPP',
                 payload: configs[0].whatsapp
-            }) 
+            })
 
             dispatch({
                 type: 'SET_LOGO',
                 payload: configs[0].logo
-            }) 
+            })
 
             dispatch({
                 type: 'SET_DESCRICAO',
                 payload: configs[0].descricao
-            }) 
+            })
 
             dispatch({
                 type: 'SET_COR_PRIMARIA',
                 payload: configs[0].cor_primaria
-            }) 
+            })
 
             dispatch({
                 type: 'SET_COR_SECUNDARIA',
                 payload: configs[0].cor_secundaria
-            }) 
+            })
 
         }
         getConfigs()
 
     }, [])
 
+    const getAppVersion = async () => {
+        const versionAtual = await appharma.getAppVersion()
+        const versionUser = getVersion()
+
+        if (versionAtual[0].version !== versionUser) {
+            setError(true)
+            setErrorMessage("Atualize o aplicativo na loja!")
+            throw "erro de versão"
+        }
+    }
+
     useEffect(() => {
 
-        
+        getAppVersion().then(resp => {
 
-
-        if (!props.token) {
-            const goBest = async () => {
-                try {
-                    const r = await api.get(`promocoes/best`);
-                    props.setPromocoes(r.data)
-                    go()
-                } catch (e) {
-                    console.log("Catch do promocoes/best"+JSON.stringify(e))
-                    setErrorMessage(e.message)
-                    setError(true)
-                }
-            }
-            goBest()
-
-        } else {
-            const validaToken = async () => {
-                const validToken = await  tokenHandler.testaToken(props.token)
-                if (validToken.expirou) {
-                    login();
-                }
-
-            }
-            validaToken()
-            const getDirect = async () => {
-                try {
-                    const r = await api.get(`promocoes/direct?cpf=${props.cpf}`, { headers: { auth: props.token } });
-                    if (!r) {
-                        setErrorMessage('Erro, estamos arrumando... ')
+            if (!props.token) {
+                const goBest = async () => {
+                    try {
+                        const r = await api.get(`promocoes/best`);
+                        props.setPromocoes(r.data)
+                        go()
+                    } catch (e) {
+                        console.log("Catch do promocoes/best" + JSON.stringify(e))
+                        setErrorMessage(e.message)
                         setError(true)
                     }
-                    props.setPromocoes(r.data)
-                    const tmpList = await api.get('/endereco', { headers: { auth: props.token } })
-                    props.setAddressList(tmpList.data)
-                    go()
-                } catch (e) {
-                    setErrorMessage(e.message)
-                    setError(true)
-                };
-            }
-            getDirect()
-        }
-
-        //Coloca token fcm no reducer
-        if (!props.tokenFcmGuest) {
-            const getToken = async () => {
-                const token = await messaging().getToken()
-                props.setFcmTokenGuest(token)
-
-                try {
-                    const resp = await api.post(`fcm`, { token })
-                } catch (e) {
-                    console.log(e.response.data.error)
                 }
+                goBest()
 
-            }
-            getToken()
-
-        } else {
-            if (props.token && !props.tokenFcm) {
-                const attIdUserFcmToken = async () => {
-                    try {
-                        const tokenAux = props.tokenFcmGuest
-                        const resp = await api.put(`fcm`, { token: tokenAux }, { headers: { auth: props.token } })
-                        props.setFcmToken(tokenAux)
-                       } catch (e) {
-                        console.log(e.message)
-                    }
-                }
-                attIdUserFcmToken()
             } else {
-                const atualizaUltimoAcesso = async () => {
-                    try {
-                        await api.post('lastacess', { fcmToken: props.tokenFcmGuest })
-                       } catch (e) {
-                        console.log(e.mesage)
+                const validaToken = async () => {
+                    const validToken = await tokenHandler.testaToken(props.token)
+                    if (validToken.expirou) {
+                        login();
                     }
+
                 }
-                atualizaUltimoAcesso()
+                validaToken()
+                const getDirect = async () => {
+                    try {
+                        const r = await api.get(`promocoes/direct?cpf=${props.cpf}`, { headers: { auth: props.token } });
+                        if (!r) {
+                            setErrorMessage('Erro, estamos arrumando... ')
+                            setError(true)
+                        }
+                        props.setPromocoes(r.data)
+                        const tmpList = await api.get('/endereco', { headers: { auth: props.token } })
+                        props.setAddressList(tmpList.data)
+                        go()
+                    } catch (e) {
+                        setErrorMessage(e.message)
+                        setError(true)
+                    };
+                }
+                getDirect()
             }
 
-        }
+            //Coloca token fcm no reducer
+            if (!props.tokenFcmGuest) {
+                const getToken = async () => {
+                    const token = await messaging().getToken()
+                    props.setFcmTokenGuest(token)
+
+                    try {
+                        const resp = await api.post(`fcm`, { token })
+                    } catch (e) {
+                        console.log(e.response.data.error)
+                    }
+
+                }
+                getToken()
+
+            } else {
+                if (props.token && !props.tokenFcm) {
+                    const attIdUserFcmToken = async () => {
+                        try {
+                            const tokenAux = props.tokenFcmGuest
+                            const resp = await api.put(`fcm`, { token: tokenAux }, { headers: { auth: props.token } })
+                            props.setFcmToken(tokenAux)
+                        } catch (e) {
+                            console.log(e.message)
+                        }
+                    }
+                    attIdUserFcmToken()
+                } else {
+                    const atualizaUltimoAcesso = async () => {
+                        try {
+                            await api.post('lastacess', { fcmToken: props.tokenFcmGuest })
+                        } catch (e) {
+                            console.log(e.mesage)
+                        }
+                    }
+                    atualizaUltimoAcesso()
+                }
+
+            }
+
+        })
+
+
 
     }, [])
 
     useEffect(() => {
-        if(!tipo){
+        if (!tipo) {
             return;
         }
-        if(!idvenda){
+        if (!idvenda) {
             return;
         }
 
@@ -247,7 +264,7 @@ const Preload = (props, {idvenda, tipo}) => {
             {!error &&
                 <>
                     <Title size="17px" color={cor_primaria} style={{ fontFamily: "Roboto Black" }}> {descricao} </Title>
-                     <Logo source={require('../../assets/logo.png')} /> 
+                    <Logo source={require('../../assets/logo.png')} />
                     <Title size="12px" style={{ fontFamily: "Roboto Black" }}> Approach Mobile Company</Title>
                 </>}
 
@@ -257,7 +274,7 @@ const Preload = (props, {idvenda, tipo}) => {
                     <Icon name="android-debug-bridge" color="#1b8c39" size={80} />
                     <Title size="18px" color="#999" style={{ fontFamily: "Ubuntu Black", marginBottom: 0 }}>Estamos trabalhando nisso,</Title>
                     <Title size="18px" color="#999" style={{ fontFamily: "Ubuntu Black" }}>volte mais tarde. </Title>
-                    <Title size="12px" style={{ fontFamily: "Roboto Black", marginTop: 50 }} >Erro: {errorMessage}</Title>
+                    <Title size="16px" style={{ fontFamily: "Roboto Black", marginTop: 50 }} >Erro: {errorMessage}</Title>
 
                 </>
             }

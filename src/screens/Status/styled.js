@@ -7,15 +7,18 @@ export const Conteiner = styled.KeyboardAvoidingView`
 `;
 
 export  const DescText = styled.Text`
-   width:100%;
+   width:70%;
    text-align:center;
    font-family:${props => props.family || 'Roboto Regular'}
    font-size:${props => props.size || '12px'};
    color:${props => props.color || '#333'}; 
-   height:50px;
+   height:100px;
    margin-top:20px;
    border-bottom-width: 1px;
+   border-top-width: 1px;
    border-color: #999;
+   padding: 30px;
+   margin-bottom:15px;
 `;
 
 export const BarraProgresso = styled.View`
@@ -35,6 +38,5 @@ export const Text = styled.Text`
 `
 
 export const Lista = styled.FlatList`
-   background-color:#fff
-
+   
 `

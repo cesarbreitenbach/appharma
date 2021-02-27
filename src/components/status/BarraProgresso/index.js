@@ -12,7 +12,7 @@ const StatusProgress = ({ data }) => {
     const [entrega, setEntrega] = useState('Balcao')
 
     const pegaStatus = async () => {
-        
+
 
         switch (data.status) {
             case 'Confirmado':
@@ -26,7 +26,7 @@ const StatusProgress = ({ data }) => {
                 break;
             case 'Cancelado':
                 setTipo('4')
-                
+
                 break;
 
             default:
@@ -37,7 +37,7 @@ const StatusProgress = ({ data }) => {
             setEntrega('Balcao')
         } else {
             setEntrega('Delivery')
-        } 
+        }
 
 
     }
@@ -49,8 +49,8 @@ const StatusProgress = ({ data }) => {
 
     return (
         <Conteiner >
-            <Text>{data.codigo_venda}</Text>
-            <Bar >
+            <Text>Numero do pedido: {data.id}</Text>
+            <Bar>
                 <Div>
                     <Ball active={tipo === '1' ? true : false} />
                     <Icon2 name="flash" size={tipo === '1' ? 30 : 25} color="#ffd700" />
@@ -63,10 +63,11 @@ const StatusProgress = ({ data }) => {
                 </Div>
                 <Div>
                     <Ball active={(tipo === '3') || (tipo === '4') ? true : false} />
-                    <Icon name="check-bold" size={tipo === '3' ? 30 : 25} color={ tipo === '4' ? "#ff0000" : "#000080"} />
+                    <Icon name="check-bold" size={tipo === '3' ? 30 : 25} color={tipo === '4' ? "#ff0000" : "#000080"} />
                     <Text active={false}> {tipo === '4' ? 'Cancelado' : 'Entregue'}</Text>
                 </Div>
             </Bar>
+            <Text>Data/Hora do pedido: {data.data_venda}</Text>
         </Conteiner>
     )
 }

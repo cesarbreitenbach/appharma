@@ -8,7 +8,7 @@ import useApi from '../../helpers/apiAppharma'
 
 const Page = () => {
 
-    const [listaPedidos, setListaPedidos] = useState([0])
+    const [listaPedidos, setListaPedidos] = useState([])
     const token = useSelector(state => state.authReducer.token);
     const idUser = useSelector(state => state.userReducer.id);
     const api = useApi()
@@ -29,20 +29,26 @@ const Page = () => {
     }
     return (
         <Conteiner>
-            <DescText size="14px" color="#ff0000">Qualquer duvida com seu pedido entre em contato no WhatsApp!</DescText>
+            {( typeof(listaPedidos) !== 'undefined' && listaPedidos.length > 0) &&
+                <>
+                    <DescText size="14px" >Qualquer duvida com seu pedido entre em contato no WhatsApp!</DescText>
 
-            <Lista
-                showsVerticalScrollIndicator={false}
-                data={listaPedidos}
-                renderItem={({ item, index }) => <BarraProgresso key={item.id} data={item} /> }
-                decelerationRate="fast"
-                maxToRenderPerBatch={20}
-                snapToInterval={130}
-                keyExtractor={(item, index) => `${item.nome}-${index}`}
-            />
+                    <Lista
+                        showsVerticalScrollIndicator={false}
+                        data={listaPedidos}
+                        renderItem={({ item, index }) => <BarraProgresso key={item.id} data={item} />}
+                        decelerationRate="fast"
+                        maxToRenderPerBatch={20}
+                        snapToInterval={130}
+                        keyExtractor={(item, index) => `${item.nome}-${index}`}
+                    />
+                </>
+            }
 
+            {( typeof(listaPedidos) === 'undefined' ) &&
+                <DescText size="14px" >Ops, você ainda não possui pedidos. Vamos às compras ? </DescText>
+            }
 
-            
         </Conteiner>
     );
 }

@@ -1,7 +1,8 @@
 import styled from 'styled-components/native';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export const Conteiner = styled.View`
-    height:160px;
+    height:150px;
     width: 100%
     padding:15px;
     align-items:center;
@@ -24,10 +25,11 @@ export const Ball = styled.View`
 export const Bar = styled.View`
     background-color: rgba(59, 163, 94, 0.8);
     flex-direction: row;
-    width: 90%;
+    width: 70%;
     height: 8px;
     border-radius:5px;
     justify-content: space-between;
+    margin-bottom:15%;
  
 `
 

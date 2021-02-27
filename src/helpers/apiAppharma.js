@@ -163,6 +163,14 @@ const ApiApp = {
             console.log(JSON.stringify(e))
 
         }
+    },
+    getAppVersion: async () => {
+        try{
+            const resp = await api.get('app/version')
+            return resp.data
+        } catch(e) {
+            console.log(JSON.stringify(e))
+        }
     }
 
 
