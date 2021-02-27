@@ -3,11 +3,13 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 
 
 export const Conteiner = styled.View`
-    height:${hp('22.7%')}px;
+    height:${hp('30%')}px;
     width: ${wp('100%')}px;
     align-items:center;
     flex-direction: column;
     border-bottom-width:1px;
+    border-color:#999
+    margin-bottom:5px;
     `
 
 
@@ -39,7 +41,7 @@ export const Div = styled.View`
 `
 
 export const Text = styled.Text`
-    font-size:${props => props.active ? wp('4.25%')+'px' : wp('4%')+'px'} ;
+    font-size:${props => props.active ? hp('2.2%')+'px' : hp('1.9%')+'px'} ;
     font-family: Roboto Medium;
     margin-bottom:${props => props.bottom || '10px'};
     margin-top:${props => props.top || '10px'};

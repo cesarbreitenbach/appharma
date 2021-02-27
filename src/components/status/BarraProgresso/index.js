@@ -59,7 +59,7 @@ const StatusProgress = ({ data }) => {
     return (
 
         <Conteiner>
-            <Text bottom="15px" top="5px">Numero do pedido: {data.id} </Text>
+            <Text bottom="15px">Numero do pedido: {data.id} </Text>
             <Bar>
                 <Div>
                     <Ball active={tipo === '1' ? true : false} />
@@ -77,7 +77,7 @@ const StatusProgress = ({ data }) => {
                     <Text active={(tipo === '3') || (tipo === '4') ? true : false}> {tipo === '4' ? 'Cancelado' : 'Entregue'}</Text>
                 </Div>
             </Bar>
-            <Text top="20px">Data/Hora do pedido: {dt} </Text>
+            <Text top="15px" >Data/Hora do pedido: {dt} </Text>
         </Conteiner>
     )
 }

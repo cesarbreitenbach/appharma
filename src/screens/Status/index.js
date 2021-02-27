@@ -33,7 +33,7 @@ const Page = () => {
         <Conteiner>
             {(typeof(listaPedidos) !== 'undefined' && listaPedidos.length > 0) &&
                 <>
-                    <DescText size={hp('2.2%')} >Qualquer duvida com seu pedido entre em contato no WhatsApp!</DescText>
+                    <DescText size={hp('2%')} >Qualquer duvida com seu pedido entre em contato no WhatsApp!</DescText>
 
                     <Lista
                         showsVerticalScrollIndicator={false}
@@ -48,7 +48,7 @@ const Page = () => {
             }
 
             {(typeof (listaPedidos) === 'undefined') &&
-                <DescText size={hp('2.45%')} >Ops, você ainda não possui pedidos. Vamos às compras ? </DescText>
+                <DescText size={hp('2%')} >Ops, você ainda não possui pedidos. Vamos às compras ? </DescText>
             }
 
         </Conteiner>

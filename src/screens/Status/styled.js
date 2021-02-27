@@ -9,18 +9,18 @@ export const Conteiner = styled.KeyboardAvoidingView`
 
 
 export  const DescText = styled.Text`
-   width:${wp('85%')}px;
+   width:${wp('80%')}px;
    text-align:center;
    font-family:${props => props.family || 'Roboto Regular'}
-   font-size:${props => props.size || hp('5%')}px;
+   font-size:${props => props.size || hp('3%')}px;
    color:${props => props.color || '#333'}; 
-   height:${hp('15%')}px;
-   margin-top:20px;
+   height:${hp('10%')}px;
    border-bottom-width: 1px;
    border-top-width: 1px;
    border-color: #999;
-   padding: 30px;
-   margin-bottom:15px;
+   margin-top:${hp('1%')}px;
+   margin-bottom:${hp('1%')}px;
+   padding-top:${hp('2.5%')}px;
 `;
 
 export const BarraProgresso = styled.View`
@@ -32,7 +32,7 @@ export const BarraProgresso = styled.View`
 export const Text = styled.Text`
     margin-top:20px;
     margin-bottom:10px;
-    font-size: ${hp('5%')}px;
+    font-size: ${hp('4%')}px;
     color: #fff
     text-align:center;
     font-family:Roboto Black;
