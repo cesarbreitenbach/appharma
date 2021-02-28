@@ -4,10 +4,11 @@ import Items from '../Items'
 import {Text} from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {connect, useSelector} from 'react-redux'
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export const BuyNowArea = styled.View`
-   width:100%;
-   height:200px;
+   width:${wp('98%')}px;
+   height:${hp('30%')}px;
    background-color:#FFF;
 
    margin-bottom:10px;
@@ -19,7 +20,7 @@ export const BuyNowArea = styled.View`
 export const HeaderTextArea = styled.View`
 justify-content:center;
 align-items:center;
-padding:10px;
+padding:${hp('2.8%')}px;
 `;
 export const IconeArea = styled.View`
 width:50px;
@@ -30,11 +31,11 @@ align-items:center;
 margin-left:15px;
 `;
 export const HeaderArea = styled.View`
-   width:100%;
-   height:40px;
+   width:${wp('98%')}px;
+   height:${hp('8.6%')}px;
    background-color:${props => props.cor || '#3f9168'};
-   border-top-left-radius: 15px;
-   border-top-right-radius: 15px;
+   border-top-left-radius: 10px;
+   border-top-right-radius: 10px;
    flex-direction:row;
    justify-content:center;
    align-items:center
@@ -42,10 +43,11 @@ export const HeaderArea = styled.View`
    
 `;
 export const FooterArea = styled.View`
-   width:100%; 
-   height:15px;
-   border-bottom-right-radius: 15px;
-   border-bottom-left-radius: 15px;
+   width:${wp('98%')}px;
+   height:${hp('7%')}px;
+   padding:${hp('2%')}px;
+   border-bottom-right-radius: 10px;
+   border-bottom-left-radius: 10px;
    background-color:${props => props.cor || '#3f9168'};
    `
 export const ButtomArea = styled.View`
@@ -61,8 +63,8 @@ export const BuyNowItems = styled.View`
 `;
 
 export const BuyNowButtom = styled.TouchableHighlight`
-   width:200px;
-   height:50px;
+   width:${wp('50%')}px;
+   height:${hp('9%')}px;
    background-color:${props => props.cor || '#3f9168'};
    justify-content:center;
    align-items:center;
@@ -70,8 +72,8 @@ export const BuyNowButtom = styled.TouchableHighlight`
 `;
 export const HeaderText = styled.Text`
 color:#fff;
-font-size:${props=>props.size || '17px'};;
-fontFamily:Ubuntu Bold Italic 
+font-size:${props=>props.size || hp('2.9%')}px;
+fontFamily:Roboto Medium; 
 text-align:center;
 `;
 export const ImageArea = styled.ImageBackground`
@@ -93,19 +95,12 @@ const BuyNow = (props) => {
       props.navigation.navigate('ShopStack')
    }
 
-   const handleFire = async () => {
-        const reference = database().refFromURL('https://astrofarma-7dbf8-default-rtdb.firebaseio.com/');
-        console.log(JSON.stringify(reference))
-       console.log("other: "+JSON.stringify(other))
-   }
-
     return (
       <BuyNowArea >
                <HeaderArea cor={corSecundaria} >
                   <IconeArea cor={corSecundaria}><Items width="30px" height="30px" source={require('../../assets/ecommerce.png')} /></IconeArea>
                   <HeaderTextArea>
-                     <HeaderText style={{marginTop:15}}>Compre pelo aplicativo </HeaderText>
-                     <HeaderText size="14px">Receba em casa ou retire na loja! </HeaderText>
+                     <HeaderText style={{marginTop:hp('2.8%')}}>Compre pelo aplicativo </HeaderText>
                   </HeaderTextArea>
                </HeaderArea>
                <ImageArea source={require('../../assets/loja.jpg')} >
@@ -118,7 +113,9 @@ const BuyNow = (props) => {
                      </BuyNowButtom>
                   </ButtomArea>
                </ImageArea>
-               <FooterArea  cor={corSecundaria} />
+               <FooterArea  cor={corSecundaria} >
+                     <HeaderText size={hp('2.6%')}>Receba em casa ou retire na loja! </HeaderText>
+                </FooterArea>
             </BuyNowArea>
     )
 }

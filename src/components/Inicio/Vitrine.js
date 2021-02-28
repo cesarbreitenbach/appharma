@@ -5,27 +5,24 @@ import ItemVitrine from '../../components/Inicio/ItemVitrine'
 import Items from '../Items'
 import {connect, useSelector} from 'react-redux'
 import {ActivityIndicator} from 'react-native'
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 
 
 const Conteiner = styled.View` 
     background-color:#eee;
-    border:1px solid #ddd;
-    height:370px;
-    margin-bottom:5px;
-    padding:5px;
-    border-bottom-left-radius: 15px
-    border-bottom-right-radius: 15px
+    height:${hp('63.5%')}px;
+    padding:${hp('0.5%')}px;
 `;
 export const HeaderPromo = styled.View`
    background-color:${props => props.cor || '#3f9168'};
-   width:100%;
-   height:30px;
+   width:${wp('98%')}px;
+   height:${hp('5.5%')}px;
    justify-content:center;
    align-items:center;
-   padding:10px;
-   border-top-left-radius: 15px;
-   border-top-right-radius: 15px;
+   padding:${hp('0.5%')}px;
+   border-top-left-radius: 10px;
+   border-top-right-radius: 10px;
    flex-direction:row;
 
 `;
@@ -33,7 +30,7 @@ export const HeaderPromo = styled.View`
 export const HeaderTextArea = styled.View`
 justify-content:center;
 align-items:center;
-padding:10px;
+padding:${hp('0.5%')}px;
 `;
 export const IconeArea = styled.View`
 width:40px;
@@ -45,14 +42,15 @@ margin-left:15px;
 margin-top:19px;
 `;
 export const HeaderArea = styled.View`
-   width:100%;
-   height:40px;
+   width:${wp('98%')}px;
+   height:${hp('5%')}px;
    background-color:#04c2b5;
    border-top-left-radius: 35px;
    flex-direction:row;
    
 `;
 export const HeaderText = styled.Text`
+font-family: Roboto Medium;
 color:${props => props.color || '#eee'};
 font-size:${props => props.size || '17px'};
 font-weight:bold;
