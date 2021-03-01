@@ -14,6 +14,8 @@ export const ProductArea = styled.TouchableHighlight`
    border-radius: 5px;
    align-items:center;
    border:#999 solid 1px;
+   justify-content:center;
+   align-items:center;
 `;
 export const BadgeText = styled.Text`
    font-size:${hp('2%')}px;

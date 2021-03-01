@@ -33,8 +33,7 @@ const Page = () => {
         <Conteiner>
             {(typeof(listaPedidos) !== 'undefined' && listaPedidos.length > 0) &&
                 <>
-                    <DescText size={hp('2%')} >Qualquer duvida com seu pedido entre em contato no WhatsApp!</DescText>
-
+                    <DescText size={hp('2%')} >Aqui está o status dos seus ultimos 5 pedidos!</DescText>
                     <Lista
                         showsVerticalScrollIndicator={false}
                         data={listaPedidos}
@@ -44,6 +43,7 @@ const Page = () => {
                         snapToInterval={130}
                         keyExtractor={(item, index) => `${item.nome}-${index}`}
                     />
+                    <DescText size={hp('2%')} >Qualquer duvida com seu pedido entre em contato no WhatsApp!</DescText>
                 </>
             }
 
