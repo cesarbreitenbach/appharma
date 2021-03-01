@@ -2,21 +2,19 @@ import React from 'react'
 import styled from 'styled-components/native'
 import { connect } from 'react-redux'
 import { URL_FILES } from '@env'
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 const Conteiner = styled.TouchableOpacity`
     flex:1;
     border:1px solid #ddd
-    width: ${props => props.width || '190px'}  ;
-    height: ${props => props.height || '310px'} ;
-    margin:5px;
-    padding-left:5px;
-    padding-right:5px;
+    width: ${wp('45%')}px;
+    margin:${hp('0.7%')}px;;
     border-radius:10px;
 
 `;
 
 const ImageItem = styled.Image`
-   height: ${props => props.imgheight || '200px'}; 
+   height: ${hp('35%')}px;
 `
 
 const DestaqueArea = styled.View`
@@ -25,18 +23,18 @@ const DestaqueArea = styled.View`
     align-items:center;
 `
 const NomeDestaque = styled.Text`
-font-size:12px;
-font-family:Roboto Black;
+font-size:${hp('1.5%')}px;
+font-family:Roboto Medium;
 text-align:center;
 
 `
 const PrecoOriginal = styled.Text`
 text-decoration: ${props => props.decoration || 'none'}
 color:#ff0000;
-font-size:20px;
+font-size:${hp('3%')}px;
 `
 const PrecoPromo = styled.Text`
-    font-size:26px;
+    font-size:${hp('4%')}px;
 `
 const Area = styled.View`
 `

@@ -1,26 +1,24 @@
 import React from 'react'
 import styled from 'styled-components/native'
 import Item from '../../components/Items'
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 const Conteiner = styled.TouchableOpacity`
    flex:1;
     border:1px solid #eee
     background-color: rgba(173, 199, 183, 0.6);
-    width: 127px ;
-    height: 130px ;
+    width: ${wp('35%')}px;
+    height: ${hp('17%')}px;
     border-radius:10px;
+    padding: ${hp('0.5%')}px;
     justify-content:center;
     align-items:center;
-    margin-left: 5px;
-    margin-right:5px;
-    margin-top:10px;
-    padding:10px;
 `;
 
 const Titulo = styled.Text`
-    font-family: Roboto Black;
+    font-family: Roboto Medium;
     text-align: center;
-
+    font-size:${hp('2%')}px;
 
 `
 
@@ -36,7 +34,7 @@ const ItemCategoria = ({data, navigation}) => {
 
    return (
          <Conteiner activeOpacity={0.7}  onPress={() => handleClick()}>
-               <Item  width="50px" height="50px" source={{uri:data.image.url}}  />
+               <Item  width="40px" height="40px" source={{uri:data.image.url}}  />
                <Titulo>{data.descricao}</Titulo>
          </Conteiner>
    )

@@ -43,7 +43,7 @@ const Page = (props) => {
     return (
         <Conteiner>
             <ScrollArea showsVerticalScrollIndicator={false}>
-                <ContentArea height="350px"  >
+                <ContentArea height='350px'>
                     <Title>Destaques </Title>
                     <ItemList
                         horizontal={true}
@@ -56,7 +56,7 @@ const Page = (props) => {
                         snapToInterval={130}
                     />
                 </ContentArea>
-                <ContentArea height="170px" >
+                <ContentArea height="130px" >
                     <Title>Busca por Categorias </Title>
                     <ItemList
                         horizontal={true}

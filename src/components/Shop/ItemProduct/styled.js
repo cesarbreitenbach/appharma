@@ -1,8 +1,9 @@
 import styled from 'styled-components/native'
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export const Conteiner = styled.TouchableOpacity`
-    width:125px;
-    height:235px
+    width:${wp('28.7%')}px;
+    height:${hp('40.7%')}px;
     background-color: #fff
     border:1px solid #ddd
     margin:5px;
@@ -28,14 +29,13 @@ export const Off = styled.Text`
 `
 export const Preco = styled.Text`
 font-family:Roboto Medium;
-font-size:14px;
+font-size:${hp('3%')}px;
 color:#ff0000;
 text-decoration:line-through;
 `
 export const PrecoPromo = styled.Text`
 font-family:Roboto Medium;
-font-size:20px;
-margin-bottom:3px;
+font-size:${hp('3.4%')}px;
 ` 
 export const TagArea = styled.View`
    height:60px;

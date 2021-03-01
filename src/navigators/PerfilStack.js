@@ -9,9 +9,6 @@ const PerfilStack = createStackNavigator({
   
 }, {
       initialRouteName:'Perfil',
-      defaultNavigationOptions:{
-         headerShown: false
-      },
 });
 
 export default PerfilStack;

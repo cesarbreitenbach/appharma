@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export const Conteiner = styled.KeyboardAvoidingView`
    flex:1; 
@@ -7,37 +8,20 @@ export const Conteiner = styled.KeyboardAvoidingView`
 `;
 
 export const ScrollArea = styled.ScrollView`
-   width:100%;
-   height:100%;
-   background-color:#fff;
+   background-color:#eee;
 `;
 
-export const ProdutosArea = styled.FlatList`
-   width:100%;
-   height:150px;
-   background-color:#aaa;
-   margin-bottom:10px;
-   padding:5px;
-   `
 
 export const ContentArea = styled.View`
-      flex:1;
-      justify-content:center;
-      height:${props => props.height || '125px'};
-      width:100%;
+      height:${props => props.height || '150px'};
+      width:${wp('98%')}px;
       background-color:#fff;
       border-bottom-width:1px;
-      border-bottom-color:#ddd;
-      margin-top:10px;
-      margin-bottom:5px;
+      border-bottom-color:#999;
+      padding:${hp('1%')}px;
+
    `
-export const CategoriasArea = styled.View`
-      width:100%;
-      height: 100%;
-      padding:5px;
-      justify-content:center;
-      align-items:center;
-   `
+
 export const Title = styled.Text`
    font-family:Ubuntu Medium;
    margin-left:5px;
