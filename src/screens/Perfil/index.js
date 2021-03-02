@@ -13,17 +13,62 @@ const Menu = [
 ]
 
 
-const Page = ({ data }) => {
+const Page = ({ data, navigation }) => {
 
     const [listaMenu, setListaMenu] = useState(Menu)
+    const dispatch = useDispatch()
+    const status = useSelector(state => state.authReducer.status)
+
+    const handleClick = (id) => {
+        
+        if (id !== 3 && !status){
+            alert("Usuario desconectado, faça login ou cadastre-se gratis!")
+            return
+        }
+
+        switch (id) {
+            case 1:
+                navigation.navigate('Mydata')
+                break;
+            case 3:
+                logout()
+                break;
+        
+            default:
+                break;
+        }
+
+    }
 
     const logout = async () => {
-        props.setStatus(false);
-        props.setActivePage('home')
-        props.clearCart()
-        props.clearUserReducer()
-        props.clearAuth()
-        props.navigation.navigate('Preload')
+
+        dispatch({
+            type: 'SET_STATUS',
+            payload: {
+                status: false
+            }
+        })
+
+        dispatch({
+            type: 'SET_ACTIVE',
+            payload: {
+                activePage: 'home'
+            }
+        })
+
+        dispatch({
+            type: 'CLEAR_CART',
+        })
+
+        dispatch({
+            type: 'CLEAR_USERREDUCER',
+        })
+
+        dispatch({
+            type: 'CLEAR_AUTH',
+        })
+
+        navigation.navigate('Preload')
     }
 
     return (
@@ -33,9 +78,10 @@ const Page = ({ data }) => {
                 showsVerticalScrollIndicator={false}
                 data={listaMenu}
                 renderItem={({ item, index }) =>
-                    <ItemMenu opacity={0.7}>
+                    <ItemMenu activeOpacity={0.7} onPress={() => handleClick(item.id)}>
                         <Text key={index} color="#000" family="Roboto Light" >{item.desc}</Text>
                     </ItemMenu>}
+
                 decelerationRate="fast"
                 maxToRenderPerBatch={20}
                 snapToInterval={130}

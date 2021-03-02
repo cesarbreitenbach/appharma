@@ -122,8 +122,10 @@ const ApiApp = {
             const resp = await api.put(`usuarios`, body, {
                 headers: { auth: `${token}` }
             })
+            return resp.data
         } catch (e) {
             console.log(e.response)
+            return e.response
         }
     },
 

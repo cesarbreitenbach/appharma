@@ -3,10 +3,12 @@ const initialState = {
     id: "",
     name: '',
     cpf: '',
+    email: '',
     addressList: [],
     tokenFcm: '',
     tokenFcmGuest: '',
-    whatsapp: ''
+    whatsapp: '',
+    dtNasc: '',
 };
 
 export default (state = initialState, action) => {
@@ -34,6 +36,12 @@ export default (state = initialState, action) => {
             break;
         case 'SET_USER_WHATS':
             return { ...state, whatsapp: action.payload }
+            break;
+        case 'SET_USER_NASC':
+            return { ...state, dtNasc: action.payload.dtNasc }
+            break;
+        case 'SET_USER_EMAIL':
+            return { ...state, email: action.payload.email }
             break;
     }
 

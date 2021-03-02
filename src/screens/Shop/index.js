@@ -6,6 +6,7 @@ import ItemProduct from '../../components/Shop/ItemProduct'
 import SearchBar from '../../components/SearchBar'
 import Cart from '../../components/Cart'
 import useApi from '../../helpers/apiAppharma'
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 const Page = (props) => {
 
@@ -43,7 +44,7 @@ const Page = (props) => {
     return (
         <Conteiner>
             <ScrollArea showsVerticalScrollIndicator={false}>
-                <ContentArea height='350px'>
+                <ContentArea height={hp('58%')}>
                     <Title>Destaques </Title>
                     <ItemList
                         horizontal={true}
@@ -56,7 +57,7 @@ const Page = (props) => {
                         snapToInterval={130}
                     />
                 </ContentArea>
-                <ContentArea height="130px" >
+                <ContentArea height={hp('23%')}>
                     <Title>Busca por Categorias </Title>
                     <ItemList
                         horizontal={true}
@@ -68,7 +69,7 @@ const Page = (props) => {
                         snapToInterval={130}
                     />
                 </ContentArea>
-                <ContentArea height="285px" >
+                <ContentArea height={hp('43%')} >
                     <Title>Mais Vendidos </Title>
                     <ItemList
                         horizontal={true}

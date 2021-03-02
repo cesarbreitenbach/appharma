@@ -19,6 +19,8 @@ const ConfirmPassword = (props) => {
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
 
+    console.log("Este é o telefone: "+ JSON.stringify(telefone))
+
     const start = async () => {
         setError(false)
 
@@ -28,13 +30,13 @@ const ConfirmPassword = (props) => {
             return;
         }
 
-        if (whatsapp == '' && !telefone) {
+    if (whatsapp == '' && !telefone.whatsapp) {
             setErrorMsg("Numero do celular obrigatório.");
             setError(true);
             return;
         }
 
-        if (whatsapp.length < 15 && !telefone) {
+        if (whatsapp.length < 15 && !telefone.whatsapp) {
             setErrorMsg("Numero do celular obrigatório.");
             setError(true);
             return;
@@ -68,6 +70,7 @@ const ConfirmPassword = (props) => {
             props.setToken(`Bearer ${novoUser.token}`);
             props.setStatus(true);
             props.setName(name);
+            props.setDtNasc(novoUser.dt_nasc)
             props.navigation.navigate('Preload');
 
         } else {
@@ -112,7 +115,7 @@ const ConfirmPassword = (props) => {
 
 
 
-                    {!telefone &&
+                    {!telefone.whatsapp &&
                         <TextInputMask
                             style={{ width: '100%', height: 40, borderWidth: 1, marginTop: 5, borderRadius: 10, padding: 5 }}
                             placeholder="(45) 9999-9999"
@@ -193,6 +196,7 @@ const mapDispatchToProps = (dispatch) => {
         setAdmin: (admin) => dispatch({ type: 'SET_ADMIN', payload: { admin } }),
         setStatus: (status) => dispatch({ type: 'SET_STATUS', payload: { status } }),
         setWhats: (whatsapp) => dispatch({ type: 'SET_USER_WHATS', payload: { whatsapp } }),
+        setDtNasc: (dtNasc) => dispatch({ type: 'SET_USER_NASC', payload: { dtNasc } }),
         setId: (id) => dispatch({ type: 'SET_ID', payload: { id } })
     }
 }

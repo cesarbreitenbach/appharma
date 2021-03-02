@@ -2,14 +2,12 @@ import styled from 'styled-components/native'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export const Conteiner = styled.TouchableOpacity`
-    width:${wp('28.7%')}px;
-    height:${hp('40.7%')}px;
+    width:${wp('29.7%')}px; 
     background-color: #fff
     border:1px solid #ddd
-    margin:5px;
-    padding-left:3px;
-    padding-right:3px;
+    margin:${hp('0.5%')}px;
     border-radius:10px;
+    padding-top:${hp('3%')}px;
     justify-content:center;
     align-items:center;
 `;
@@ -18,7 +16,7 @@ export const Title = styled.Text`
    color:#000;
    text-align:center;
    font-size:10px;
-   font-family:Roboto Bold;
+   font-family:Roboto Medium;
    margin-bottom:3px;
 `
 export const Off = styled.Text`
@@ -29,13 +27,14 @@ export const Off = styled.Text`
 `
 export const Preco = styled.Text`
 font-family:Roboto Medium;
-font-size:${hp('3%')}px;
+font-size:${hp('2.5%')}px;
 color:#ff0000;
 text-decoration:line-through;
 `
 export const PrecoPromo = styled.Text`
-font-family:Roboto Medium;
-font-size:${hp('3.4%')}px;
+font-family:Roboto Bold;
+font-size:${hp('3.0%')}px;
+color:${props => props.color || '#185424'};
 ` 
 export const TagArea = styled.View`
    height:60px;

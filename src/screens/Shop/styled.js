@@ -13,7 +13,7 @@ export const ScrollArea = styled.ScrollView`
 
 
 export const ContentArea = styled.View`
-      height:${props => props.height || '150px'};
+      height:${props => props.height || hp('30%')}px;
       width:${wp('98%')}px;
       background-color:#fff;
       border-bottom-width:1px;

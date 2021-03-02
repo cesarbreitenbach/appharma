@@ -18,7 +18,7 @@ const ItemProduct = props => {
    return (
        <>
          <Conteiner activeOpacity={0.7} onPress={()=>handleClick(props.data)}>
-               <Item style={{marginBottom:10}}  radius="10px"  width={props.imgWidth || "100px"} height={props.imgHeight || "100px"} source={{uri:URL_FILES+props.data.path}}  />
+               <Item radius="10px"  width={props.imgWidth || "80px"} height={props.imgHeight || "110px"} source={{uri:URL_FILES+props.data.path}}  />
                <Title>{props.data.nome}</Title>
                <Preco>R$ {parseFloat(props.data.preco_original).toFixed(2).replace(".", ",")}</Preco>
                <Title>por</Title>

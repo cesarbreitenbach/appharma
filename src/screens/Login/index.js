@@ -32,9 +32,14 @@ const Login = (props) => {
         props.setId(infoUser.user.id)
         props.setCpf(parsedCpf)
         props.setWhats(infoUser.user.whatsapp)
+        props.setEmail(infoUser.user.email)
+        props.setDtNasc(infoUser.user.dt_nasc)
         props.navigation.navigate('ConfirmPassword');
     } else {
         props.setName('')
+        props.setEmail('')
+        props.setDtNasc('')
+        props.setWhats('')
         props.setCpf(parsedCpf)
         props.navigation.navigate('ConfirmPassword');
     }
@@ -99,7 +104,8 @@ const mapDispatchToProps = (dispatch) => {
       setName: (name) => dispatch({ type: 'SET_NAME', payload: { name } }),
       setId: (id) => dispatch({ type: 'SET_ID', payload: { id } }),
       setWhats: (whatsapp) => dispatch({ type: 'SET_USER_WHATS', payload: { whatsapp } }),
-
+      setDtNasc: (dtNasc) => dispatch({ type: 'SET_USER_NASC', payload: { dtNasc } }),
+      setEmail: (email) => dispatch({ type: 'SET_USER_EMAIL', payload: { email } }),
    }
 }
 

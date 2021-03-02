@@ -8,13 +8,15 @@ const Conteiner = styled.TouchableOpacity`
     flex:1;
     border:1px solid #ddd
     width: ${wp('45%')}px;
-    margin:${hp('0.7%')}px;;
+    height: ${hp('50%')}px;
     border-radius:10px;
-
+    margin-top: ${hp('1%')}px;
+    margin-left: ${hp('0.5%')}px;
+    margin-right: ${hp('0.5%')}px;
 `;
 
 const ImageItem = styled.Image`
-   height: ${hp('35%')}px;
+   height: ${hp('29%')}px;
 `
 
 const DestaqueArea = styled.View`
@@ -23,7 +25,7 @@ const DestaqueArea = styled.View`
     align-items:center;
 `
 const NomeDestaque = styled.Text`
-font-size:${hp('1.5%')}px;
+font-size:${hp('1.8%')}px;
 font-family:Roboto Medium;
 text-align:center;
 
@@ -31,10 +33,12 @@ text-align:center;
 const PrecoOriginal = styled.Text`
 text-decoration: ${props => props.decoration || 'none'}
 color:#ff0000;
-font-size:${hp('3%')}px;
+font-size:${props => props.size || hp('2.9%')}px;
 `
 const PrecoPromo = styled.Text`
-    font-size:${hp('4%')}px;
+font-size: ${props => props.size || hp('3.5%')}px;
+color:${props => props.color || '#999'} ;
+
 `
 const Area = styled.View`
 `
@@ -54,12 +58,12 @@ const ItemDestaque = props => {
             <DestaqueArea>
                 <NomeDestaque>{props.data.nome}</NomeDestaque>
                 <Area style={{ flexDirection: 'row' }}>
-                    <PrecoOriginal >de </PrecoOriginal>
+                    <PrecoOriginal size={hp('2%')}> de </PrecoOriginal>
                     <PrecoOriginal decoration="line-through">R$ {props.data.preco_original}</PrecoOriginal>
                 </Area>
+                    <PrecoPromo size={hp('1.8%')} style={{fontFamily:"Roboto Regular"}}>por </PrecoPromo>
                 <Area style={{ flexDirection: 'row' }}>
-                    <PrecoPromo style={{fontFamily:"Roboto Regular"}}>por </PrecoPromo>
-                    <PrecoPromo style={{color:"#000",fontFamily:"Roboto Bold"}}>R$ {props.data.preco_vigente}</PrecoPromo>
+                    <PrecoPromo color='#185424' style={{fontFamily:"Roboto Bold"}}>R$ {props.data.preco_vigente}</PrecoPromo>
                 </Area>
             </DestaqueArea>
 
