@@ -123,6 +123,7 @@ const Preload = (props, { idvenda, tipo }) => {
                 payload: configs[0].taxa_entrega
             })
 
+            //WHATSAPP DA LOJA
             dispatch({
                 type: 'WHATSAPP',
                 payload: configs[0].whatsapp

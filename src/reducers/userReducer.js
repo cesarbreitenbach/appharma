@@ -35,7 +35,7 @@ export default (state = initialState, action) => {
             return { ...state, tokenFcmGuest: action.payload.tokenFcmGuest }
             break;
         case 'SET_USER_WHATS':
-            return { ...state, whatsapp: action.payload }
+            return { ...state, whatsapp: action.payload.whatsapp }
             break;
         case 'SET_USER_NASC':
             return { ...state, dtNasc: action.payload.dtNasc }

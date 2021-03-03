@@ -28,6 +28,30 @@ const Page = ({ data, navigation }) => {
     const [success, setSuccess] = useState('')
     const dispatch = useDispatch()
 
+    const carregaRedux = async () => {
+        let parsedCpf = cpf;
+
+        parsedCpf = parsedCpf.replace('.', '').replace('.', '').replace('-', '');
+
+        const infoUser = await api.getUser(parsedCpf)
+
+        setEmail(infoUser.user.email)
+        setNome(infoUser.user.nome)
+        setWhatsapp(infoUser.user.whatsapp)
+        let nasc = infoUser.user.dt_nasc;
+        let novaData = new Date(nasc)
+        setDate(novaData)
+
+    }
+
+    let teste
+    useEffect(() => {
+        if (!teste) {
+            carregaRedux()
+        }
+        return () => teste = false;
+    }, [])
+
     useEffect(() => {
         if (error === '' && success === '') return
         setTimeout(() => {
@@ -53,31 +77,6 @@ const Page = ({ data, navigation }) => {
         }
 
         setSuccess("Dados salvos com sucesso!")
-
-        let parsedCpf = cpf;
-
-        parsedCpf = parsedCpf.replace('.', '').replace('.', '').replace('-', '');
-
-        const infoUser = await api.getUser(parsedCpf)
-
-        if (infoUser.success) {
-
-            dispatch({
-                type:'SET_NAME',
-                payload:{
-                    name:nome
-                }
-            })
-
-
-            // props.setName(infoUser.user.nome)
-            // props.setId(infoUser.user.id)
-            // props.setCpf(parsedCpf)
-            // props.setWhats(infoUser.user.whatsapp)
-            // props.setEmail(infoUser.user.email)
-            // props.setDtNasc(infoUser.user.dt_nasc)
-            //props.navigation.navigate('ConfirmPassword');
-        } 
 
 
         navigation.goBack();

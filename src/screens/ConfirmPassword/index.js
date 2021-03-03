@@ -30,13 +30,13 @@ const ConfirmPassword = (props) => {
             return;
         }
 
-    if (whatsapp == '' && !telefone.whatsapp) {
+    if (whatsapp == '' && !telefone) {
             setErrorMsg("Numero do celular obrigatório.");
             setError(true);
             return;
         }
 
-        if (whatsapp.length < 15 && !telefone.whatsapp) {
+        if (whatsapp.length < 15 && !telefone) {
             setErrorMsg("Numero do celular obrigatório.");
             setError(true);
             return;
@@ -115,7 +115,7 @@ const ConfirmPassword = (props) => {
 
 
 
-                    {!telefone.whatsapp &&
+                    {!telefone &&
                         <TextInputMask
                             style={{ width: '100%', height: 40, borderWidth: 1, marginTop: 5, borderRadius: 10, padding: 5 }}
                             placeholder="(45) 9999-9999"
