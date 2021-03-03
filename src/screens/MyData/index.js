@@ -13,14 +13,12 @@ import useApi from '../../helpers/apiAppharma'
 const Page = ({ data, navigation }) => {
 
     const nomeAux = useSelector(state => state.userReducer.name)
-    let dataAux = useSelector(state => state.userReducer.dtNasc)
-    dataAux = typeof (dataAux) === 'undefined' ? '' : dataAux;
     const emailAux = useSelector(state => state.userReducer.email)
     const whats = useSelector(state => state.userReducer.whatsapp)
     const token = useSelector(state => state.authReducer.token)
     const cpf = useSelector(state => state.userReducer.cpf)
     const [whatsapp, setWhatsapp] = useState(whats.whatsapp)
-    const [date, setDate] = useState(new Date(dataAux))
+    const [date, setDate] = useState(new Date())
     const [nome, setNome] = useState(nomeAux)
     const [email, setEmail] = useState(emailAux)
     const api = useApi()
@@ -35,21 +33,21 @@ const Page = ({ data, navigation }) => {
 
         const infoUser = await api.getUser(parsedCpf)
 
+        console.log(JSON.stringify(infoUser))
         setEmail(infoUser.user.email)
         setNome(infoUser.user.nome)
         setWhatsapp(infoUser.user.whatsapp)
         let nasc = infoUser.user.dt_nasc;
-        let novaData = new Date(nasc)
-        setDate(novaData)
+        if (typeof(nasc) !== 'undefined'){
+            console.log('nasc: '+nasc)
+            let novaData = new Date(nasc)
+            setDate(novaData)
+        } 
 
     }
 
-    let teste
     useEffect(() => {
-        if (!teste) {
-            carregaRedux()
-        }
-        return () => teste = false;
+        carregaRedux()
     }, [])
 
     useEffect(() => {
